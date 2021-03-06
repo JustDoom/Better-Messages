@@ -1,0 +1,21 @@
+name: BetterMessages
+version: 2.0.0
+main: com.justdoom.bettermessages.BetterMessages
+api-version: 1.16
+authors: [ JustDoom ]
+permissions:
+  bettermessages.reload:
+    default: op
+    description: Allows access to /bettermessages reload
+  bettermessages.help:
+    default: op
+    description: Allows access to /bettermessages help
+  bettermessages:
+    default: op
+    description: Allows access to /bettermessages (Base permission for all commands)
+
+commands:
+  bettermessages:
+    aliases:
+      - bm
+    permission: bettermessages

@@ -1,0 +1,34 @@
+package com.justdoom.bettermessages.events;
+
+import com.justdoom.bettermessages.BetterMessages;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class WorldChangeMessage implements Listener {
+    private BetterMessages plugin;
+
+    public WorldChangeMessage(BetterMessages plugin) {
+        this.plugin = plugin;
+    }
+
+    @EventHandler
+    public void WorldChangeEvent(PlayerChangedWorldEvent event) {
+        Player player = event.getPlayer();
+        for (String key : this.plugin.getConfig().getConfigurationSection("world-change").getKeys(false)) {
+            String msg = this.plugin.handler.doMessage(player, "world-change." + key, (JavaPlugin)this.plugin);
+            msg = msg.replace("{to}", player.getWorld().getName());
+            msg = msg.replace("{from}", event.getFrom().getName());
+            if (this.plugin.getConfig().getBoolean("world-change." + key + ".replace-underscore"))
+                msg = msg.replace("_", " ");
+            if (this.plugin.getConfig().getBoolean("world-change." + key + ".enabled") && this.plugin.getConfig().getString("world-change." + key + ".to").equals(player.getWorld().getName()) && this.plugin.getConfig().getString("world-change." + key + ".from").equals(event.getFrom().getName())) {
+                for (Player p : Bukkit.getOnlinePlayers())
+                    p.sendMessage(msg);
+                return;
+            }
+        }
+    }
+}

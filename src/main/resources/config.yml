@@ -1,0 +1,25 @@
+#DO NOT TOUCH THIS SETTING
+config-version: 9
+
+disable-update-checker: false
+disable-outdated-config-warning: false
+
+join:
+  enabled: true
+  message: '&eWelcome &f&l{player} &eto the server!'
+  first-join:
+    enabled: true
+    message: '&eWelcome &f&l{player} &eto the server for the first time!'
+    only-to-player: false
+
+quit:
+  enabled: true
+  message: '&f&l{player} &eleft the server :('
+
+world-change:
+  1:
+    enabled: true
+    replace-underscore: true
+    from: 'world'
+    to: 'world_nether'
+    message: '&f&l{player} &eleft the &c{from} &eand entered the &c{to}'
