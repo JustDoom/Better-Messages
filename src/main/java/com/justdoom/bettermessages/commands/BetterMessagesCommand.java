@@ -13,7 +13,7 @@ public class BetterMessagesCommand implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("bettermessages") && sender.hasPermission(""))
+        if (command.getName().equalsIgnoreCase("bettermessages") && sender.hasPermission("bettermessages"))
             if (args.length == 0) {
                 sender.sendMessage("Type \"/bm help\" for help on Better Messages!");
             } else if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("bettermessages.reload")) {
