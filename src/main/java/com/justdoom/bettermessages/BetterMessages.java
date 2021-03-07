@@ -4,6 +4,7 @@ import com.justdoom.bettermessages.commands.BetterMessagesCommand;
 import com.justdoom.bettermessages.events.JoinMessage;
 import com.justdoom.bettermessages.events.QuitMessage;
 import com.justdoom.bettermessages.events.WorldChangeMessage;
+import com.justdoom.bettermessages.sqlite.SQLite;
 import com.justdoom.bettermessages.util.MessageHandler;
 import com.justdoom.bettermessages.util.Metrics;
 import com.justdoom.bettermessages.util.UpdateChecker;
@@ -18,6 +19,7 @@ public final class BetterMessages extends JavaPlugin {
     int configVersion = 9;
 
     public MessageHandler handler = new MessageHandler();
+    public SQLite sqlite = new SQLite(this);
 
     public void onEnable() {
         if (getConfig().getInt("config-version") != this.configVersion && !getConfig().getBoolean("disable-outdated-config-warning"))
@@ -47,5 +49,8 @@ public final class BetterMessages extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new JoinMessage(this), this);
         Bukkit.getPluginManager().registerEvents(new QuitMessage(this), this);
         Bukkit.getPluginManager().registerEvents(new WorldChangeMessage(this), this);
+
+        //SQLite.connect();
+        SQLite.createNewDatabase("database.db", this);
     }
 }
