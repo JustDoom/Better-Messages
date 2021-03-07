@@ -22,26 +22,62 @@ public class JoinMessage implements Listener {
     @EventHandler
     public void JoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        String msg = this.plugin.handler.doMessage(player, "join", this.plugin);
-        String firstmsg = this.plugin.handler.doMessage(player, "join.first-join", this.plugin);
-        if (this.plugin.getConfig().getBoolean("join.enabled")) {
-            event.setJoinMessage(msg);
-        } else if (this.plugin.getConfig().getBoolean("join.first-join.enabled")) {
-            event.setJoinMessage(firstmsg);
-        }
         UUID uuid = player.getUniqueId();
+        String msg = plugin.handler.doMessage(player, "join", plugin);
+        String firstmsg = plugin.handler.doMessage(player, "join.first-join", plugin);
+        /**if (plugin.getConfig().getBoolean("join.enabled")) {
+            event.setJoinMessage(msg);
+        }**/
 
-        SQLite app = new SQLite(plugin);
-        if(!app.getUuid(uuid)){
-            app.insert(uuid);
-            for(Player p: Bukkit.getOnlinePlayers()) {
-                p.sendMessage("first join");
-            }
-        } else {
-            app.update(uuid);
-            for(Player p: Bukkit.getOnlinePlayers()) {
-                p.sendMessage("not first join");
+        SQLite sqlite = new SQLite(plugin);
+
+        if(plugin.getConfig().getBoolean("join.enabled")){
+            event.setJoinMessage(null);
+            if(plugin.getConfig().getBoolean("join.first-join.enabled") && !sqlite.getUuid(uuid)){
+                if(plugin.getConfig().getBoolean("join.first-join.only-to-player")){
+                    for(Player p:Bukkit.getOnlinePlayers()){
+                        if(p != player){
+                            p.sendMessage(msg);
+                        } else {
+                            p.sendMessage(firstmsg);
+                        }
+                    }
+                } else {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        p.sendMessage(firstmsg);
+                    }
+                }
+            } else {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    p.sendMessage(msg);
+                }
             }
         }
+
+        if(!sqlite.getUuid(uuid)){
+            sqlite.insert(uuid);
+        } else {
+            sqlite.update(uuid);
+        }
+
+        /**if (plugin.getConfig().getBoolean("join.first-join.enabled") && sqlite.getUuid(uuid)) {
+            if(plugin.getConfig().getBoolean("join.first-join.only-to-player")){
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p != player) {
+                        p.sendMessage(msg);
+                    } else {
+                        p.sendMessage(firstmsg);
+                    }
+                }
+            } else {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    p.sendMessage(firstmsg);
+                }
+            }
+        } else if (plugin.getConfig().getBoolean("join.enabled")) {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                p.sendMessage(msg);
+            }
+        }**/
     }
 }

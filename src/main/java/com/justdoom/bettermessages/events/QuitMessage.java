@@ -18,8 +18,8 @@ public class QuitMessage implements Listener {
     @EventHandler
     public void QuitEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        String msg = this.plugin.handler.doMessage(player, "quit", (JavaPlugin)this.plugin);
-        if (this.plugin.getConfig().getBoolean("join.enabled"))
+        String msg = plugin.handler.doMessage(player, "quit", plugin);
+        if (plugin.getConfig().getBoolean("quit.enabled"))
             event.setQuitMessage(msg);
     }
 }

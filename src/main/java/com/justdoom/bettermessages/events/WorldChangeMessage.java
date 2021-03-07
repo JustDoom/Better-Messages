@@ -18,13 +18,13 @@ public class WorldChangeMessage implements Listener {
     @EventHandler
     public void WorldChangeEvent(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
-        for (String key : this.plugin.getConfig().getConfigurationSection("world-change").getKeys(false)) {
-            String msg = this.plugin.handler.doMessage(player, "world-change." + key, (JavaPlugin)this.plugin);
+        for (String key : plugin.getConfig().getConfigurationSection("world-change").getKeys(false)) {
+            String msg = plugin.handler.doMessage(player, "world-change." + key, plugin);
             msg = msg.replace("{to}", player.getWorld().getName());
             msg = msg.replace("{from}", event.getFrom().getName());
-            if (this.plugin.getConfig().getBoolean("world-change." + key + ".replace-underscore"))
+            if (plugin.getConfig().getBoolean("world-change." + key + ".replace-underscore"))
                 msg = msg.replace("_", " ");
-            if (this.plugin.getConfig().getBoolean("world-change." + key + ".enabled") && this.plugin.getConfig().getString("world-change." + key + ".to").equals(player.getWorld().getName()) && this.plugin.getConfig().getString("world-change." + key + ".from").equals(event.getFrom().getName())) {
+            if (plugin.getConfig().getBoolean("world-change." + key + ".enabled") && plugin.getConfig().getString("world-change." + key + ".to").equals(player.getWorld().getName()) && plugin.getConfig().getString("world-change." + key + ".from").equals(event.getFrom().getName())) {
                 for (Player p : Bukkit.getOnlinePlayers())
                     p.sendMessage(msg);
                 return;

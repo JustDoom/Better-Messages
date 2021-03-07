@@ -26,7 +26,7 @@ public class SQLite {
         return conn;
     }
 
-    public void connect2() {
+    /**public void connect() {
         Connection conn = null;
         try {
             // db parameters
@@ -47,7 +47,7 @@ public class SQLite {
                 System.out.println(ex.getMessage());
             }
         }
-    }
+    }**/
 
     public static void createNewDatabase(String fileName, JavaPlugin plugin) {
 
@@ -129,7 +129,6 @@ public class SQLite {
             // set the corresponding param
             pstmt.setInt(1, getJoins(uuid) + 1);
             pstmt.setString(2, uuid.toString());
-            System.out.println(getJoins(uuid) + 1);
             // update
             pstmt.executeUpdate();
         } catch (SQLException e) {
