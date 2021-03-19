@@ -1,24 +1,40 @@
 #DO NOT TOUCH THIS SETTING
-config-version: 9
+config-version: 10
 
 disable-update-checker: false
 disable-outdated-config-warning: false
 
 join:
   enabled: true
+  message-type:
+    chat-message: true
+    action-bar: false
+    title-message: false
   message: '&eWelcome &f&l{player} &eto the server!'
   first-join:
     enabled: true
+    message-type:
+      chat-message: true
+      action-bar: false
+      title-message: false
     message: '&eWelcome &f&l{player} &eto the server for the first time!'
     only-to-player: false
 
 quit:
   enabled: true
+  message-type:
+    chat-message: true
+    action-bar: false
+    title-message: false
   message: '&f&l{player} &eleft the server :('
 
 world-change:
   1:
     enabled: true
+    message-type:
+      chat-message: true
+      action-bar: false
+      title-message: false
     replace-underscore: true
     from: 'world'
     to: 'world_nether'

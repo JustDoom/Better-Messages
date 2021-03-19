@@ -6,6 +6,8 @@ import com.justdoom.bettermessages.BetterMessages;
 import java.util.UUID;
 
 import com.justdoom.bettermessages.sqlite.SQLite;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,19 +39,19 @@ public class JoinMessage implements Listener {
                 if(plugin.getConfig().getBoolean("join.first-join.only-to-player")){
                     for(Player p:Bukkit.getOnlinePlayers()){
                         if(p != player){
-                            p.sendMessage(msg);
+                            plugin.handler.messageType(p, msg, plugin, "join");
                         } else {
-                            p.sendMessage(firstmsg);
+                            plugin.handler.messageType(p, firstmsg, plugin, "join.first-join");
                         }
                     }
                 } else {
                     for (Player p : Bukkit.getOnlinePlayers()) {
-                        p.sendMessage(firstmsg);
+                        plugin.handler.messageType(p, firstmsg, plugin, "join.first-join");
                     }
                 }
             } else {
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    p.sendMessage(msg);
+                    plugin.handler.messageType(p, msg, plugin, "join");
                 }
             }
         }

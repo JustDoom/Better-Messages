@@ -1,6 +1,8 @@
 package com.justdoom.bettermessages.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -29,5 +31,17 @@ public class MessageHandler {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
             this.message = PlaceholderAPI.setPlaceholders(player, this.message);
         return this.message;
+    }
+
+    public void messageType(Player player, String msg, JavaPlugin plugin, String path){
+        if(plugin.getConfig().getBoolean(path + ".message-type.chat-message")) {
+            player.sendMessage(msg);
+        }
+        if(plugin.getConfig().getBoolean(path + ".message-type.title-message")) {
+            player.sendTitle(msg, "bottom", 10, 40, 10);
+        }
+        if(plugin.getConfig().getBoolean(path + ".message-type.action-bar")) {
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
+        }
     }
 }
