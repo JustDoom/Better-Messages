@@ -1,5 +1,5 @@
 #DO NOT TOUCH THIS SETTING
-config-version: 10
+config-version: 11
 
 disable-update-checker: false
 disable-outdated-config-warning: false
@@ -7,34 +7,62 @@ disable-outdated-config-warning: false
 join:
   enabled: true
   message-type:
-    chat-message: true
-    action-bar: false
-    title-message: false
+
+    #EVERYONE - Send the message to everyone
+    #PLAYER - Send to the joining player, does not work with the quit message
+    #(world name) - sends to everyone in that world
+    chat-message:
+      enabled: true
+      send-to: EVERYONE
+    action-bar:
+      enabled: false
+      send-to: EVERYONE
+    title-message:
+      enabled: false
+      send-to: EVERYONE
   message: '&eWelcome &f&l{player} &eto the server!'
   first-join:
     enabled: true
     message-type:
-      chat-message: true
-      action-bar: false
-      title-message: false
+      chat-message:
+        enabled: true
+        send-to: EVERYONE
+      action-bar:
+        enabled: false
+        send-to: EVERYONE
+      title-message:
+        enabled: false
+        send-to: EVERYONE
     message: '&eWelcome &f&l{player} &eto the server for the first time!'
     only-to-player: false
 
 quit:
   enabled: true
   message-type:
-    chat-message: true
-    action-bar: false
-    title-message: false
+    chat-message:
+      enabled: true
+      send-to: EVERYONE
+    action-bar:
+      enabled: false
+      send-to: EVERYONE
+    title-message:
+      enabled: false
+      send-to: EVERYONE
   message: '&f&l{player} &eleft the server :('
 
 world-change:
   1:
     enabled: true
     message-type:
-      chat-message: true
-      action-bar: false
-      title-message: false
+      chat-message:
+        enabled: true
+        send-to: EVERYONE
+      action-bar:
+        enabled: false
+        send-to: EVERYONE
+      title-message:
+        enabled: false
+        send-to: EVERYONE
     replace-underscore: true
     from: 'world'
     to: 'world_nether'

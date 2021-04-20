@@ -1,5 +1,6 @@
 package com.justdoom.bettermessages.util;
 
+import com.justdoom.bettermessages.sqlite.SQLite;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -34,14 +35,26 @@ public class MessageHandler {
     }
 
     public void messageType(Player player, String msg, JavaPlugin plugin, String path){
-        if(plugin.getConfig().getBoolean(path + ".message-type.chat-message")) {
+        if(plugin.getConfig().getBoolean(path + ".message-type.chat-message.enabled")) {
             player.sendMessage(msg);
         }
-        if(plugin.getConfig().getBoolean(path + ".message-type.title-message")) {
+        if(plugin.getConfig().getBoolean(path + ".message-type.title-message.enabled")) {
             player.sendTitle(msg, "bottom", 10, 40, 10);
         }
-        if(plugin.getConfig().getBoolean(path + ".message-type.action-bar")) {
+        if(plugin.getConfig().getBoolean(path + ".message-type.action-bar.enabled")) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
+        }
+    }
+
+    public void test(SQLite sqlite, JavaPlugin plugin, String msg, String path){
+        for(Player p: Bukkit.getOnlinePlayers()) {
+            messageType(p, msg, plugin, path);
+        }
+    }
+
+    public void test(JavaPlugin plugin, String msg, String path){
+        for(Player p: Bukkit.getOnlinePlayers()) {
+            messageType(p, msg, plugin, path);
         }
     }
 }
