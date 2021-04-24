@@ -1,10 +1,6 @@
 # Better-Messages
 This is the source code for my spigot plugin [Better Messages](https://www.spigotmc.org/resources/82830)
 
-We have a test server, 1.9-1.16.5: plugins.eclipticmc.com
-This server is hosted by [pterohost](https://pterohost.com/aff.php?aff=1) who has sponsored this plugin.  
-![logo](https://media.discordapp.net/attachments/814362519896195112/814970493513236500/4l4ogo.png)
-
 Better messages does it's best to do exactly as the name suggests! It adds better configurable messages. You can also disable, configure, and randomise the messages! Designed as an alternative to essentials custom join messages with even more features! I am going to do my best to make EVERY message customisable.
 
 ## Features
