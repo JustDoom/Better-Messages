@@ -35,13 +35,13 @@ public class MessageHandler {
     }
 
     public void messageType(Player player, String msg, JavaPlugin plugin, String path){
-        if(plugin.getConfig().getBoolean(path + ".message-type.chat-message.enabled")) {
+        if(plugin.getConfig().getBoolean(path + ".message-type.chat-message")) {
             player.sendMessage(msg);
         }
-        if(plugin.getConfig().getBoolean(path + ".message-type.title-message.enabled")) {
+        if(plugin.getConfig().getBoolean(path + ".message-type.title-message")) {
             player.sendTitle(msg, "bottom", 10, 40, 10);
         }
-        if(plugin.getConfig().getBoolean(path + ".message-type.action-bar.enabled")) {
+        if(plugin.getConfig().getBoolean(path + ".message-type.action-bar")) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
         }
     }

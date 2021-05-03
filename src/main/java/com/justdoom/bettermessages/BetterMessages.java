@@ -16,7 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BetterMessages extends JavaPlugin {
 
-    int configVersion = 11;
+    int configVersion = 10;
 
     public MessageHandler handler = new MessageHandler();
     public SQLite sqlite = new SQLite(this);

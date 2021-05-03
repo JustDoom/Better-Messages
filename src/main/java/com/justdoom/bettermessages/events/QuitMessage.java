@@ -22,7 +22,9 @@ public class QuitMessage implements Listener {
         if (plugin.getConfig().getBoolean("quit.enabled")) {
             event.setQuitMessage(null);
 
-            plugin.handler.test(plugin, msg, "quit");
+            for(Player p: Bukkit.getOnlinePlayers()) {
+                plugin.handler.messageType(p, msg, plugin, "quit");
+            }
         }
     }
 }
