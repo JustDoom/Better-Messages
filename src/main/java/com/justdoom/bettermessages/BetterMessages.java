@@ -4,6 +4,7 @@ import com.justdoom.bettermessages.commands.BetterMessagesCommand;
 import com.justdoom.bettermessages.events.JoinMessage;
 import com.justdoom.bettermessages.events.QuitMessage;
 import com.justdoom.bettermessages.events.WorldChangeMessage;
+import com.justdoom.bettermessages.events.tabcomplete.BetterMessagesTabCompletion;
 import com.justdoom.bettermessages.sqlite.SQLite;
 import com.justdoom.bettermessages.util.MessageHandler;
 import com.justdoom.bettermessages.util.Metrics;
@@ -46,6 +47,8 @@ public final class BetterMessages extends JavaPlugin {
         saveDefaultConfig();
 
         getCommand("bettermessages").setExecutor(new BetterMessagesCommand(this));
+        getCommand("bettermessages").setTabCompleter(new BetterMessagesTabCompletion());
+
         Bukkit.getPluginManager().registerEvents(new JoinMessage(this), this);
         Bukkit.getPluginManager().registerEvents(new QuitMessage(this), this);
         Bukkit.getPluginManager().registerEvents(new WorldChangeMessage(this), this);
