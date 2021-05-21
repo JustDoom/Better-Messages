@@ -1,6 +1,7 @@
 package com.justdoom.bettermessages.events;
 
 import com.justdoom.bettermessages.BetterMessages;
+import com.justdoom.bettermessages.util.VanishUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +19,11 @@ public class WorldChangeMessage implements Listener {
     @EventHandler
     public void WorldChangeEvent(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
+
+        if(VanishUtil.isVanished(player)){
+            return;
+        }
+
         for (String key : plugin.getConfig().getConfigurationSection("world-change").getKeys(false)) {
             String msg = plugin.handler.doMessage(player, "world-change." + key, plugin);
             msg = msg.replace("{to}", player.getWorld().getName());

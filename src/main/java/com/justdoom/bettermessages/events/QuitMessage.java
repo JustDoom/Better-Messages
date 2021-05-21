@@ -2,6 +2,7 @@ package com.justdoom.bettermessages.events;
 
 
 import com.justdoom.bettermessages.BetterMessages;
+import com.justdoom.bettermessages.util.VanishUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +19,11 @@ public class QuitMessage implements Listener {
     @EventHandler
     public void QuitEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+
+        if(VanishUtil.isVanished(player)){
+            return;
+        }
+
         String msg = plugin.handler.doMessage(player, "quit", plugin);
         if (plugin.getConfig().getBoolean("quit.enabled")) {
             event.setQuitMessage(null);
