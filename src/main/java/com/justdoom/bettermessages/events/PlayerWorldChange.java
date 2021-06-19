@@ -9,10 +9,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class WorldChangeMessage implements Listener {
+public class PlayerWorldChange implements Listener {
     private BetterMessages plugin;
 
-    public WorldChangeMessage(BetterMessages plugin) {
+    public PlayerWorldChange(BetterMessages plugin) {
         this.plugin = plugin;
     }
 
@@ -34,7 +34,6 @@ public class WorldChangeMessage implements Listener {
             if (plugin.getConfig().getBoolean("world-change." + key + ".enabled") && plugin.getConfig().getString("world-change." + key + ".to").equals(player.getWorld().getName()) && plugin.getConfig().getString("world-change." + key + ".from").equals(event.getFrom().getName())) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     plugin.handler.messageType(p, msg, plugin, "world-change." + key);
-                    p.sendMessage(msg);
                 }
                 return;
             }

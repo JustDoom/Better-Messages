@@ -1,9 +1,10 @@
 package com.justdoom.bettermessages;
 
 import com.justdoom.bettermessages.commands.BetterMessagesCommand;
-import com.justdoom.bettermessages.events.JoinMessage;
-import com.justdoom.bettermessages.events.QuitMessage;
-import com.justdoom.bettermessages.events.WorldChangeMessage;
+import com.justdoom.bettermessages.events.PlayerJoin;
+import com.justdoom.bettermessages.events.PlayerPreLogin;
+import com.justdoom.bettermessages.events.PlayerQuit;
+import com.justdoom.bettermessages.events.PlayerWorldChange;
 import com.justdoom.bettermessages.events.tabcomplete.BetterMessagesTabCompletion;
 import com.justdoom.bettermessages.sqlite.SQLite;
 import com.justdoom.bettermessages.util.MessageHandler;
@@ -49,11 +50,14 @@ public final class BetterMessages extends JavaPlugin {
         getCommand("bettermessages").setExecutor(new BetterMessagesCommand(this));
         getCommand("bettermessages").setTabCompleter(new BetterMessagesTabCompletion());
 
-        Bukkit.getPluginManager().registerEvents(new JoinMessage(this), this);
-        Bukkit.getPluginManager().registerEvents(new QuitMessage(this), this);
-        Bukkit.getPluginManager().registerEvents(new WorldChangeMessage(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerPreLogin(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoin(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerQuit(this), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerWorldChange(this), this);
 
         //SQLite.connect();
         SQLite.createNewDatabase("database.db", this);
+
+        // TODO a config cache system
     }
 }

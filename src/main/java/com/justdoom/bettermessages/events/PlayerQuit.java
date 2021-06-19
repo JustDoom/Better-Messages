@@ -9,15 +9,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class QuitMessage implements Listener {
+public class PlayerQuit implements Listener {
     private BetterMessages plugin;
 
-    public QuitMessage(BetterMessages plugin) {
+    public PlayerQuit(BetterMessages plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
-    public void QuitEvent(PlayerQuitEvent event) {
+    public void QuitEvent(org.bukkit.event.player.PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
         if(VanishUtil.isVanished(player)){
