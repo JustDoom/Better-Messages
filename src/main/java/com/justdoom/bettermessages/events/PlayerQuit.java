@@ -20,13 +20,14 @@ public class PlayerQuit implements Listener {
     public void QuitEvent(org.bukkit.event.player.PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if(VanishUtil.isVanished(player)){
-            return;
-        }
-
         String msg = plugin.handler.doMessage(player, "quit", plugin);
         if (plugin.getConfig().getBoolean("quit.enabled")) {
             event.setQuitMessage(null);
+
+            // check after quit message null
+            if(VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-quit")){
+                return;
+            }
 
             for(Player p: Bukkit.getOnlinePlayers()) {
                 plugin.handler.messageType(p, msg, plugin, "quit");

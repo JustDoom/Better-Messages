@@ -4,6 +4,15 @@ main: com.justdoom.bettermessages.BetterMessages
 api-version: 1.16
 authors: [ JustDoom ]
 permissions:
+  bettermessages.silent-join:
+    default: false
+    description: Allows user to join silently always
+  bettermessages.silent-quit:
+    default: false
+    description: Allows user to quit silently always
+  bettermessages.silent-world-change:
+    default: false
+    description: Allows user to change worlds silently always
   bettermessages.reload:
     default: op
     description: Allows access to /bettermessages reload

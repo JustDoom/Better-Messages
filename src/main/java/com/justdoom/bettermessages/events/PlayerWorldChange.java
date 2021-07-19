@@ -20,7 +20,8 @@ public class PlayerWorldChange implements Listener {
     public void WorldChangeEvent(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
 
-        if(VanishUtil.isVanished(player)){
+        // vanished or has silent-world-change permission
+        if(VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-world-change")){
             return;
         }
 
