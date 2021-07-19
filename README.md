@@ -15,6 +15,7 @@ Better messages does it's best to do exactly as the name suggests! It adds bette
 - Supports prefixes and suffixes!
 - First join message only for joining player
 - SQLite data saving
+- Permission nodes for silent join messages
 
 ## Planned Features (Sorted by priority)
 - Command for editing the config in-game

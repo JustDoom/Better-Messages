@@ -25,16 +25,18 @@ public class PlayerJoin implements Listener {
 
         Player player = event.getPlayer();
 
-        if (VanishUtil.isVanished(player)) {
-            return;
-        }
-
         UUID uuid = player.getUniqueId();
         String msg = plugin.handler.doMessage(player, "join", plugin);
         String firstmsg = plugin.handler.doMessage(player, "join.first-join", plugin);
 
         if (plugin.getConfig().getBoolean("join.enabled")) {
             event.setJoinMessage(null);
+
+            // checks need to be after setting join message to null, to work properly
+            if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) {
+                return;
+            }
+
             if (plugin.getConfig().getBoolean("join.first-join.enabled") && !PlayerJoinUtil.getPlayer(uuid)) {
                 PlayerJoinUtil.removePlayer(uuid);
                 if (plugin.getConfig().getBoolean("join.first-join.only-to-player")) {
