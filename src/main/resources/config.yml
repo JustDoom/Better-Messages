@@ -43,3 +43,4 @@ world-change:
     from: 'world'
     to: 'world_nether'
     message: '&f&l{player} &eleft the &c{from} &eand entered the &c{to}'
+    only-to-player: false

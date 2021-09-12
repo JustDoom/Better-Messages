@@ -38,10 +38,14 @@ public class PlayerWorldChange implements Listener {
             if (plugin.getConfig().getBoolean("world-change." + key + ".enabled")
                     && plugin.getConfig().getString("world-change." + key + ".to").equals(player.getWorld().getName())
                     && plugin.getConfig().getString("world-change." + key + ".from").equals(event.getFrom().getName())) {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    plugin.handler.messageType(p, msg, plugin, "world-change." + key);
+                if (plugin.getConfig().getBoolean("world-change." + key + ".only-to-player")) {
+                    plugin.handler.messageType(player, msg, plugin, "world-change." + key);
+                } else {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        plugin.handler.messageType(p, msg, plugin, "world-change." + key);
+                    }
+                    return;
                 }
-                return;
             }
         }
     }
