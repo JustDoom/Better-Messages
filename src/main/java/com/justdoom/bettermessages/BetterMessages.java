@@ -9,7 +9,7 @@ import com.justdoom.bettermessages.events.tabcomplete.BetterMessagesTabCompletio
 import com.justdoom.bettermessages.sqlite.SQLite;
 import com.justdoom.bettermessages.util.MessageHandler;
 import com.justdoom.bettermessages.util.Metrics;
-import com.justdoom.bettermessages.util.UpdateChecker;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -26,14 +26,6 @@ public final class BetterMessages extends JavaPlugin {
     public void onEnable() {
         if (getConfig().getInt("config-version") != this.configVersion && !getConfig().getBoolean("disable-outdated-config-warning"))
             getLogger().warning("The config file needs to be regenerated as it's not the latest version and could have unexpected results.");
-        (new UpdateChecker(this, 82830)).getVersion(version -> {
-            if (!getConfig().getBoolean("disable-update-checker"))
-                if (getDescription().getVersion().equalsIgnoreCase(version)) {
-                    getLogger().info("There is not a new update available.");
-                } else {
-                    getLogger().info("There is a new update available.");
-                }
-        });
 
         Metrics metrics = new Metrics(this, 8591);
         metrics.addCustomChart(new Metrics.MultiLineChart("players_and_servers", new Callable<Map<String, Integer>>() {
