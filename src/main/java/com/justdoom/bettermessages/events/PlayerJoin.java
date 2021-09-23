@@ -29,33 +29,39 @@ public class PlayerJoin implements Listener {
         String msg = plugin.handler.doMessage(player, "join", plugin);
         String firstmsg = plugin.handler.doMessage(player, "join.first-join", plugin);
 
-        if (plugin.getConfig().getBoolean("join.enabled")) {
-            event.setJoinMessage(null);
+        if (!plugin.getConfig().getBoolean("join.enabled")) return;
 
-            // checks need to be after setting join message to null, to work properly
-            if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) {
-                return;
-            }
+        event.setJoinMessage(null);
 
-            if (plugin.getConfig().getBoolean("join.first-join.enabled") && !PlayerJoinUtil.getPlayer(uuid)) {
-                PlayerJoinUtil.removePlayer(uuid);
-                if (plugin.getConfig().getBoolean("join.first-join.only-to-player")) {
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (p != player) {
+        // checks need to be after setting join message to null, to work properly
+        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) return;
+
+        if (plugin.getConfig().getBoolean("join.first-join.enabled") && !PlayerJoinUtil.getPlayer(uuid)) {
+            PlayerJoinUtil.removePlayer(uuid);
+            if (plugin.getConfig().getBoolean("join.first-join.only-to-player")) {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p != player) {
+                        if(plugin.getConfig().getString("join.permission").equalsIgnoreCase("none")
+                                || p.hasPermission(plugin.getConfig().getString("join.permission")))
                             plugin.handler.messageType(p, msg, plugin, "join");
-                        } else {
+                    } else {
+                        if(plugin.getConfig().getString("join.first-join.permission").equalsIgnoreCase("none")
+                                || p.hasPermission(plugin.getConfig().getString("join.first-join.permission")))
                             plugin.handler.messageType(p, firstmsg, plugin, "join.first-join");
-                        }
-                    }
-                } else {
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        plugin.handler.messageType(p, firstmsg, plugin, "join.first-join");
                     }
                 }
             } else {
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    plugin.handler.messageType(p, msg, plugin, "join");
+                    if(plugin.getConfig().getString("join.first-join.permission").equalsIgnoreCase("none")
+                            || p.hasPermission(plugin.getConfig().getString("join.first-join.permission")))
+                        plugin.handler.messageType(p, firstmsg, plugin, "join.first-join");
                 }
+            }
+        } else {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                if(plugin.getConfig().getString("join.permission").equalsIgnoreCase("none")
+                        || p.hasPermission(plugin.getConfig().getString("join.permission")))
+                    plugin.handler.messageType(p, msg, plugin, "join");
             }
         }
     }

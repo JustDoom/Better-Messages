@@ -30,7 +30,9 @@ public class PlayerQuit implements Listener {
             }
 
             for(Player p: Bukkit.getOnlinePlayers()) {
-                plugin.handler.messageType(p, msg, plugin, "quit");
+                if(plugin.getConfig().getString("quit.permission").equalsIgnoreCase("none")
+                        || p.hasPermission(plugin.getConfig().getString("quit.permission")))
+                    plugin.handler.messageType(p, msg, plugin, "quit");
             }
         }
     }
