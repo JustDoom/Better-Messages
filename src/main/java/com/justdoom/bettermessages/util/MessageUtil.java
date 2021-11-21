@@ -11,8 +11,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class MessageHandler {
+public class MessageUtil {
 
     private String message;
 
@@ -25,12 +27,12 @@ public class MessageHandler {
         } else {
             plugin.getLogger().warning("Invalid join message.");
         }
-        this.message = ChatColor.translateAlternateColorCodes('&', this.message);
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
+            this.message = PlaceholderAPI.setPlaceholders(player, this.message);
+        message = translate(message);
         this.message = this.message.replace("{player}", player.getName());
         this.message = this.message.replace("{world}", player.getWorld().getName());
         this.message = this.message.replace("{line}", "\n");
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
-            this.message = PlaceholderAPI.setPlaceholders(player, this.message);
         return this.message;
     }
 
@@ -44,6 +46,25 @@ public class MessageHandler {
         if(plugin.getConfig().getBoolean(path + ".message-type.action-bar")) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
         }
+    }
+
+    public static String translate(String message) {
+        Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+        Matcher matcher = pattern.matcher(message);
+        while (matcher.find()) {
+            String hexCode = message.substring(matcher.start(), matcher.end());
+            String replaceSharp = hexCode.replace('#', 'x');
+
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder("");
+            for (char c : ch) {
+                builder.append("&" + c);
+            }
+
+            message = message.replace(hexCode, builder.toString());
+            matcher = pattern.matcher(message);
+        }
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 
     public void test(SQLite sqlite, JavaPlugin plugin, String msg, String path){

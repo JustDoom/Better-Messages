@@ -34,7 +34,7 @@ public class PlayerJoin implements Listener {
         event.setJoinMessage(null);
 
         // checks need to be after setting join message to null, to work properly
-        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) return;
+        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join") || PlayerJoinUtil.getPlayer(uuid) == null) return;
 
         if (plugin.getConfig().getBoolean("join.first-join.enabled") && !PlayerJoinUtil.getPlayer(uuid)) {
             PlayerJoinUtil.removePlayer(uuid);

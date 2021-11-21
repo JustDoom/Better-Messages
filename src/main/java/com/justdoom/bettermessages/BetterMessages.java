@@ -7,7 +7,7 @@ import com.justdoom.bettermessages.events.PlayerQuit;
 import com.justdoom.bettermessages.events.PlayerWorldChange;
 import com.justdoom.bettermessages.events.tabcomplete.BetterMessagesTabCompletion;
 import com.justdoom.bettermessages.sqlite.SQLite;
-import com.justdoom.bettermessages.util.MessageHandler;
+import com.justdoom.bettermessages.util.MessageUtil;
 import com.justdoom.bettermessages.util.Metrics;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public final class BetterMessages extends JavaPlugin {
 
     int configVersion = 11;
 
-    public MessageHandler handler = new MessageHandler();
+    public MessageUtil handler = new MessageUtil();
     public SQLite sqlite = new SQLite(this);
 
     public void onEnable() {
