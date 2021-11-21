@@ -16,27 +16,26 @@ import java.util.regex.Pattern;
 
 public class MessageUtil {
 
-    private String message;
-
-    public String doMessage(Player player, String path, JavaPlugin plugin) {
+    public static String doMessage(Player player, String path, JavaPlugin plugin) {
+        String message = "";
         if (plugin.getConfig().isList(path + ".message")) {
             List<String> list = plugin.getConfig().getStringList(path + ".message");
-            this.message = list.get((new Random()).nextInt(list.size()));
+            message = list.get((new Random()).nextInt(list.size()));
         } else if (plugin.getConfig().isString(path + ".message")) {
-            this.message = plugin.getConfig().getString(path + ".message");
+            message = plugin.getConfig().getString(path + ".message");
         } else {
             plugin.getLogger().warning("Invalid join message.");
         }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
-            this.message = PlaceholderAPI.setPlaceholders(player, this.message);
+            message = PlaceholderAPI.setPlaceholders(player, message);
         message = translate(message);
-        this.message = this.message.replace("{player}", player.getName());
-        this.message = this.message.replace("{world}", player.getWorld().getName());
-        this.message = this.message.replace("{line}", "\n");
-        return this.message;
+        message = message.replace("{player}", player.getName());
+        message = message.replace("{world}", player.getWorld().getName());
+        message = message.replace("{line}", "\n");
+        return message;
     }
 
-    public void messageType(Player player, String msg, JavaPlugin plugin, String path){
+    public static void messageType(Player player, String msg, JavaPlugin plugin, String path){
         if(plugin.getConfig().getBoolean(path + ".message-type.chat-message")) {
             player.sendMessage(msg);
         }
@@ -65,17 +64,5 @@ public class MessageUtil {
             matcher = pattern.matcher(message);
         }
         return ChatColor.translateAlternateColorCodes('&', message);
-    }
-
-    public void test(SQLite sqlite, JavaPlugin plugin, String msg, String path){
-        for(Player p: Bukkit.getOnlinePlayers()) {
-            messageType(p, msg, plugin, path);
-        }
-    }
-
-    public void test(JavaPlugin plugin, String msg, String path){
-        for(Player p: Bukkit.getOnlinePlayers()) {
-            messageType(p, msg, plugin, path);
-        }
     }
 }

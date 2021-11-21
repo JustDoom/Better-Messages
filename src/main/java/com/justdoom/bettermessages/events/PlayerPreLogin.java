@@ -1,7 +1,7 @@
 package com.justdoom.bettermessages.events;
 
 import com.justdoom.bettermessages.BetterMessages;
-import com.justdoom.bettermessages.util.PlayerJoinUtil;
+import com.justdoom.bettermessages.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,25 +10,17 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import java.util.UUID;
 
 public class PlayerPreLogin implements Listener {
-    private final BetterMessages plugin;
-
-    public PlayerPreLogin(BetterMessages plugin) {
-        this.plugin = plugin;
-    }
 
     @EventHandler
     public void AsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        UUID uuid = event.getUniqueId();
 
-            UUID uuid = event.getUniqueId();
+            PlayerManager.addPlayer(uuid, BetterMessages.getInstance().getSqlite().getUuid(uuid));
 
-            PlayerJoinUtil.addPlayer(uuid, plugin.sqlite.getUuid(uuid));
-
-            if(!plugin.sqlite.getUuid(uuid)){
-                plugin.sqlite.insert(uuid);
+            if(!BetterMessages.getInstance().getSqlite().getUuid(uuid)){
+                BetterMessages.getInstance().getSqlite().insert(uuid);
             } else {
-                plugin.sqlite.update(uuid);
+                BetterMessages.getInstance().getSqlite().update(uuid);
             }
-        });
     }
 }
