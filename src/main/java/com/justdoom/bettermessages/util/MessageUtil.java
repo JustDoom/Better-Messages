@@ -1,11 +1,10 @@
 package com.justdoom.bettermessages.util;
 
-import com.justdoom.bettermessages.sqlite.SQLite;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -47,22 +46,23 @@ public class MessageUtil {
         }
     }
 
-    public static String translate(String message) {
-        Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
-        Matcher matcher = pattern.matcher(message);
+    private static final Pattern HEX_PATTERN = Pattern.compile("#([A-Fa-f0-9]){6}");
+
+    public static String getColString(String string) {
+        Matcher matcher = HEX_PATTERN.matcher(string);
         while (matcher.find()) {
-            String hexCode = message.substring(matcher.start(), matcher.end());
-            String replaceSharp = hexCode.replace('#', 'x');
-
-            char[] ch = replaceSharp.toCharArray();
-            StringBuilder builder = new StringBuilder("");
-            for (char c : ch) {
-                builder.append("&" + c);
-            }
-
-            message = message.replace(hexCode, builder.toString());
-            matcher = pattern.matcher(message);
+            final ChatColor hexColor = ChatColor.valueOf(matcher.group());
+            final String before = string.substring(0, matcher.start());
+            final String after = string.substring(matcher.end());
+            string = before + hexColor + after;
+            matcher = HEX_PATTERN.matcher(string);
         }
-        return ChatColor.translateAlternateColorCodes('&', message);
+        return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+    public static String translate(String message) {
+
+
+        return getColString(message);
     }
 }
