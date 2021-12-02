@@ -49,8 +49,24 @@ public class MessageUtil {
     }
 
     public static String translate(String message) {
-        Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+        Pattern pattern = Pattern.compile("&#([A-Fa-f0-9]){6}");
         Matcher matcher = pattern.matcher(message);
+        while (matcher.find()) {
+            String hexCode = message.substring(matcher.start(), matcher.end());
+            String replaceSharp = hexCode.replace("&#", "x");
+
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder("");
+            for (char c : ch) {
+                builder.append("&").append(c);
+            }
+
+            message = message.replace(hexCode, builder.toString());
+            matcher = pattern.matcher(message);
+        }
+
+        pattern = Pattern.compile("#([A-Fa-f0-9]){6}");
+        matcher = pattern.matcher(message);
         while (matcher.find()) {
             String hexCode = message.substring(matcher.start(), matcher.end());
             String replaceSharp = hexCode.replace('#', 'x');
@@ -58,24 +74,12 @@ public class MessageUtil {
             char[] ch = replaceSharp.toCharArray();
             StringBuilder builder = new StringBuilder("");
             for (char c : ch) {
-                builder.append("&" + c);
+                builder.append("&").append(c);
             }
 
             message = message.replace(hexCode, builder.toString());
             matcher = pattern.matcher(message);
         }
         return ChatColor.translateAlternateColorCodes('&', message);
-    }
-
-    public void test(SQLite sqlite, JavaPlugin plugin, String msg, String path){
-        for(Player p: Bukkit.getOnlinePlayers()) {
-            messageType(p, msg, plugin, path);
-        }
-    }
-
-    public void test(JavaPlugin plugin, String msg, String path){
-        for(Player p: Bukkit.getOnlinePlayers()) {
-            messageType(p, msg, plugin, path);
-        }
     }
 }
