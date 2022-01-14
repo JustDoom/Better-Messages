@@ -54,6 +54,9 @@ public class PlayerJoin implements Listener {
                         p.sendMessage(message);
                     }
                     break;
+                case "user":
+                    player.sendMessage(message);
+                    break;
                 default:
                     if (!msg.getAudience().startsWith("world/")) {
                         break;

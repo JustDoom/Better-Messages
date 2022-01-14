@@ -15,8 +15,9 @@ messages:
 
     # Options
     # server - everyone in the server
-    # world - everyone in the world the player is currently in
+    # world - everyone in the world the player is currently in. Doesn't work on the leave event
     # world/{world} - specify a world to send the messages to
+    # user - the player that activated the event/message
     audience: server
     activation:
       - join
