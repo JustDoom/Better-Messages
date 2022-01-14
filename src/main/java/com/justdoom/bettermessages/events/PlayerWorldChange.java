@@ -1,6 +1,9 @@
 package com.justdoom.bettermessages.events;
 
 import com.justdoom.bettermessages.BetterMessages;
+import com.justdoom.bettermessages.config.Config;
+import com.justdoom.bettermessages.manager.PlayerManager;
+import com.justdoom.bettermessages.message.Message;
 import com.justdoom.bettermessages.util.MessageUtil;
 import com.justdoom.bettermessages.util.VanishUtil;
 import org.bukkit.Bukkit;
@@ -15,9 +18,65 @@ public class PlayerWorldChange implements Listener {
     public void WorldChangeEvent(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
 
-        // vanished or has silent-world-change permission
-        if(VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-world-change")) return;
+        PlayerManager.removePlayer(player.getUniqueId());
 
+        if (VanishUtil.isVanished(player)
+                || player.hasPermission("bettermessages.silent-world-change")) return;
+
+        MESSAGES:
+        for (Message msg : Config.MESSAGES) {
+
+            if(!msg.isEnabled()) continue;
+
+            String from = "", to = "";
+
+            for(String activation : msg.getActivation()) {
+                if(!activation.startsWith("world-change")) {
+                    continue MESSAGES;
+                } else {
+                    from = activation.split("/")[1];
+                    to = activation.split("/")[2];
+                }
+            }
+
+
+
+            if(!from.equalsIgnoreCase(event.getFrom().getName()) || !player.getWorld().getName().equalsIgnoreCase(to)) continue;
+
+            if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) continue;
+
+            if (!msg.getCount().contains(BetterMessages.getInstance().getSqlite().getCount(player.getUniqueId())) && !msg.getCount().contains(-1)) {
+                continue;
+            }
+
+            String message = MessageUtil.translate(msg.getMessage(), player);
+
+            switch (msg.getAudience()) {
+                case "server":
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        p.sendMessage(message);
+                    }
+                    break;
+                case "world":
+                    for (Player p : player.getWorld().getPlayers()) {
+                        p.sendMessage(message);
+                    }
+                    break;
+                case "user":
+                    player.sendMessage(message);
+                    break;
+                default:
+                    if (!msg.getAudience().startsWith("world/")) {
+                        break;
+                    }
+
+                    for (Player p : Bukkit.getWorld(msg.getAudience().replace("world/", "")).getPlayers()) {
+                        p.sendMessage(message);
+                    }
+            }
+        }
+
+        /**
         for (String key : BetterMessages.getInstance().getConfig().getConfigurationSection("world-change").getKeys(false)) {
             String msg = MessageUtil.doMessage(player, "world-change." + key, BetterMessages.getInstance());
             String to = player.getWorld().getName();
@@ -44,6 +103,6 @@ public class PlayerWorldChange implements Listener {
                     return;
                 }
             }
-        }
+        }**/
     }
 }

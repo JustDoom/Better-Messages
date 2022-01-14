@@ -1,6 +1,7 @@
 package com.justdoom.bettermessages.commands;
 
 import com.justdoom.bettermessages.BetterMessages;
+import com.justdoom.bettermessages.config.Config;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,6 +14,7 @@ public class BetterMessagesCommand implements CommandExecutor {
                 sender.sendMessage("Type \"/bm help\" for help on Better Messages!");
             } else if (args[0].equalsIgnoreCase("reload") && sender.hasPermission("bettermessages.reload")) {
                 BetterMessages.getInstance().reloadConfig();
+                Config.init();
                 sender.sendMessage("BetterMessages config has been reloaded.");
             } else if (args[0].equalsIgnoreCase("help") && sender.hasPermission("bettermessages.help")) {
                 sender.sendMessage("Better Messages Help\nCommands\n- /bettermessages help: Brings you here!\n- /bettermessages reload: Reloads the config!");

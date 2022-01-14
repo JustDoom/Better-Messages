@@ -22,19 +22,19 @@ public class PlayerQuit implements Listener {
 
         PlayerManager.removePlayer(player.getUniqueId());
 
+        if (VanishUtil.isVanished(player)
+                || player.hasPermission("bettermessages.silent-quit")) return;
+
         for (Message msg : Config.MESSAGES) {
 
-            if (!msg.getActivation().contains("quit") || !msg.isEnabled()) break;
+            if (!msg.getActivation().contains("quit") || !msg.isEnabled()) continue;
 
             event.setQuitMessage(null);
 
-            if (VanishUtil.isVanished(player)
-                    || player.hasPermission("bettermessages.silent-quit")) break;
-
-            if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) break;
+            if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) continue;
 
             if (!msg.getCount().contains(BetterMessages.getInstance().getSqlite().getCount(player.getUniqueId())) && !msg.getCount().contains(-1)) {
-                break;
+                continue;
             }
 
             String message = MessageUtil.translate(msg.getMessage(), player);

@@ -17,6 +17,8 @@ public class Config {
     public static List<Message> MESSAGES = new ArrayList<>();
 
     public static void init() {
+        BetterMessages.getInstance().reloadConfig();
+
         DISABLE_OUTDATED_CONFIG_WARNING = getConfig().getBoolean("disable-outdated-config-warning");
         CONFIG_VERSION = getConfig().getInt("config-version");
 

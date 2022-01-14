@@ -26,19 +26,19 @@ public class PlayerJoin implements Listener {
 
         PlayerManager.removePlayer(player.getUniqueId());
 
+        if (VanishUtil.isVanished(player)
+                || player.hasPermission("bettermessages.silent-join")) return;
+
         for (Message msg : Config.MESSAGES) {
 
-            if (!msg.getActivation().contains("join") || !msg.isEnabled()) break;
+            if (!msg.getActivation().contains("join") || !msg.isEnabled()) continue;
 
             event.setJoinMessage(null);
 
-            if (VanishUtil.isVanished(player)
-                    || player.hasPermission("bettermessages.silent-join")) break;
-
-            if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) break;
+            if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) continue;
 
             if (!msg.getCount().contains(BetterMessages.getInstance().getSqlite().getCount(player.getUniqueId())) && !msg.getCount().contains(-1)) {
-                break;
+                continue;
             }
 
             String message = MessageUtil.translate(msg.getMessage(), player);
