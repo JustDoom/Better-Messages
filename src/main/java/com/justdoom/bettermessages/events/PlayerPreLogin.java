@@ -15,12 +15,12 @@ public class PlayerPreLogin implements Listener {
     public void AsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent event) {
         UUID uuid = event.getUniqueId();
 
-            PlayerManager.addPlayer(uuid, BetterMessages.getInstance().getSqlite().getUuid(uuid));
+        PlayerManager.addPlayer(uuid, BetterMessages.getInstance().getSqlite().getUuid(uuid));
 
-            if(!BetterMessages.getInstance().getSqlite().getUuid(uuid)){
-                BetterMessages.getInstance().getSqlite().insert(uuid);
-            } else {
-                BetterMessages.getInstance().getSqlite().update(uuid);
-            }
+        if (!BetterMessages.getInstance().getSqlite().getUuid(uuid)) {
+            BetterMessages.getInstance().getSqlite().insert(uuid);
+        } else {
+            BetterMessages.getInstance().getSqlite().update(uuid);
+        }
     }
 }

@@ -6,7 +6,7 @@
 
     <groupId>com.justdoom</groupId>
     <artifactId>BetterMessages</artifactId>
-    <version>2.2.11</version>
+    <version>3.0.0</version>
     <packaging>jar</packaging>
 
     <name>BetterMessages</name>

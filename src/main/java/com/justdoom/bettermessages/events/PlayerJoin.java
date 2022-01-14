@@ -5,7 +5,10 @@ import com.justdoom.bettermessages.BetterMessages;
 
 import java.util.UUID;
 
+import com.justdoom.bettermessages.config.Config;
 import com.justdoom.bettermessages.manager.PlayerManager;
+import com.justdoom.bettermessages.message.Message;
+import com.justdoom.bettermessages.sqlite.SQLite;
 import com.justdoom.bettermessages.util.MessageUtil;
 import com.justdoom.bettermessages.util.VanishUtil;
 import org.bukkit.Bukkit;
@@ -21,43 +24,44 @@ public class PlayerJoin implements Listener {
 
         Player player = event.getPlayer();
 
-        UUID uuid = player.getUniqueId();
-        String msg = MessageUtil.doMessage(player, "join", BetterMessages.getInstance());
-        String firstmsg = MessageUtil.doMessage(player, "join.first-join", BetterMessages.getInstance());
+        PlayerManager.removePlayer(player.getUniqueId());
 
-        if (!BetterMessages.getInstance().getConfig().getBoolean("join.enabled")) return;
+        for (Message msg : Config.MESSAGES) {
 
-        event.setJoinMessage(null);
+            if (!msg.getActivation().contains("join") || !msg.isEnabled()) break;
 
-        // checks need to be after setting join message to null, to work properly
-        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join") || PlayerManager.getPlayer(uuid) == null) return;
+            event.setJoinMessage(null);
 
-        if (BetterMessages.getInstance().getConfig().getBoolean("join.first-join.enabled") && !PlayerManager.getPlayer(uuid)) {
-            PlayerManager.removePlayer(uuid);
-            if (BetterMessages.getInstance().getConfig().getBoolean("join.first-join.only-to-player")) {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    if (p != player) {
-                        if(BetterMessages.getInstance().getConfig().getString("join.permission").equalsIgnoreCase("none")
-                                || p.hasPermission(BetterMessages.getInstance().getConfig().getString("join.permission")))
-                            MessageUtil.messageType(p, msg, BetterMessages.getInstance(), "join");
-                    } else {
-                        if(BetterMessages.getInstance().getConfig().getString("join.first-join.permission").equalsIgnoreCase("none")
-                                || p.hasPermission(BetterMessages.getInstance().getConfig().getString("join.first-join.permission")))
-                            MessageUtil.messageType(p, firstmsg, BetterMessages.getInstance(), "join.first-join");
-                    }
-                }
-            } else {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    if(BetterMessages.getInstance().getConfig().getString("join.first-join.permission").equalsIgnoreCase("none")
-                            || p.hasPermission(BetterMessages.getInstance().getConfig().getString("join.first-join.permission")))
-                        MessageUtil.messageType(p, firstmsg, BetterMessages.getInstance(), "join.first-join");
-                }
+            if (VanishUtil.isVanished(player)
+                    || player.hasPermission("bettermessages.silent-join")) break;
+
+            if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) break;
+
+            if (!msg.getCount().contains(BetterMessages.getInstance().getSqlite().getCount(player.getUniqueId())) && !msg.getCount().contains(-1)) {
+                break;
             }
-        } else {
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                if(BetterMessages.getInstance().getConfig().getString("join.permission").equalsIgnoreCase("none")
-                        || p.hasPermission(BetterMessages.getInstance().getConfig().getString("join.permission")))
-                    MessageUtil.messageType(p, msg, BetterMessages.getInstance(), "join");
+
+            String message = MessageUtil.translate(msg.getMessage(), player);
+
+            switch (msg.getAudience()) {
+                case "server":
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        p.sendMessage(message);
+                    }
+                    break;
+                case "world":
+                    for (Player p : player.getWorld().getPlayers()) {
+                        p.sendMessage(message);
+                    }
+                    break;
+                default:
+                    if (!msg.getAudience().startsWith("world/")) {
+                        break;
+                    }
+
+                    for (Player p : Bukkit.getWorld(msg.getAudience().replace("world/", "")).getPlayers()) {
+                        p.sendMessage(message);
+                    }
             }
         }
     }

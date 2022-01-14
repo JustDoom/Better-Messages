@@ -17,19 +17,17 @@ public class PlayerQuit implements Listener {
         Player player = event.getPlayer();
 
         String msg = MessageUtil.doMessage(player, "quit", BetterMessages.getInstance());
-        if (BetterMessages.getInstance().getConfig().getBoolean("quit.enabled")) {
-            event.setQuitMessage(null);
+        if (!BetterMessages.getInstance().getConfig().getBoolean("quit.enabled")) return;
 
-            // check after quit message null
-            if(VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-quit")){
-                return;
-            }
+        event.setQuitMessage(null);
 
-            for(Player p: Bukkit.getOnlinePlayers()) {
-                if(BetterMessages.getInstance().getConfig().getString("quit.permission").equalsIgnoreCase("none")
-                        || p.hasPermission(BetterMessages.getInstance().getConfig().getString("quit.permission")))
-                    MessageUtil.messageType(p, msg, BetterMessages.getInstance(), "quit");
-            }
+        // check after quit message null
+        if(VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-quit")) return;
+
+        for(Player p: Bukkit.getOnlinePlayers()) {
+            if(BetterMessages.getInstance().getConfig().getString("quit.permission").equalsIgnoreCase("none")
+                    || p.hasPermission(BetterMessages.getInstance().getConfig().getString("quit.permission")))
+                MessageUtil.messageType(p, msg, BetterMessages.getInstance(), "quit");
         }
     }
 }

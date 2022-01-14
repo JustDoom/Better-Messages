@@ -1,10 +1,10 @@
 package com.justdoom.bettermessages.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,7 +27,7 @@ public class MessageUtil {
         }
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
             message = PlaceholderAPI.setPlaceholders(player, message);
-        message = translate(message);
+        message = translate(message, player);
         message = message.replace("{player}", player.getName());
         message = message.replace("{world}", player.getWorld().getName());
         message = message.replace("{line}", "\n");
@@ -46,23 +46,45 @@ public class MessageUtil {
         }
     }
 
-    private static final Pattern HEX_PATTERN = Pattern.compile("#([A-Fa-f0-9]){6}");
+    public static Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]){6}");
+    public static Pattern HEX_PATTERN_2 = Pattern.compile("#([A-Fa-f0-9]){6}");
 
-    public static String getColString(String string) {
-        Matcher matcher = HEX_PATTERN.matcher(string);
+    public static String translate(String message, Player player) {
+
+        message = message.replace("{player}", player.getName());
+        message = message.replace("{world}", player.getWorld().getName());
+        message = message.replace("{line}", "\n");
+
+
+        Matcher matcher = HEX_PATTERN.matcher(message);
         while (matcher.find()) {
-            final ChatColor hexColor = ChatColor.valueOf(matcher.group());
-            final String before = string.substring(0, matcher.start());
-            final String after = string.substring(matcher.end());
-            string = before + hexColor + after;
-            matcher = HEX_PATTERN.matcher(string);
+            String hexCode = message.substring(matcher.start(), matcher.end());
+            String replaceSharp = hexCode.replace("&#", "x");
+
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder("");
+            for (char c : ch) {
+                builder.append("&").append(c);
+            }
+
+            message = message.replace(hexCode, builder.toString());
+            matcher = HEX_PATTERN.matcher(message);
         }
-        return ChatColor.translateAlternateColorCodes('&', string);
-    }
 
-    public static String translate(String message) {
+        matcher = HEX_PATTERN_2.matcher(message);
+        while (matcher.find()) {
+            String hexCode = message.substring(matcher.start(), matcher.end());
+            String replaceSharp = hexCode.replace('#', 'x');
 
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder("");
+            for (char c : ch) {
+                builder.append("&").append(c);
+            }
 
-        return getColString(message);
+            message = message.replace(hexCode, builder.toString());
+            matcher = HEX_PATTERN_2.matcher(message);
+        }
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 }

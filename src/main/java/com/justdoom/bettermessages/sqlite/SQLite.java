@@ -15,7 +15,6 @@ public class SQLite {
     }
 
     private Connection connect() {
-        // SQLite connection string
         String url = "jdbc:sqlite:" + plugin.getDataFolder() + "/database.db";
         Connection conn = null;
         try {
@@ -25,29 +24,6 @@ public class SQLite {
         }
         return conn;
     }
-
-    /**public void connect() {
-        Connection conn = null;
-        try {
-            // db parameters
-            String url = "jdbc:sqlite:" + plugin.getDataFolder();
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-
-            System.out.println("Connection to SQLite has been established.");
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }**/
 
     public static void createNewDatabase(String fileName, JavaPlugin plugin) {
 
@@ -87,7 +63,7 @@ public class SQLite {
         return false;
     }
 
-    public int getJoins(UUID uuid) {
+    public int getCount(UUID uuid) {
         String sql = "SELECT uuid,joins FROM data";
 
         try (Connection conn = this.connect();
@@ -127,7 +103,7 @@ public class SQLite {
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // set the corresponding param
-            pstmt.setInt(1, getJoins(uuid) + 1);
+            pstmt.setInt(1, getCount(uuid) + 1);
             pstmt.setString(2, uuid.toString());
             // update
             pstmt.executeUpdate();

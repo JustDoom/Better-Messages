@@ -3,6 +3,55 @@ config-version: 11
 
 disable-outdated-config-warning: false
 
+messages:
+  join:
+    enabled: true
+
+    # Set to -1 to disable
+    count: -1
+    permission: none
+    message: '&eWelcome &f&l{player} &eto the server!'
+
+    # Options
+    # server - everyone in the server
+    # world - everyone in the world the player is currently in
+    # world/{world} - specify a world to send the messages to
+    audience: server
+    activation:
+      - join
+  first-join:
+    enabled: true
+    count:
+      - 1
+    permission: none
+    message: '&eWelcome &f&l{player} &eto the server for the first time!'
+    activation:
+      - join
+  quit:
+    enabled: true
+    permission: none
+    message: '&f&l{player} &equit :('
+    activation:
+      - quit
+  entered-nether:
+    enabled: true
+    permission: none
+    message: '&f&l{player} &eentered the nether, be careful!'
+    activation:
+      - world-change/world/world_nether
+
+
+
+
+
+
+
+
+
+
+
+
+
 join:
   enabled: true
   # The permission people will need to see the message

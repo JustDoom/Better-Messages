@@ -1,6 +1,7 @@
 package com.justdoom.bettermessages;
 
 import com.justdoom.bettermessages.commands.BetterMessagesCommand;
+import com.justdoom.bettermessages.config.Config;
 import com.justdoom.bettermessages.events.PlayerJoin;
 import com.justdoom.bettermessages.events.PlayerPreLogin;
 import com.justdoom.bettermessages.events.PlayerQuit;
@@ -21,16 +22,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 @Getter
 public final class BetterMessages extends JavaPlugin {
 
-    private static BetterMessages instance;
-    int configVersion = 11;
+    private static BetterMessages INSTANCE;
     private final SQLite sqlite = new SQLite(this);
+    int configVersion = 11;
 
     public BetterMessages() {
-        instance = this;
+        INSTANCE = this;
     }
 
     public void onEnable() {
-        if (getConfig().getInt("config-version") != this.configVersion && !getConfig().getBoolean("disable-outdated-config-warning"))
+        saveDefaultConfig();
+        Config.init();
+
+        if (Config.CONFIG_VERSION != this.configVersion && !Config.DISABLE_OUTDATED_CONFIG_WARNING)
             getLogger().warning("The config file needs to be regenerated as it's not the latest version and could have unexpected results.");
 
         Metrics metrics = new Metrics(this, 8591);
@@ -41,8 +45,6 @@ public final class BetterMessages extends JavaPlugin {
             return valueMap;
         }));
 
-        saveDefaultConfig();
-
         getCommand("bettermessages").setExecutor(new BetterMessagesCommand());
         getCommand("bettermessages").setTabCompleter(new BetterMessagesTabCompletion());
 
@@ -51,11 +53,10 @@ public final class BetterMessages extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerQuit(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerWorldChange(), this);
 
-        //SQLite.connect();
         SQLite.createNewDatabase("database.db", this);
     }
 
     public static BetterMessages getInstance() {
-        return instance;
+        return INSTANCE;
     }
 }
