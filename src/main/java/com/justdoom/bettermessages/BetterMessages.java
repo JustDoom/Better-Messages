@@ -24,7 +24,7 @@ public final class BetterMessages extends JavaPlugin {
 
     private static BetterMessages INSTANCE;
     private final SQLite sqlite = new SQLite(this);
-    int configVersion = 11;
+    int configVersion = 12;
 
     public BetterMessages() {
         INSTANCE = this;

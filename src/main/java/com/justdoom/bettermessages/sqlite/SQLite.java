@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public class SQLite {
 
+    // TODO: re-code this at some point too
+
     private final BetterMessages plugin;
 
     public SQLite(BetterMessages plugin) {

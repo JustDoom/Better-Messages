@@ -1,5 +1,5 @@
 #DO NOT TOUCH THIS SETTING
-config-version: 11
+config-version: 12
 
 disable-outdated-config-warning: false
 
@@ -7,18 +7,32 @@ messages:
   join:
     enabled: true
 
+    # List of counts when the message will work, if  you add 5 it will send
+    # it on the fifth join (or whatever the event is)
     # Set to -1 to disable
     count:
       - -1
+
+    # The permission required for the message to be run
+    # Set to "none" to disable
     permission: none
+
+    # The message to be sent, supports hex and bukkit colour codes
     message: '&eWelcome &f&l{player} &eto the server!'
 
+    # The audience is who the message is sent to
     # Options
     # server - everyone in the server
     # world - everyone in the world the player is currently in. Doesn't work on the leave event
     # world/{world} - specify a world to send the messages to
     # user - the player that activated the event/message
     audience: server
+
+    # The activation is when the message is run, just what event
+    # Options
+    # join
+    # quit
+    # world-change/{from}/{to} - replace {to} and {from} with the to and from world names
     activation:
       - join
   first-join:
@@ -44,60 +58,3 @@ messages:
     audience: server
     activation:
       - world-change/world/world_nether
-
-
-
-
-
-
-
-
-
-
-
-
-
-join:
-  enabled: true
-  # The permission people will need to see the message
-  permission: none
-  message-type:
-    chat-message: true
-    action-bar: false
-    title-message: false
-  message: '&eWelcome &f&l{player} &eto the server!'
-  first-join:
-    enabled: true
-    # The permission people will need to see the message
-    permission: none
-    message-type:
-      chat-message: true
-      action-bar: false
-      title-message: false
-    message: '&eWelcome &f&l{player} &eto the server for the first time!'
-    only-to-player: false
-
-quit:
-  enabled: true
-  # The permission people will need to see the message
-  permission: none
-  message-type:
-    chat-message: true
-    action-bar: false
-    title-message: false
-  message: '&f&l{player} &eleft the server :('
-
-world-change:
-  1:
-    enabled: true
-    # The permission people will need to see the message
-    permission: none
-    message-type:
-      chat-message: true
-      action-bar: false
-      title-message: false
-    replace-underscore: true
-    from: 'world'
-    to: 'world_nether'
-    message: '&f&l{player} &eleft the &c{from} &eand entered the &c{to}'
-    only-to-player: false
