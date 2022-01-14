@@ -8,7 +8,8 @@ messages:
     enabled: true
 
     # Set to -1 to disable
-    count: -1
+    count:
+      - -1
     permission: none
     message: '&eWelcome &f&l{player} &eto the server!'
 
@@ -25,18 +26,21 @@ messages:
       - 1
     permission: none
     message: '&eWelcome &f&l{player} &eto the server for the first time!'
+    audience: server
     activation:
       - join
   quit:
     enabled: true
     permission: none
     message: '&f&l{player} &equit :('
+    audience: server
     activation:
       - quit
   entered-nether:
     enabled: true
     permission: none
     message: '&f&l{player} &eentered the nether, be careful!'
+    audience: server
     activation:
       - world-change/world/world_nether
 
