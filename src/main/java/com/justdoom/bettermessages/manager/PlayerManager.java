@@ -1,9 +1,11 @@
-package com.justdoom.bettermessages.util;
+package com.justdoom.bettermessages.manager;
+
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-public class PlayerJoinUtil {
+public class PlayerManager {
 
     public static HashMap<UUID, Boolean> cachedPlayers = new HashMap<>();
 

@@ -1,4 +1,4 @@
-package com.justdoom.bettermessages.util;
+package com.justdoom.bettermessages.metrics;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

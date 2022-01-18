@@ -2,6 +2,10 @@ package com.justdoom.bettermessages.events;
 
 
 import com.justdoom.bettermessages.BetterMessages;
+import com.justdoom.bettermessages.config.Config;
+import com.justdoom.bettermessages.manager.PlayerManager;
+import com.justdoom.bettermessages.message.Message;
+import com.justdoom.bettermessages.util.MessageUtil;
 import com.justdoom.bettermessages.util.VanishUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -10,29 +14,55 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerQuit implements Listener {
-    private BetterMessages plugin;
-
-    public PlayerQuit(BetterMessages plugin) {
-        this.plugin = plugin;
-    }
 
     @EventHandler
-    public void QuitEvent(org.bukkit.event.player.PlayerQuitEvent event) {
+    public void QuitEvent(PlayerQuitEvent event) {
+
         Player player = event.getPlayer();
 
-        String msg = plugin.handler.doMessage(player, "quit", plugin);
-        if (plugin.getConfig().getBoolean("quit.enabled")) {
-            event.setQuitMessage(null);
+        PlayerManager.removePlayer(player.getUniqueId());
 
-            // check after quit message null
-            if(VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-quit")){
-                return;
+        if (VanishUtil.isVanished(player)
+                || player.hasPermission("bettermessages.silent-quit")) return;
+
+        for (Message msg : Config.MESSAGES) {
+
+            if (!msg.getActivation().contains("quit") || !msg.isEnabled()) continue;
+
+            BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
+
+            if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) continue;
+
+            if (!msg.getCount().contains(BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), msg.getParent().replace("-", "_"))) && !msg.getCount().contains(-1)) {
+                continue;
             }
 
-            for(Player p: Bukkit.getOnlinePlayers()) {
-                if(plugin.getConfig().getString("quit.permission").equalsIgnoreCase("none")
-                        || p.hasPermission(plugin.getConfig().getString("quit.permission")))
-                    plugin.handler.messageType(p, msg, plugin, "quit");
+            event.setQuitMessage(null);
+
+            String message = MessageUtil.translate(msg.getMessage(), player);
+
+            switch (msg.getAudience()) {
+                case "server":
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        p.sendMessage(message);
+                    }
+                    break;
+                case "world":
+                    for (Player p : player.getWorld().getPlayers()) {
+                        p.sendMessage(message);
+                    }
+                    break;
+                case "user":
+                    player.sendMessage(message);
+                    break;
+                default:
+                    if (!msg.getAudience().startsWith("world/")) {
+                        break;
+                    }
+
+                    for (Player p : Bukkit.getWorld(msg.getAudience().replace("world/", "")).getPlayers()) {
+                        p.sendMessage(message);
+                    }
             }
         }
     }

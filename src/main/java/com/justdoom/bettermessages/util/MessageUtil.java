@@ -1,42 +1,17 @@
 package com.justdoom.bettermessages.util;
 
-import com.justdoom.bettermessages.sqlite.SQLite;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.List;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MessageUtil {
 
-    private String message;
-
-    public String doMessage(Player player, String path, JavaPlugin plugin) {
-        if (plugin.getConfig().isList(path + ".message")) {
-            List<String> list = plugin.getConfig().getStringList(path + ".message");
-            this.message = list.get((new Random()).nextInt(list.size()));
-        } else if (plugin.getConfig().isString(path + ".message")) {
-            this.message = plugin.getConfig().getString(path + ".message");
-        } else {
-            plugin.getLogger().warning("Invalid join message.");
-        }
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
-            this.message = PlaceholderAPI.setPlaceholders(player, this.message);
-        message = translate(message);
-        this.message = this.message.replace("{player}", player.getName());
-        this.message = this.message.replace("{world}", player.getWorld().getName());
-        this.message = this.message.replace("{line}", "\n");
-        return this.message;
-    }
-
-    public void messageType(Player player, String msg, JavaPlugin plugin, String path){
+    public static void messageType(Player player, String msg, JavaPlugin plugin, String path){
         if(plugin.getConfig().getBoolean(path + ".message-type.chat-message")) {
             player.sendMessage(msg);
         }
@@ -48,9 +23,17 @@ public class MessageUtil {
         }
     }
 
-    public static String translate(String message) {
-        Pattern pattern = Pattern.compile("&#([A-Fa-f0-9]){6}");
-        Matcher matcher = pattern.matcher(message);
+    public static Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]){6}");
+    public static Pattern HEX_PATTERN_2 = Pattern.compile("#([A-Fa-f0-9]){6}");
+
+    public static String translate(String message, Player player) {
+
+        message = message.replace("{player}", player.getName());
+        message = message.replace("{world}", player.getWorld().getName());
+        message = message.replace("{line}", "\n");
+
+
+        Matcher matcher = HEX_PATTERN.matcher(message);
         while (matcher.find()) {
             String hexCode = message.substring(matcher.start(), matcher.end());
             String replaceSharp = hexCode.replace("&#", "x");
@@ -62,11 +45,10 @@ public class MessageUtil {
             }
 
             message = message.replace(hexCode, builder.toString());
-            matcher = pattern.matcher(message);
+            matcher = HEX_PATTERN.matcher(message);
         }
 
-        pattern = Pattern.compile("#([A-Fa-f0-9]){6}");
-        matcher = pattern.matcher(message);
+        matcher = HEX_PATTERN_2.matcher(message);
         while (matcher.find()) {
             String hexCode = message.substring(matcher.start(), matcher.end());
             String replaceSharp = hexCode.replace('#', 'x');
@@ -78,7 +60,7 @@ public class MessageUtil {
             }
 
             message = message.replace(hexCode, builder.toString());
-            matcher = pattern.matcher(message);
+            matcher = HEX_PATTERN_2.matcher(message);
         }
         return ChatColor.translateAlternateColorCodes('&', message);
     }
