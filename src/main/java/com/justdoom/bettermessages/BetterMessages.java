@@ -7,13 +7,11 @@ import com.justdoom.bettermessages.events.PlayerPreLogin;
 import com.justdoom.bettermessages.events.PlayerQuit;
 import com.justdoom.bettermessages.events.PlayerWorldChange;
 import com.justdoom.bettermessages.events.tabcomplete.BetterMessagesTabCompletion;
-import com.justdoom.bettermessages.sqlite.SQLite;
-import com.justdoom.bettermessages.util.MessageUtil;
+import com.justdoom.bettermessages.storage.Storage;
 import com.justdoom.bettermessages.metrics.Metrics;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -23,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class BetterMessages extends JavaPlugin {
 
     private static BetterMessages INSTANCE;
-    private final SQLite sqlite = new SQLite(this);
+    private Storage storage;
     int configVersion = 12;
 
     public BetterMessages() {
@@ -53,7 +51,7 @@ public final class BetterMessages extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerQuit(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerWorldChange(), this);
 
-        SQLite.createNewDatabase("database.db", this);
+        storage = new Storage();
     }
 
     public static BetterMessages getInstance() {

@@ -3,12 +3,9 @@ package com.justdoom.bettermessages.events;
 
 import com.justdoom.bettermessages.BetterMessages;
 
-import java.util.UUID;
-
 import com.justdoom.bettermessages.config.Config;
 import com.justdoom.bettermessages.manager.PlayerManager;
 import com.justdoom.bettermessages.message.Message;
-import com.justdoom.bettermessages.sqlite.SQLite;
 import com.justdoom.bettermessages.util.MessageUtil;
 import com.justdoom.bettermessages.util.VanishUtil;
 import org.bukkit.Bukkit;
@@ -33,11 +30,15 @@ public class PlayerJoin implements Listener {
 
             if (!msg.getActivation().contains("join") || !msg.isEnabled()) continue;
 
-            event.setJoinMessage(null);
+            BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 
             if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) continue;
 
-            if (!msg.getCount().contains(BetterMessages.getInstance().getSqlite().getCount(player.getUniqueId())) && !msg.getCount().contains(-1)) {
+            event.setJoinMessage(null);
+
+            if (!msg.getCount().contains(BetterMessages.getInstance().getStorage().getCount(player.getUniqueId()
+                    , msg.getParent()))
+                    && !msg.getCount().contains(-1)) {
                 continue;
             }
 

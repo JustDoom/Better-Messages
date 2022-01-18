@@ -39,13 +39,13 @@ public class PlayerWorldChange implements Listener {
                 }
             }
 
-
-
             if(!from.equalsIgnoreCase(event.getFrom().getName()) || !player.getWorld().getName().equalsIgnoreCase(to)) continue;
+
+            BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 
             if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) continue;
 
-            if (!msg.getCount().contains(BetterMessages.getInstance().getSqlite().getCount(player.getUniqueId())) && !msg.getCount().contains(-1)) {
+            if (!msg.getCount().contains(BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), msg.getParent().replace("-", "_"))) && !msg.getCount().contains(-1)) {
                 continue;
             }
 

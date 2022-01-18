@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 public class PlayerPreLogin implements Listener {
@@ -15,12 +17,10 @@ public class PlayerPreLogin implements Listener {
     public void AsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent event) {
         UUID uuid = event.getUniqueId();
 
-        PlayerManager.addPlayer(uuid, BetterMessages.getInstance().getSqlite().getUuid(uuid));
+        PlayerManager.addPlayer(uuid, BetterMessages.getInstance().getStorage().getUuid(uuid));
 
-        if (!BetterMessages.getInstance().getSqlite().getUuid(uuid)) {
-            BetterMessages.getInstance().getSqlite().insert(uuid);
-        } else {
-            BetterMessages.getInstance().getSqlite().update(uuid);
+        if (!new File(Paths.get(BetterMessages.getInstance().getDataFolder() + "/data/" + uuid + ".yml").toString()).exists()) {
+            BetterMessages.getInstance().getStorage().createPlayerData(uuid);
         }
     }
 }

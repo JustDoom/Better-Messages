@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PlayerQuit implements Listener {
 
     @EventHandler
-    public void QuitEvent(org.bukkit.event.player.PlayerQuitEvent event) {
+    public void QuitEvent(PlayerQuitEvent event) {
 
         Player player = event.getPlayer();
 
@@ -29,13 +29,15 @@ public class PlayerQuit implements Listener {
 
             if (!msg.getActivation().contains("quit") || !msg.isEnabled()) continue;
 
-            event.setQuitMessage(null);
+            BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 
             if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) continue;
 
-            if (!msg.getCount().contains(BetterMessages.getInstance().getSqlite().getCount(player.getUniqueId())) && !msg.getCount().contains(-1)) {
+            if (!msg.getCount().contains(BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), msg.getParent().replace("-", "_"))) && !msg.getCount().contains(-1)) {
                 continue;
             }
+
+            event.setQuitMessage(null);
 
             String message = MessageUtil.translate(msg.getMessage(), player);
 
