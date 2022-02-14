@@ -25,7 +25,10 @@ messages:
     permission: none
 
     # The message to be sent, supports hex and bukkit colour codes
-    message: '&eWelcome &f&l{player} &eto the server!'
+    # Making it a list will randomise messages all with an equal chance
+    message:
+      - '&eWelcome &f&l{player} &eto the server!'
+      - '&f&l{player} &ejust joined the server!'
 
     # The audience is who the message is sent to
     # Options
