@@ -22,7 +22,7 @@ public final class BetterMessages extends JavaPlugin {
 
     private static BetterMessages INSTANCE;
     private Storage storage;
-    int configVersion = 12;
+    int configVersion = 13;
 
     public BetterMessages() {
         INSTANCE = this;

@@ -2,19 +2,17 @@ package com.justdoom.bettermessages.manager;
 
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class PlayerManager {
 
-    public static HashMap<UUID, Boolean> cachedPlayers = new HashMap<>();
+    public static List<UUID> cachedPlayers = new ArrayList<>();
 
-    public static void addPlayer(UUID uuid, Boolean bool){
-        cachedPlayers.put(uuid, bool);
-    }
-
-    public static Boolean getPlayer(UUID uuid){
-        return cachedPlayers.get(uuid);
+    public static void addPlayer(UUID uuid){
+        cachedPlayers.add(uuid);
     }
 
     public static void removePlayer(UUID uuid){

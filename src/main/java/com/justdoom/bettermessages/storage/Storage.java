@@ -35,23 +35,9 @@ public class Storage {
     }
 
     public boolean getUuid(UUID uuid) {
-        String sql = "SELECT * FROM data WHERE uuid='" + uuid + "'";
+        File file = new File(Paths.get(BetterMessages.getInstance().getDataFolder() + "/data/" + uuid + ".yml").toString());
 
-        try (Connection conn = this.connect();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            // loop through the result set
-            while (rs.next()) {
-                if (rs.getString("uuid").equals(uuid.toString())) {
-                    return true;
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-        return false;
+        return file != null;
     }
 
     public int getCount(UUID uuid, String column) {

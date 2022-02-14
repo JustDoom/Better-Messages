@@ -45,11 +45,17 @@ public class PlayerWorldChange implements Listener {
 
             if (!msg.getPermission().equals("none") && !player.hasPermission(msg.getPermission())) continue;
 
-            if (!msg.getCount().contains(BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), msg.getParent().replace("-", "_"))) && !msg.getCount().contains(-1)) {
+            if (!msg.getCount().contains(BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(),
+                    msg.getParent().replace("-", "_")))
+                    && !msg.getCount().contains(-1)) {
                 continue;
             }
 
-            String message = MessageUtil.translate(msg.getMessage(), player);
+            String message = MessageUtil.translatePlaceholders(msg.getMessage(), player);
+
+            for(String command : msg.getCommands()) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player));
+            }
 
             switch (msg.getAudience()) {
                 case "server":

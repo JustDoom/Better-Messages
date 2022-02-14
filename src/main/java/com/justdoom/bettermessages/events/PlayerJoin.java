@@ -42,7 +42,11 @@ public class PlayerJoin implements Listener {
                 continue;
             }
 
-            String message = MessageUtil.translate(msg.getMessage(), player);
+            String message = MessageUtil.translatePlaceholders(msg.getMessage(), player);
+
+            for(String command : msg.getCommands()) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player));
+            }
 
             switch (msg.getAudience()) {
                 case "server":

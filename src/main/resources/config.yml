@@ -1,7 +1,14 @@
 #DO NOT TOUCH THIS SETTING
-config-version: 12
+config-version: 13
 
 disable-outdated-config-warning: false
+
+# Messages for better messages commands
+internal-messages:
+  prefix: "[&bBetterMessages&r] "
+  help-redirect: "&bType \"/bm help\" for help"
+  reloaded: "&bConfig has been reloaded"
+  help: "&bCommands\n- /bettermessages help: Brings you here!\n- /bettermessages reload: Reloads the config!"
 
 messages:
   join:
@@ -35,6 +42,11 @@ messages:
     # world-change/{from}/{to} - replace {to} and {from} with the to and from world names
     activation:
       - join
+
+    # Commands to run when the event runs. Run as the console
+    # Disabled by default
+    #commands:
+      #- give {player} diamond 1
   first-join:
     enabled: true
     count:
@@ -46,6 +58,8 @@ messages:
       - join
   quit:
     enabled: true
+    count:
+      - -1
     permission: none
     message: '&f&l{player} &equit :('
     audience: server
@@ -53,6 +67,8 @@ messages:
       - quit
   entered-nether:
     enabled: true
+    count:
+      - -1
     permission: none
     message: '&f&l{player} &eentered the nether, be careful!'
     audience: server

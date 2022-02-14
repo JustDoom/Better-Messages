@@ -17,7 +17,7 @@ public class PlayerPreLogin implements Listener {
     public void AsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent event) {
         UUID uuid = event.getUniqueId();
 
-        PlayerManager.addPlayer(uuid, BetterMessages.getInstance().getStorage().getUuid(uuid));
+        PlayerManager.addPlayer(uuid);
 
         if (!new File(Paths.get(BetterMessages.getInstance().getDataFolder() + "/data/" + uuid + ".yml").toString()).exists()) {
             BetterMessages.getInstance().getStorage().createPlayerData(uuid);
