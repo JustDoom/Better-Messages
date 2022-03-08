@@ -44,7 +44,7 @@ public final class BetterMessages extends JavaPlugin {
         }));
 
         getCommand("bettermessages").setExecutor(new BetterMessagesCommand());
-        getCommand("bettermessages").setTabCompleter(new BetterMessagesTabCompletion());
+        //getCommand("bettermessages").setTabCompleter(new BetterMessagesTabCompletion());
 
         Bukkit.getPluginManager().registerEvents(new PlayerPreLogin(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
