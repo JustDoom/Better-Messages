@@ -22,7 +22,7 @@ messages:
 
     # The permission required for the message to be run
     # Set to "none" to disable
-    permission: none
+    permission: false
 
     # The message to be sent, supports hex and bukkit colour codes
     # Making it a list will randomise messages all with an equal chance
@@ -46,6 +46,11 @@ messages:
     activation:
       - join
 
+    # How long should the message be delayed in ticks
+    # 20 ticks = 1 second
+    # Default is 0
+    delay: 0
+
     # Commands to run when the event runs. Run as the console
     # Disabled by default
     #commands:
@@ -54,26 +59,32 @@ messages:
     enabled: true
     count:
       - 1
-    permission: none
+    permission: false
     message: '&eWelcome &f&l{player} &eto the server for the first time!'
     audience: server
     activation:
       - join
+    delay: 0
   quit:
     enabled: true
     count:
       - -1
-    permission: none
+    permission: false
     message: '&f&l{player} &equit :('
     audience: server
     activation:
       - quit
+    delay: 0
   entered-nether:
     enabled: true
     count:
       - -1
-    permission: none
+    permission: false
     message: '&f&l{player} &eentered the nether, be careful!'
     audience: server
     activation:
       - world-change/world/world_nether
+    delay: 0
+
+    # If the world the player enters when they join is this one then the message will not be sent
+    world: world_nether

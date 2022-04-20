@@ -57,6 +57,7 @@ public class Storage {
                 FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
                 for(Message msg : Config.MESSAGES) config.set(msg.getParent(), 0);
+                for(Message msg : Config.MESSAGES) config.set("messages." + msg.getParent(), "");
 
                 config.save(file);
             }
@@ -77,5 +78,27 @@ public class Storage {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateMessage(UUID uuid, String column, String message) {
+
+        try {
+            File file = new File(Paths.get(BetterMessages.getInstance().getDataFolder() + "/data/" + uuid + ".yml").toString());
+            FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+            config.set(column, message);
+
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getMessage(UUID uuid, String column) {
+
+        File file = new File(Paths.get(BetterMessages.getInstance().getDataFolder() + "/data/" + uuid + ".yml").toString());
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        return config.getString("messages." + column);
     }
 }

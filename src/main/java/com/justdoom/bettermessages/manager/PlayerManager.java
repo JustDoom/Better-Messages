@@ -1,11 +1,9 @@
 package com.justdoom.bettermessages.manager;
 
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerManager {
 
@@ -17,5 +15,15 @@ public class PlayerManager {
 
     public static void removePlayer(UUID uuid){
         cachedPlayers.remove(uuid);
+    }
+
+    public static Map<UUID, World> waiting = new HashMap<>();
+
+    public static void addWaitingPlayer(UUID uuid, World world){
+        waiting.put(uuid, world);
+    }
+
+    public static void removeWaitingPlayer(UUID uuid){
+        waiting.remove(uuid);
     }
 }

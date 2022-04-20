@@ -41,16 +41,22 @@ public class Config {
         for(String msg : getConfig().getConfigurationSection("messages").getKeys(false)) {
             Message message = new Message();
             message.setEnabled(getConfig().getBoolean("messages." + msg + ".enabled"));
-            message.setPermission(getConfig().getString("messages." + msg + ".permission"));
+            message.setPermissionString("bettermessages." + msg);
+            if(getConfig().isString("messages." + msg + ".permission")) {
+                System.out.println("[BetterMessages] The permission option in the config is now a boolean (true/false). Please update your config.");
+                message.setPermission(false);
+            } else {
+                message.setPermission(getConfig().getBoolean("messages." + msg + ".permission"));
+            }
             message.setActivation(getConfig().getStringList("messages." + msg + ".activation"));
             message.setAudience(getConfig().getString("messages." + msg + ".audience"));
             message.setParent(msg);
             message.setCommands(getConfig().getStringList("messages." + msg + ".commands"));
+            message.setDelay(getConfig().getInt("messages." + msg + ".delay"));
 
             message.setMessage(getConfig().getStringList("messages." + msg + ".message"));
 
             if (getConfig().isString("messages." + msg + ".message")) {
-                //TODO: make sure work
                 message.setMessage(Collections.singletonList(getConfig().getString("messages." + msg + ".message")));
             } else {
                 message.setMessage(getConfig().getStringList("messages." + msg + ".message"));
@@ -63,6 +69,9 @@ public class Config {
             } else {
                 message.setCount(getConfig().getIntegerList("messages." + msg + ".count"));
             }
+
+            message.setDontRunIf(getConfig().getString("messages." + msg + ".world") == null ? "" :
+                    getConfig().getString("messages." + msg + ".world"));
 
             MESSAGES.add(message);
         }
