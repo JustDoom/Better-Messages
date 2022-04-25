@@ -46,6 +46,13 @@ messages:
     activation:
       - join
 
+    # This sets where the plugin will get the join, quit etc count from
+    # This does not change where the world change count is gotten from
+    # Options
+    # default - this is the default option, it will use the count stored by the plugin
+    # server - the count will be used from server statistics (join/leave stats)
+    storage-type: default
+
     # How long should the message be delayed in ticks
     # 20 ticks = 1 second
     # Default is 0

@@ -8,6 +8,7 @@ import com.justdoom.bettermessages.message.Message;
 import com.justdoom.bettermessages.util.MessageUtil;
 import com.justdoom.bettermessages.util.VanishUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -31,19 +32,22 @@ public class PlayerQuit implements Listener {
 
             if (!msg.getActivation().contains("quit") || !msg.isEnabled()) continue;
 
+            BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
+
+            if (msg.isPermission() && !player.hasPermission(msg.getPermissionString())) return;
+
+            int count = msg.getStorageType().equals("default")
+                    ? BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), msg.getParent())
+                    : player.getStatistic(Statistic.LEAVE_GAME);
+
+            if ((!msg.getCount().contains(count)
+                    && !msg.getCount().contains(-1))) {
+                continue;
+            }
+
+            event.setQuitMessage(null);
+
             Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
-
-                BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
-
-                if (msg.isPermission() && !player.hasPermission(msg.getPermissionString())) return;
-
-                if (!msg.getCount().contains(BetterMessages.getInstance().getStorage().getCount(player.getUniqueId()
-                        , msg.getParent()))
-                        && !msg.getCount().contains(-1)) {
-                    return;
-                }
-
-                event.setQuitMessage(null);
 
                 String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()).equals("")
                         ? msg.getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent());

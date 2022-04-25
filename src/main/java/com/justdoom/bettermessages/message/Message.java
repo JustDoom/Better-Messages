@@ -21,6 +21,7 @@ public class Message {
     private List<String> commands;
     private long delay;
     private String dontRunIf;
+    private String storageType;
 
     public String getMessage() {
         if (message.size() == 1) return message.get(0);

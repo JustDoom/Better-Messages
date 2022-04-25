@@ -53,6 +53,7 @@ public class Config {
             message.setParent(msg);
             message.setCommands(getConfig().getStringList("messages." + msg + ".commands"));
             message.setDelay(getConfig().getInt("messages." + msg + ".delay"));
+            message.setStorageType(getConfig().getString("messages." + msg + ".storage-type"));
 
             message.setMessage(getConfig().getStringList("messages." + msg + ".message"));
 
