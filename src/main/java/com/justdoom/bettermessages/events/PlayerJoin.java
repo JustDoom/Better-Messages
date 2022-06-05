@@ -10,12 +10,16 @@ import com.justdoom.bettermessages.util.MessageUtil;
 import com.justdoom.bettermessages.util.VanishUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Statistic;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.io.File;
 
 public class PlayerJoin implements Listener {
 
@@ -50,6 +54,13 @@ public class PlayerJoin implements Listener {
             event.setJoinMessage(null);
 
             Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
+
+                if(BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()) == null) {
+                    File file = new File(BetterMessages.getInstance().getDataFolder() + "/data", player.getUniqueId() + ".yml");
+                    FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+                    config.set("messages." + msg.getParent(), "");
+                }
 
                 String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()).equals("")
                         ? msg.getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent());

@@ -9,6 +9,7 @@ internal-messages:
   help-redirect: "&bType \"/bm help\" for help"
   reloaded: "&bConfig has been reloaded"
   help: "&bCommands\n- /bettermessages help: Brings you here!\n- /bettermessages reload: Reloads the config!"
+  changed-message: "&bChanged message {message}"
 
 messages:
   join:
@@ -71,6 +72,7 @@ messages:
     audience: server
     activation:
       - join
+    storage-type: default
     delay: 0
   quit:
     enabled: true
@@ -81,6 +83,7 @@ messages:
     audience: server
     activation:
       - quit
+    storage-type: default
     delay: 0
   entered-nether:
     enabled: true
@@ -91,6 +94,7 @@ messages:
     audience: server
     activation:
       - world-change/world/world_nether
+    storage-type: default
     delay: 0
 
     # If the world the player enters when they join is this one then the message will not be sent

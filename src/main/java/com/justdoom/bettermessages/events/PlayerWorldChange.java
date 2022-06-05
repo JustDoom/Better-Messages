@@ -18,7 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class PlayerWorldChange implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void WorldChangeEvent(PlayerChangedWorldEvent event) {
+    public void worldChangeEvent(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
 
         PlayerManager.removePlayer(player.getUniqueId());
@@ -32,7 +32,7 @@ public class PlayerWorldChange implements Listener {
 
             Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
 
-                if(msg.getDontRunIf().equalsIgnoreCase(PlayerManager.waiting.get(player.getUniqueId()).getName())) {
+                if(PlayerManager.waiting.containsKey(player.getUniqueId()) && msg.getDontRunIf().equalsIgnoreCase(PlayerManager.waiting.get(player.getUniqueId()).getName())) {
                     PlayerManager.waiting.remove(player.getUniqueId());
                     return;
                 }

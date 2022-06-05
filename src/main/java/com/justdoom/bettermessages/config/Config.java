@@ -23,6 +23,7 @@ public class Config {
         public static String HELP;
         public static String RELOADED;
         public static String HELP_REDIRECT;
+        public static String CHANGED_MESSAGE;
     }
 
     public static void init() {
@@ -37,6 +38,7 @@ public class Config {
         InternalMessages.HELP = getConfig().getString("internal-messages.help");
         InternalMessages.RELOADED = getConfig().getString("internal-messages.reloaded");
         InternalMessages.HELP_REDIRECT = getConfig().getString("internal-messages.help-redirect");
+        InternalMessages.CHANGED_MESSAGE = getConfig().getString("internal-messages.changed-message");
 
         for(String msg : getConfig().getConfigurationSection("messages").getKeys(false)) {
             Message message = new Message();

@@ -26,6 +26,8 @@ public class BetterMessagesCommand implements CommandExecutor {
                                 }
                                 BetterMessages.getInstance().getStorage().updateMessage(player.getUniqueId(),
                                         "messages." + msg.getParent(), message.toString());
+                                player.sendMessage(MessageUtil.translatePlaceholders(Config.InternalMessages.CHANGED_MESSAGE, player)
+                                                .replace("{message}", args[1]));
                             } else {
                                 player.sendMessage("§cYou do not have permission to edit this message.");
                             }

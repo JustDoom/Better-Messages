@@ -99,6 +99,17 @@ public class Storage {
         File file = new File(Paths.get(BetterMessages.getInstance().getDataFolder() + "/data/" + uuid + ".yml").toString());
         FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
-        return config.getString("messages." + column);
+        String msg = config.getString("messages." + column);
+
+        if(msg == null) {
+            config.set("messages." + column, "");
+            try {
+                config.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+        return msg;
     }
 }
