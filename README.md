@@ -1,3 +1,7 @@
+# Better Messages
+
+![Build Status](https://ci.imjustdoom.com/job/Better%20Messages/badge/icon)
+
 Introduction
 Better messages does it's best to do exactly as the name suggests! It adds better configurable messages. You can also disable, configure, and randomise the messages! Designed as an alternative to essentials custom join messages with even more features!
 I am going to do my best to make EVERY message customisable.
