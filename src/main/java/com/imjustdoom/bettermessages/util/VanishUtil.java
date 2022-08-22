@@ -1,4 +1,4 @@
-package com.justdoom.bettermessages.util;
+package com.imjustdoom.bettermessages.util;
 
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.MetadataValue;

@@ -1,13 +1,13 @@
-package com.justdoom.bettermessages.command;
+package com.imjustdoom.bettermessages.command;
 
 import com.imjustdoom.cmdinstruction.Command;
 import com.imjustdoom.cmdinstruction.SubCommand;
-import com.justdoom.bettermessages.command.subcommand.EditMessageCmd;
-import com.justdoom.bettermessages.command.subcommand.EditOtherMessageCmd;
-import com.justdoom.bettermessages.command.subcommand.HelpCmd;
-import com.justdoom.bettermessages.command.subcommand.ReloadCmd;
-import com.justdoom.bettermessages.config.Config;
-import com.justdoom.bettermessages.util.MessageUtil;
+import com.imjustdoom.bettermessages.command.subcommand.EditMessageCmd;
+import com.imjustdoom.bettermessages.command.subcommand.EditOtherMessageCmd;
+import com.imjustdoom.bettermessages.command.subcommand.HelpCmd;
+import com.imjustdoom.bettermessages.command.subcommand.ReloadCmd;
+import com.imjustdoom.bettermessages.config.Config;
+import com.imjustdoom.bettermessages.util.MessageUtil;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;

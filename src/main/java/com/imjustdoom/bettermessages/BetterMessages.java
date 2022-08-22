@@ -1,14 +1,14 @@
-package com.justdoom.bettermessages;
+package com.imjustdoom.bettermessages;
 
 import com.imjustdoom.cmdinstruction.CMDInstruction;
-import com.justdoom.bettermessages.command.BetterMessagesCmd;
-import com.justdoom.bettermessages.config.Config;
-import com.justdoom.bettermessages.listener.PlayerJoinListener;
-import com.justdoom.bettermessages.listener.PlayerPreLoginListener;
-import com.justdoom.bettermessages.listener.PlayerQuitListener;
-import com.justdoom.bettermessages.listener.PlayerWorldChangeListener;
-import com.justdoom.bettermessages.storage.Storage;
-import com.justdoom.bettermessages.metrics.Metrics;
+import com.imjustdoom.bettermessages.command.BetterMessagesCmd;
+import com.imjustdoom.bettermessages.config.Config;
+import com.imjustdoom.bettermessages.listener.PlayerJoinListener;
+import com.imjustdoom.bettermessages.listener.PlayerPreLoginListener;
+import com.imjustdoom.bettermessages.listener.PlayerQuitListener;
+import com.imjustdoom.bettermessages.listener.PlayerWorldChangeListener;
+import com.imjustdoom.bettermessages.storage.Storage;
+import com.imjustdoom.bettermessages.metrics.Metrics;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public final class BetterMessages extends JavaPlugin {
 
     private static BetterMessages INSTANCE;
     private Storage storage;
-    int configVersion = 13;
+    int configVersion = 14;
 
     public BetterMessages() {
         INSTANCE = this;
@@ -34,9 +34,11 @@ public final class BetterMessages extends JavaPlugin {
 
         storage = new Storage();
 
+        // Check if config is up to date
         if (Config.CONFIG_VERSION != this.configVersion && !Config.DISABLE_OUTDATED_CONFIG_WARNING)
             getLogger().warning("The config file needs to be regenerated as it's not the latest version and could have unexpected results.");
 
+        // Setup bStats metrics
         Metrics metrics = new Metrics(this, 8591);
         metrics.addCustomChart(new Metrics.MultiLineChart("players_and_servers", () -> {
             Map<String, Integer> valueMap = new HashMap<>();
@@ -45,8 +47,10 @@ public final class BetterMessages extends JavaPlugin {
             return valueMap;
         }));
 
+        // Register commands
         CMDInstruction.registerCommands(this, new BetterMessagesCmd().setName("bettermessages").setPermission("bettermessages"));
 
+        // Register events
         Bukkit.getPluginManager().registerEvents(new PlayerPreLoginListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(), this);

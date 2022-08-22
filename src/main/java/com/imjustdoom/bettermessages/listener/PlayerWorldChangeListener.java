@@ -1,11 +1,11 @@
-package com.justdoom.bettermessages.listener;
+package com.imjustdoom.bettermessages.listener;
 
-import com.justdoom.bettermessages.BetterMessages;
-import com.justdoom.bettermessages.config.Config;
-import com.justdoom.bettermessages.manager.PlayerManager;
-import com.justdoom.bettermessages.message.Message;
-import com.justdoom.bettermessages.util.MessageUtil;
-import com.justdoom.bettermessages.util.VanishUtil;
+import com.imjustdoom.bettermessages.BetterMessages;
+import com.imjustdoom.bettermessages.config.Config;
+import com.imjustdoom.bettermessages.manager.PlayerManager;
+import com.imjustdoom.bettermessages.message.Message;
+import com.imjustdoom.bettermessages.util.MessageUtil;
+import com.imjustdoom.bettermessages.util.VanishUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

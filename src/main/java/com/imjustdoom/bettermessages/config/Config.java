@@ -1,8 +1,7 @@
-package com.justdoom.bettermessages.config;
+package com.imjustdoom.bettermessages.config;
 
-import com.justdoom.bettermessages.BetterMessages;
-import com.justdoom.bettermessages.message.Message;
-import org.bukkit.configuration.ConfigurationSection;
+import com.imjustdoom.bettermessages.BetterMessages;
+import com.imjustdoom.bettermessages.message.Message;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;

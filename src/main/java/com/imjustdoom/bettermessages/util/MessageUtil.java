@@ -1,4 +1,4 @@
-package com.justdoom.bettermessages.util;
+package com.imjustdoom.bettermessages.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatMessageType;

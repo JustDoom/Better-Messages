@@ -1,7 +1,6 @@
-package com.justdoom.bettermessages.manager;
+package com.imjustdoom.bettermessages.manager;
 
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 
 import java.util.*;
 

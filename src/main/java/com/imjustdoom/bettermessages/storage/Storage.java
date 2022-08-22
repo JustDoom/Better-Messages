@@ -1,20 +1,13 @@
-package com.justdoom.bettermessages.storage;
+package com.imjustdoom.bettermessages.storage;
 
-import com.justdoom.bettermessages.BetterMessages;
-import com.justdoom.bettermessages.config.Config;
-import com.justdoom.bettermessages.message.Message;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.InvalidConfigurationException;
+import com.imjustdoom.bettermessages.BetterMessages;
+import com.imjustdoom.bettermessages.config.Config;
+import com.imjustdoom.bettermessages.message.Message;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.UUID;

@@ -1,7 +1,7 @@
-package com.justdoom.bettermessages.listener;
+package com.imjustdoom.bettermessages.listener;
 
-import com.justdoom.bettermessages.BetterMessages;
-import com.justdoom.bettermessages.manager.PlayerManager;
+import com.imjustdoom.bettermessages.BetterMessages;
+import com.imjustdoom.bettermessages.manager.PlayerManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;

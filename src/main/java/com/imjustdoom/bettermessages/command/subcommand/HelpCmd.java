@@ -1,9 +1,8 @@
-package com.justdoom.bettermessages.command.subcommand;
+package com.imjustdoom.bettermessages.command.subcommand;
 
 import com.imjustdoom.cmdinstruction.SubCommand;
-import com.justdoom.bettermessages.BetterMessages;
-import com.justdoom.bettermessages.config.Config;
-import com.justdoom.bettermessages.util.MessageUtil;
+import com.imjustdoom.bettermessages.config.Config;
+import com.imjustdoom.bettermessages.util.MessageUtil;
 import org.bukkit.command.CommandSender;
 
 public class HelpCmd extends SubCommand {

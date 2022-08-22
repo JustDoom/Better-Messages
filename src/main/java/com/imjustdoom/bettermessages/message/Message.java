@@ -1,4 +1,4 @@
-package com.justdoom.bettermessages.message;
+package com.imjustdoom.bettermessages.message;
 
 import lombok.Getter;
 import lombok.Setter;
