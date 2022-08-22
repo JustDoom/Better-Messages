@@ -19,6 +19,9 @@ permissions:
   bettermessages.help:
     default: op
     description: Allows access to /bettermessages help
+  bettermessages.editmsg:
+    default: op
+    description: Allows access to /bettermessages editmsg
   bettermessages:
     default: op
     description: Allows access to /bettermessages (Base permission for all commands)

@@ -1,12 +1,12 @@
 package com.justdoom.bettermessages;
 
-import com.justdoom.bettermessages.commands.BetterMessagesCommand;
+import com.imjustdoom.cmdinstruction.CMDInstruction;
+import com.justdoom.bettermessages.command.BetterMessagesCmd;
 import com.justdoom.bettermessages.config.Config;
 import com.justdoom.bettermessages.events.PlayerJoin;
 import com.justdoom.bettermessages.events.PlayerPreLogin;
 import com.justdoom.bettermessages.events.PlayerQuit;
 import com.justdoom.bettermessages.events.PlayerWorldChange;
-import com.justdoom.bettermessages.events.tabcomplete.BetterMessagesTabCompletion;
 import com.justdoom.bettermessages.storage.Storage;
 import com.justdoom.bettermessages.metrics.Metrics;
 
@@ -32,6 +32,8 @@ public final class BetterMessages extends JavaPlugin {
         saveDefaultConfig();
         Config.init();
 
+        storage = new Storage();
+
         if (Config.CONFIG_VERSION != this.configVersion && !Config.DISABLE_OUTDATED_CONFIG_WARNING)
             getLogger().warning("The config file needs to be regenerated as it's not the latest version and could have unexpected results.");
 
@@ -43,15 +45,12 @@ public final class BetterMessages extends JavaPlugin {
             return valueMap;
         }));
 
-        getCommand("bettermessages").setExecutor(new BetterMessagesCommand());
-        //getCommand("bettermessages").setTabCompleter(new BetterMessagesTabCompletion());
+        CMDInstruction.registerCommands(this, new BetterMessagesCmd().setName("bettermessages").setPermission("bettermessages"));
 
         Bukkit.getPluginManager().registerEvents(new PlayerPreLogin(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuit(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerWorldChange(), this);
-
-        storage = new Storage();
     }
 
     public static BetterMessages getInstance() {
