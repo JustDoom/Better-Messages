@@ -11,17 +11,11 @@ import java.util.Random;
 public class Message {
 
     private String parent;
-    private List<String> message;
+    private List<String> message, commands, activation;
     private List<Integer> count;
-    private boolean permission;
-    private String permissionString;
-    private boolean enabled;
-    private List<String> activation;
-    private String audience;
-    private List<String> commands;
+    private boolean permission, enabled;
+    private String audience, storageType, dontRunIf, permissionString;
     private long delay;
-    private String dontRunIf;
-    private String storageType;
 
     public String getMessage() {
         if (message.size() == 1) return message.get(0);
