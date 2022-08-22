@@ -1,6 +1,6 @@
 # Better Messages
 
-[![Build Status](https://ci.imjustdoom.com/job/Better%20Messages/badge/icon?style=flat-square)](https://ci.imjustdoom.com/job/Better%20Messages)
+[![Build Status](https://ci.imjustdoom.com/job/Better-Messages/badge/icon?style=flat-square)](https://ci.imjustdoom.com/job/Better-Messages)
 [![Discord Server](https://img.shields.io/discord/979589333524820018?color=7289da&label=DISCORD&style=flat-square&logo=appveyor)](https://discord.gg/k8RcgxpnBS)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/L3L64M1TB)
