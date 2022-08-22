@@ -1,109 +1,33 @@
-Introduction
-Better messages does it's best to do exactly as the name suggests! It adds better configurable messages. You can also disable, configure, and randomise the messages! Designed as an alternative to essentials custom join messages with even more features!
-I am going to do my best to make EVERY message customisable.
+# Better Messages
 
-Features
-- Custom join/leave messages
-- Disable any message that you can configure
-- Bukkit/Hex colour code and PlaceHolders support!
-- Randomised messages
-- Reload command
-- Have messages show on certain counts (e.g. 1st, 5th, 10th join etc)
-- Dimension/World change messages
-- Multiple line messages
-- Supports prefixes and suffixes!
-- YML data saving
-- Make the messages send to certain people
-- Permission specific messages
-- Run commands
+[![Build Status](https://ci.imjustdoom.com/job/Better%20Messages/badge/icon?style=flat-square)](https://ci.imjustdoom.com/job/Better%20Messages)
+[![Discord Server](https://img.shields.io/discord/979589333524820018?color=7289da&label=DISCORD&style=flat-square&logo=appveyor)](https://discord.gg/k8RcgxpnBS)
 
-Planned Features
-- Command for editing the config in-game
-- Message chance (Chance for a message to be used)
-- Custom death and advancement messages
-- Get notified when you're mentioned in the chat!
-- Message radius
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/L3L64M1TB)
 
-Built-in PlaceHolders
-- {player} player that joined or left/player the event is about (Includes prefix/suffix)
-- {from} name of the world a player left from (World Change only)
-- {to} name of the world a player entered (World Change only)
+Better Messages is a plugin that aims to add customisable messages to joining, leaving, world changes and more. There is a config that allows you to have messages happen only in certain worlds and on certain joins. It even allows you to run certain commands!
 
-```yml
-#DO NOT TOUCH THIS SETTING
-config-version: 13
+# Why use Better Messages?
 
-disable-outdated-config-warning: false
+- It has a very customisable config
+- It is lightweight!
+- It works on servers 1.8 and above!
+- Many useful features!
 
-# Messages for better messages commands
-internal-messages:
-  prefix: "[&bBetterMessages&r] "
-  help-redirect: "&bType \"/bm help\" for help"
-  reloaded: "&bConfig has been reloaded"
-  help: "&bCommands\n- /bettermessages help: Brings you here!\n- /bettermessages reload: Reloads the config!"
+## Helping out
+Want to help us out? Here are some ways you can do that!
 
-messages:
-  join:
-   enabled: true
+### Donating
+Donating is a great way to support the project. Donations will go towards keeping the project updated and pay for any hosting costs. You can make one time donations or subscribe monthly on our [kofi](https://ko-fi.com/justdoom) page.
 
-   # List of counts when the message will work, if  you add 5 it will send
-   # it on the fifth join (or whatever the event is)
-   # Set to -1 to disable
-   count:
-     - -1
+### Contributing
+Another great way you can help is contributing to the project. You can make a pull request with more features or find bugs and report them.
 
-   # The permission required for the message to be run
-   # Set to "none" to disable
-   permission: none
+## Support
+I provide support for this project in my discord server [here](https://discord.gg/wVCSqV7ptB). Or you can open an issue in tbe [issues](https://github.com/JustDoom/Better-Messages/issues) tab.
 
-   # The message to be sent, supports hex and bukkit colour codes
-   message: '&eWelcome &f&l{player} &eto the server!'
+## Requirements
+Better Messages doesn't require any external plugins but needs Java 8 as a minimum to run.
 
-   # The audience is who the message is sent to
-   # Options
-   # server - everyone in the server
-   # world - everyone in the world the player is currently in. Doesn't work on the leave event
-   # world/{world} - specify a world to send the messages to
-   # user - the player that activated the event/message
-   audience: server
-
-   # The activation is when the message is run, just what event
-   # Options
-   # join
-   # quit
-   # world-change/{from}/{to} - replace {to} and {from} with the to and from world names
-   activation:
-     - join
-
-   # Commands to run when the event runs. Run as the console
-   # Disabled by default
-   #commands:
-     #- give {player} diamond 1
-  first-join:
-   enabled: true
-   count:
-     - 1
-   permission: none
-   message: '&eWelcome &f&l{player} &eto the server for the first time!'
-   audience: server
-   activation:
-     - join
-  quit:
-   enabled: true
-   count:
-     - -1
-   permission: none
-   message: '&f&l{player} &equit :('
-   audience: server
-   activation:
-     - quit
-  entered-nether:
-   enabled: true
-   count:
-     - -1
-   permission: none
-   message: '&f&l{player} &eentered the nether, be careful!'
-   audience: server
-   activation:
-     - world-change/world/world_nether
-```
+# Building
+To build Better Messages you need to import it into your favourite IDE and run `mvn package` and it will apear in a folder called "out".
