@@ -1,8 +1,7 @@
-package com.justdoom.bettermessages.events;
+package com.justdoom.bettermessages.listener;
 
 import com.justdoom.bettermessages.BetterMessages;
 import com.justdoom.bettermessages.manager.PlayerManager;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -11,10 +10,10 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-public class PlayerPreLogin implements Listener {
+public class PlayerPreLoginListener implements Listener {
 
     @EventHandler
-    public void AsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent event) {
+    public void asyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent event) {
         UUID uuid = event.getUniqueId();
 
         PlayerManager.addPlayer(uuid);

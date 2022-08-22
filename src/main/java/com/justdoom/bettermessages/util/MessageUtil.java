@@ -14,15 +14,9 @@ import java.util.regex.Pattern;
 public class MessageUtil {
 
     public static void messageType(Player player, String msg, JavaPlugin plugin, String path){
-        if(plugin.getConfig().getBoolean(path + ".message-type.chat-message")) {
-            player.sendMessage(msg);
-        }
-        if(plugin.getConfig().getBoolean(path + ".message-type.title-message")) {
-            player.sendTitle(msg, "bottom", 10, 40, 10);
-        }
-        if(plugin.getConfig().getBoolean(path + ".message-type.action-bar")) {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
-        }
+        if(plugin.getConfig().getBoolean(path + ".message-type.chat-message")) player.sendMessage(msg);
+        if(plugin.getConfig().getBoolean(path + ".message-type.title-message")) player.sendTitle(msg, "bottom", 10, 40, 10);
+        if(plugin.getConfig().getBoolean(path + ".message-type.action-bar")) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
     }
 
     public static Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]){6}");

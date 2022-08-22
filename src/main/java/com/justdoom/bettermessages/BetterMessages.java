@@ -3,10 +3,10 @@ package com.justdoom.bettermessages;
 import com.imjustdoom.cmdinstruction.CMDInstruction;
 import com.justdoom.bettermessages.command.BetterMessagesCmd;
 import com.justdoom.bettermessages.config.Config;
-import com.justdoom.bettermessages.events.PlayerJoin;
-import com.justdoom.bettermessages.events.PlayerPreLogin;
-import com.justdoom.bettermessages.events.PlayerQuit;
-import com.justdoom.bettermessages.events.PlayerWorldChange;
+import com.justdoom.bettermessages.listener.PlayerJoinListener;
+import com.justdoom.bettermessages.listener.PlayerPreLoginListener;
+import com.justdoom.bettermessages.listener.PlayerQuitListener;
+import com.justdoom.bettermessages.listener.PlayerWorldChangeListener;
 import com.justdoom.bettermessages.storage.Storage;
 import com.justdoom.bettermessages.metrics.Metrics;
 
@@ -47,10 +47,10 @@ public final class BetterMessages extends JavaPlugin {
 
         CMDInstruction.registerCommands(this, new BetterMessagesCmd().setName("bettermessages").setPermission("bettermessages"));
 
-        Bukkit.getPluginManager().registerEvents(new PlayerPreLogin(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerJoin(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerQuit(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerWorldChange(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerPreLoginListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerWorldChangeListener(), this);
     }
 
     public static BetterMessages getInstance() {

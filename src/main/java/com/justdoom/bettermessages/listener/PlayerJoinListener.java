@@ -1,4 +1,4 @@
-package com.justdoom.bettermessages.events;
+package com.justdoom.bettermessages.listener;
 
 
 import com.justdoom.bettermessages.BetterMessages;
@@ -17,22 +17,20 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 
-public class PlayerJoin implements Listener {
+public class PlayerJoinListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void JoinEvent(PlayerJoinEvent event) {
+    public void joinEvent(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
-        PlayerManager.addWaitingPlayer(player.getUniqueId(), event.getPlayer().getWorld());
 
+        PlayerManager.addWaitingPlayer(player.getUniqueId(), event.getPlayer().getWorld());
         PlayerManager.removePlayer(player.getUniqueId());
 
-        if (VanishUtil.isVanished(player)
-                || player.hasPermission("bettermessages.silent-join")) return;
+        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) return;
 
         for (Message msg : Config.MESSAGES) {
 
@@ -46,52 +44,40 @@ public class PlayerJoin implements Listener {
                     ? BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), msg.getParent())
                     : player.getStatistic(Statistic.LEAVE_GAME) + 1;
 
-            if ((!msg.getCount().contains(count)
-                    && !msg.getCount().contains(-1))) {
-                continue;
-            }
+            if ((!msg.getCount().contains(count) && !msg.getCount().contains(-1))) continue;
 
             event.setJoinMessage(null);
 
             Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
 
-                if(BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()) == null) {
+                if (BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()) == null) {
                     File file = new File(BetterMessages.getInstance().getDataFolder() + "/data", player.getUniqueId() + ".yml");
                     FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
                     config.set("messages." + msg.getParent(), "");
                 }
 
-                String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()).equals("")
-                        ? msg.getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent());
+                String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()).equals("") ? msg.getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent());
+
                 String message = MessageUtil.translatePlaceholders(tempMsg, player);
 
-                for (String command : msg.getCommands()) {
+                for (String command : msg.getCommands())
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player));
-                }
 
                 switch (msg.getAudience()) {
                     case "server":
-                        for (Player p : Bukkit.getOnlinePlayers()) {
-                            p.sendMessage(message);
-                        }
+                        for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(message);
                         break;
                     case "world":
-                        for (Player p : player.getWorld().getPlayers()) {
-                            p.sendMessage(message);
-                        }
+                        for (Player p : player.getWorld().getPlayers()) p.sendMessage(message);
                         break;
                     case "user":
                         player.sendMessage(message);
                         break;
                     default:
-                        if (!msg.getAudience().startsWith("world/")) {
-                            break;
-                        }
-
-                        for (Player p : Bukkit.getWorld(msg.getAudience().replace("world/", "")).getPlayers()) {
+                        if (!msg.getAudience().startsWith("world/")) break;
+                        for (Player p : Bukkit.getWorld(msg.getAudience().replace("world/", "")).getPlayers())
                             p.sendMessage(message);
-                        }
                 }
             }, msg.getDelay());
         }
