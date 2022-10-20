@@ -4,6 +4,7 @@ package com.imjustdoom.bettermessages.listener;
 import com.imjustdoom.bettermessages.BetterMessages;
 import com.imjustdoom.bettermessages.config.Config;
 import com.imjustdoom.bettermessages.manager.PlayerManager;
+import com.imjustdoom.bettermessages.message.EventType;
 import com.imjustdoom.bettermessages.message.Message;
 import com.imjustdoom.bettermessages.util.MessageUtil;
 import com.imjustdoom.bettermessages.util.VanishUtil;
@@ -26,13 +27,13 @@ public class PlayerQuitListener implements Listener {
 
         if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-quit")) return;
 
-        for (Message msg : Config.MESSAGES) {
+        for (Message msg : Config.MESSAGES.get(EventType.QUIT)) {
 
-            if (!msg.getActivation().contains("quit") || !msg.isEnabled()) continue;
+            if (!msg.isEnabled()) continue;
 
             BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 
-            if (msg.isPermission() && !player.hasPermission(msg.getPermissionString())) return;
+            if (msg.isPermission() && !player.hasPermission(msg.getPermissionString())) continue;
 
             int count = msg.getStorageType().equals("default")
                     ? BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), msg.getParent())

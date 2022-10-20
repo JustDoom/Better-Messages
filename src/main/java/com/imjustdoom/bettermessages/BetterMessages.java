@@ -1,5 +1,7 @@
 package com.imjustdoom.bettermessages;
 
+import com.imjustdoom.bettermessages.message.EventType;
+import com.imjustdoom.bettermessages.message.Message;
 import com.imjustdoom.cmdinstruction.CMDInstruction;
 import com.imjustdoom.bettermessages.command.BetterMessagesCmd;
 import com.imjustdoom.bettermessages.config.Config;

@@ -1,13 +1,11 @@
 package com.imjustdoom.bettermessages.config;
 
 import com.imjustdoom.bettermessages.BetterMessages;
+import com.imjustdoom.bettermessages.message.EventType;
 import com.imjustdoom.bettermessages.message.Message;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Config {
 
@@ -15,7 +13,7 @@ public class Config {
 
     public static int CONFIG_VERSION;
 
-    public static List<Message> MESSAGES = new ArrayList<>();
+    public static final HashMap<EventType, List<Message>> MESSAGES = new HashMap<>();
 
     public static class InternalMessages {
         public static String PREFIX;
@@ -39,43 +37,33 @@ public class Config {
         InternalMessages.HELP_REDIRECT = getConfig().getString("internal-messages.help-redirect");
         InternalMessages.CHANGED_MESSAGE = getConfig().getString("internal-messages.changed-message");
 
-        for(String msg : getConfig().getConfigurationSection("messages").getKeys(false)) {
-            Message message = new Message();
-            message.setEnabled(getConfig().getBoolean("messages." + msg + ".enabled"));
-            message.setPermissionString("bettermessages." + msg);
-            if(getConfig().isString("messages." + msg + ".permission")) {
-                System.out.println("[BetterMessages] The permission option in the config is now a boolean (true/false). Please update your config.");
-                message.setPermission(false);
-            } else {
-                message.setPermission(getConfig().getBoolean("messages." + msg + ".permission"));
-            }
-            message.setActivation(getConfig().getStringList("messages." + msg + ".activation"));
-            message.setAudience(getConfig().getString("messages." + msg + ".audience"));
-            message.setParent(msg);
-            message.setCommands(getConfig().getStringList("messages." + msg + ".commands"));
-            message.setDelay(getConfig().getInt("messages." + msg + ".delay"));
-            message.setStorageType(getConfig().getString("messages." + msg + ".storage-type"));
+        for (String msg : getConfig().getConfigurationSection("messages").getKeys(false)) {
 
-            message.setMessage(getConfig().getStringList("messages." + msg + ".message"));
-
+            List<String> messages;
             if (getConfig().isString("messages." + msg + ".message")) {
-                message.setMessage(Collections.singletonList(getConfig().getString("messages." + msg + ".message")));
+                messages = Collections.singletonList(getConfig().getString("messages." + msg + ".message"));
             } else {
-                message.setMessage(getConfig().getStringList("messages." + msg + ".message"));
+                messages = getConfig().getStringList("messages." + msg + ".message");
             }
 
+            List<Integer> count;
             if (getConfig().isInt("messages." + msg + ".count")) {
-                message.setCount(getConfig().getInt("messages." + msg + ".count") == -1
-                        ? Arrays.asList(-1)
-                        : Arrays.asList(getConfig().getInt("messages." + msg + ".count")));
+                count = getConfig().getInt("messages." + msg + ".count") == -1 ? Arrays.asList(-1) : Arrays.asList(getConfig().getInt("messages." + msg + ".count"));
             } else {
-                message.setCount(getConfig().getIntegerList("messages." + msg + ".count"));
+                count = getConfig().getIntegerList("messages." + msg + ".count");
             }
 
-            message.setDontRunIf(getConfig().getString("messages." + msg + ".world") == null ? "" :
-                    getConfig().getString("messages." + msg + ".world"));
+            boolean permission;
+            if (getConfig().isString("messages." + msg + ".permission")) {
+                System.out.println("[BetterMessages] The permission option in the config is now a boolean (true/false). Please update your config.");
+                permission = false;
+            } else {
+                permission = getConfig().getBoolean("messages." + msg + ".permission");
+            }
 
-            MESSAGES.add(message);
+            for (String type : getConfig().getStringList("messages." + msg + ".activation")) {
+                MESSAGES.get(EventType.valueOf(type.toUpperCase())).add(new Message(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay")));
+            }
         }
     }
 
