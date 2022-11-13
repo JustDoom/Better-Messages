@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.List;
 import java.util.UUID;
 
 public class Storage {
@@ -49,8 +50,12 @@ public class Storage {
                 file.createNewFile(); //This needs a try catch
                 FileConfiguration config = YamlConfiguration.loadConfiguration(file);
 
-                for(Message msg : Config.MESSAGES) config.set(msg.getParent(), 0);
-                for(Message msg : Config.MESSAGES) config.set("messages." + msg.getParent(), "");
+                for (List<Message> msgList : Config.MESSAGES.values()) {
+                    for (Message msg : msgList) {
+                        config.set(msg.getParent(), 0);
+                        config.set("messages." + msg.getParent(), "");
+                    }
+                }
 
                 config.save(file);
             }

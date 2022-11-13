@@ -15,8 +15,10 @@ public class EditMessageCmd extends SubCommand {
 
     public EditMessageCmd() {
         List<String> list = new ArrayList<>();
-        for (Message msg : Config.MESSAGES) {
-            list.add(msg.getParent());
+        for (List<Message> msgList : Config.MESSAGES.values()) {
+            for (Message msg : msgList) {
+                list.add(msg.getParent());
+            }
         }
         setTabCompletions(list);
     }
@@ -39,18 +41,20 @@ public class EditMessageCmd extends SubCommand {
 
         Player player = (Player) sender;
 
-        for (Message msg : Config.MESSAGES) {
-            if (!msg.getParent().equalsIgnoreCase(args[1])) continue;
-            if (!player.hasPermission("bettermessages.editmsg." + msg.getParent())) {
-                player.sendMessage("§cYou do not have permission to edit this message.");
-                return;
+        for (List<Message> msgList : Config.MESSAGES.values()) {
+            for (Message msg : msgList) {
+                if (!msg.getParent().equalsIgnoreCase(args[1])) continue;
+                if (!player.hasPermission("bettermessages.editmsg." + msg.getParent())) {
+                    player.sendMessage("§cYou do not have permission to edit this message.");
+                    return;
+                }
+
+                StringBuilder message = new StringBuilder();
+                for (int i = 2; i < args.length; i++) message.append(args[i]).append(" ");
+
+                BetterMessages.getInstance().getStorage().updateMessage(player.getUniqueId(), "messages." + msg.getParent(), message.toString());
+                player.sendMessage(MessageUtil.translatePlaceholders(Config.InternalMessages.CHANGED_MESSAGE, player).replace("{message}", args[1]));
             }
-
-            StringBuilder message = new StringBuilder();
-            for (int i = 2; i < args.length; i++) message.append(args[i]).append(" ");
-
-            BetterMessages.getInstance().getStorage().updateMessage(player.getUniqueId(), "messages." + msg.getParent(), message.toString());
-            player.sendMessage(MessageUtil.translatePlaceholders(Config.InternalMessages.CHANGED_MESSAGE, player).replace("{message}", args[1]));
         }
     }
 }

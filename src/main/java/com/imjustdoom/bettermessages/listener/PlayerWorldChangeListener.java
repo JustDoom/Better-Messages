@@ -35,18 +35,13 @@ public class PlayerWorldChangeListener implements Listener {
                     return;
                 }
 
-                String from = "", to = "";
+                if (msg.getExtraInfo() != null) {
+                    String from = msg.getExtraInfo().split("/")[0];
+                    String to = msg.getExtraInfo().split("/")[1];
 
-                for (String activation : msg.getActivation()) {
-                    if (!activation.startsWith("world-change")) return;
-                    else {
-                        from = activation.split("/")[1];
-                        to = activation.split("/")[2];
-                    }
+                    if (!from.equalsIgnoreCase(event.getFrom().getName()) || !player.getWorld().getName().equalsIgnoreCase(to))
+                        return;
                 }
-
-                if (!from.equalsIgnoreCase(event.getFrom().getName()) || !player.getWorld().getName().equalsIgnoreCase(to))
-                    return;
 
                 BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 
