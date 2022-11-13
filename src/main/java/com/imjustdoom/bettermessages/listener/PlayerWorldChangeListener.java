@@ -31,7 +31,7 @@ public class PlayerWorldChangeListener implements Listener {
             Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
 
                 if (PlayerManager.waiting.containsKey(player.getUniqueId()) && msg.getDontRunIf().equalsIgnoreCase(PlayerManager.waiting.get(player.getUniqueId()).getName())) {
-                    PlayerManager.waiting.remove(player.getUniqueId());
+                    PlayerManager.removeWaitingPlayer(player.getUniqueId());
                     return;
                 }
 
