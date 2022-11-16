@@ -15,6 +15,11 @@ messages:
   join:
     enabled: true
 
+    # If there are multiple messages a priority system is used. The higher the number, the higher the priority.
+    # This is good if you have different join roles for ranks that inherit from each other. Set to -1 to disable
+    # which will make the message always show up. Not available for world changes yet.
+    priority: -1
+
     # List of counts when the message will work, if  you add 5 it will send
     # it on the fifth join (or whatever the event is)
     # Set to -1 to disable
@@ -59,12 +64,13 @@ messages:
     # Default is 0
     delay: 0
 
-    # Commands to run when the event runs. Run as the console
-    # Disabled by default
-    #commands:
-      #- give {player} diamond 1
+      # Commands to run when the event runs. Run as the console
+      # Disabled by default
+      #commands:
+    #- give {player} diamond 1
   first-join:
     enabled: true
+    priority: -1
     count:
       - 1
     permission: false
@@ -76,6 +82,7 @@ messages:
     delay: 0
   quit:
     enabled: true
+    priority: -1
     count:
       - -1
     permission: false

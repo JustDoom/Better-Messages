@@ -27,6 +27,8 @@ public class PlayerQuitListener implements Listener {
 
         if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-quit")) return;
 
+        Message pMessage = null;
+
         for (Message msg : Config.MESSAGES.get(EventType.QUIT)) {
 
             if (!msg.isEnabled()) continue;
@@ -41,34 +43,51 @@ public class PlayerQuitListener implements Listener {
 
             if ((!msg.getCount().contains(count) && !msg.getCount().contains(-1))) continue;
 
-            event.setQuitMessage(null);
-
-            Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
-
-                String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()).equals("")
-                        ? msg.getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent());
-                String message = MessageUtil.translatePlaceholders(tempMsg, player);
-
-                for (String command : msg.getCommands())
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(BetterMessages.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player)));
-
-                switch (msg.getAudience()) {
-                    case "server":
-                        for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(message);
-                        break;
-                    case "world":
-                        for (Player p : player.getWorld().getPlayers()) p.sendMessage(message);
-                        break;
-                    case "user":
-                        player.sendMessage(message);
-                        break;
-                    default:
-                        if (!msg.getAudience().startsWith("world/")) break;
-                        for (Player p : Bukkit.getWorld(msg.getAudience().replace("world/", "")).getPlayers())
-                            p.sendMessage(message);
+            if (msg.getPriority() != -1) {
+                if (pMessage == null) {
+                    pMessage = msg;
+                    continue;
                 }
-            }, msg.getDelay());
+                if (msg.getPriority() < pMessage.getPriority())
+                    pMessage = msg;
+                continue;
+            }
+
+            event.setQuitMessage(null);
+            sendMessage(player, msg);
         }
+        if (pMessage != null) {
+            event.setQuitMessage(null);
+            sendMessage(player, pMessage);
+        }
+    }
+
+    private void sendMessage(Player player, Message msg) {
+        Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
+
+            String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()).equals("")
+                    ? msg.getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent());
+            String message = MessageUtil.translatePlaceholders(tempMsg, player);
+
+            for (String command : msg.getCommands())
+                Bukkit.getScheduler().scheduleSyncDelayedTask(BetterMessages.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player)));
+
+            switch (msg.getAudience()) {
+                case "server":
+                    for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(message);
+                    break;
+                case "world":
+                    for (Player p : player.getWorld().getPlayers()) p.sendMessage(message);
+                    break;
+                case "user":
+                    player.sendMessage(message);
+                    break;
+                default:
+                    if (!msg.getAudience().startsWith("world/")) break;
+                    for (Player p : Bukkit.getWorld(msg.getAudience().replace("world/", "")).getPlayers())
+                        p.sendMessage(message);
+            }
+        }, msg.getDelay());
     }
 }
 

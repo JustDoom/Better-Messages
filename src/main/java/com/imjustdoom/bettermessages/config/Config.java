@@ -70,7 +70,7 @@ public class Config {
                     extraInfo = type.split("/", 2)[1];
                     type = type.split("/")[0];
                 }
-                MESSAGES.get(EventType.valueOf(type.toUpperCase().replaceAll("-", "_"))).add(new Message(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), extraInfo));
+                MESSAGES.get(EventType.valueOf(type.toUpperCase().replaceAll("-", "_"))).add(new Message(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo));
             }
         }
     }

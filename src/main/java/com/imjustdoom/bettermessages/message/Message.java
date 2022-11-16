@@ -16,8 +16,9 @@ public class Message {
     private boolean permission, enabled;
     private String audience, storageType, dontRunIf, permissionString, extraInfo;
     private long delay;
+    private int priority;
 
-    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay) {
+    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority) {
         this.parent = parent;
         this.message = message;
         this.commands = commands;
@@ -29,10 +30,11 @@ public class Message {
         this.dontRunIf = dontRunIf;
         this.permissionString = "bettermessages." + this.parent;
         this.delay = delay;
+        this.priority = priority;
         this.extraInfo = null;
     }
 
-    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, String extraInfo) {
+    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String extraInfo) {
         this.parent = parent;
         this.message = message;
         this.commands = commands;
@@ -44,6 +46,7 @@ public class Message {
         this.dontRunIf = dontRunIf;
         this.permissionString = "bettermessages." + this.parent;
         this.delay = delay;
+        this.priority = priority;
         this.extraInfo = extraInfo;
     }
 
