@@ -65,27 +65,37 @@ public class PlayerQuitListener implements Listener {
     private void sendMessage(Player player, Message msg) {
         Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
 
-            String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()).equals("")
-                    ? msg.getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent());
+            String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()).equals("") ? msg.getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent());
             String message = MessageUtil.translatePlaceholders(tempMsg, player);
 
             for (String command : msg.getCommands())
                 Bukkit.getScheduler().scheduleSyncDelayedTask(BetterMessages.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player)));
 
-            switch (msg.getAudience()) {
+            boolean ignoreUser = msg.getAudience().contains("ignore-user");
+            String audience = ignoreUser ? msg.getAudience().split("\\|")[0] : msg.getAudience();
+
+            switch (audience) {
                 case "server":
-                    for (Player p : Bukkit.getOnlinePlayers()) p.sendMessage(message);
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
+                        p.sendMessage(message);
+                    }
                     break;
                 case "world":
-                    for (Player p : player.getWorld().getPlayers()) p.sendMessage(message);
+                    for (Player p : player.getWorld().getPlayers()) {
+                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
+                        p.sendMessage(message);
+                    }
                     break;
                 case "user":
                     player.sendMessage(message);
                     break;
                 default:
                     if (!msg.getAudience().startsWith("world/")) break;
-                    for (Player p : Bukkit.getWorld(msg.getAudience().replace("world/", "")).getPlayers())
+                    for (Player p : Bukkit.getWorld(audience.replace("world/", "")).getPlayers()) {
+                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
                         p.sendMessage(message);
+                    }
             }
         }, msg.getDelay());
     }

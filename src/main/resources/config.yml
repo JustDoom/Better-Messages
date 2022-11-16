@@ -42,6 +42,8 @@ messages:
     # world - everyone in the world the player is currently in. Doesn't work on the leave event
     # world/{world} - specify a world to send the messages to
     # user - the player that activated the event/message
+    # If you want to not send it to the activating player add "ignore-user" after the audience type
+    # Example: "server|ignore-user"
     audience: server
 
     # The activation is when the message is run, just what event

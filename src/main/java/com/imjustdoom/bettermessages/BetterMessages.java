@@ -52,6 +52,9 @@ public final class BetterMessages extends JavaPlugin {
         // Register commands
         CMDInstruction.registerCommands(this, new BetterMessagesCmd().setName("bettermessages").setPermission("bettermessages"));
 
+        //getServer().getMessenger().registerIncomingPluginChannel( this, "my:channel" );
+
+
         // Register events
         Bukkit.getPluginManager().registerEvents(new PlayerPreLoginListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
