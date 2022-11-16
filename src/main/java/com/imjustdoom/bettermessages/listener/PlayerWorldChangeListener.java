@@ -54,7 +54,7 @@ public class PlayerWorldChangeListener implements Listener {
                 String message = MessageUtil.translatePlaceholders(tempMsg, player);
 
                 for (String command : msg.getCommands())
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player));
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(BetterMessages.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player)));
 
                 switch (msg.getAudience()) {
                     case "server":
