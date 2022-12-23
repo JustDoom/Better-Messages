@@ -43,23 +43,23 @@ public class PlayerQuitListener implements Listener {
 
             if ((!msg.getCount().contains(count) && !msg.getCount().contains(-1))) continue;
 
-            if (msg.getPriority() != -1) {
-                if (pMessage == null) {
-                    pMessage = msg;
-                    continue;
-                }
-                if (msg.getPriority() < pMessage.getPriority())
-                    pMessage = msg;
-                continue;
-            }
+//            if (msg.getPriority() != -1) {
+//                if (pMessage == null) {
+//                    pMessage = msg;
+//                    continue;
+//                }
+//                if (msg.getPriority() < pMessage.getPriority())
+//                    pMessage = msg;
+//                continue;
+//            }
 
             event.setQuitMessage(null);
             sendMessage(player, msg);
         }
-        if (pMessage != null) {
-            event.setQuitMessage(null);
-            sendMessage(player, pMessage);
-        }
+//        if (pMessage != null) {
+//            event.setQuitMessage(null);
+//            sendMessage(player, pMessage);
+//        }
     }
 
     private void sendMessage(Player player, Message msg) {
