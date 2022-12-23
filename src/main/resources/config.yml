@@ -1,7 +1,9 @@
 #DO NOT TOUCH THIS SETTING
-config-version: 14
+config-version: 15
 
 disable-outdated-config-warning: false
+
+check-for-updates: true
 
 # Messages for better messages commands
 internal-messages:
@@ -42,7 +44,8 @@ messages:
     # world - everyone in the world the player is currently in. Doesn't work on the leave event
     # world/{world} - specify a world to send the messages to
     # user - the player that activated the event/message
-    # If you want to not send it to the activating player add "ignore-user" after the audience type
+    # If you want to not send it to the activating player add "ignore-user" after the audience type. This is
+    # useful for having a separate join message for the player and the server.
     # Example: "server|ignore-user"
     audience: server
 

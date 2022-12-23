@@ -12,6 +12,7 @@ public class Config {
     public static boolean DISABLE_OUTDATED_CONFIG_WARNING;
 
     public static int CONFIG_VERSION;
+    public static boolean CHECK_FOR_UPDATES;
 
     public static final HashMap<EventType, List<Message>> MESSAGES = new HashMap<>();
 
@@ -33,6 +34,7 @@ public class Config {
 
         DISABLE_OUTDATED_CONFIG_WARNING = getConfig().getBoolean("disable-outdated-config-warning");
         CONFIG_VERSION = getConfig().getInt("config-version");
+        CHECK_FOR_UPDATES = getConfig().getBoolean("check-for-updates");
 
         InternalMessages.PREFIX = getConfig().getString("internal-messages.prefix");
         InternalMessages.HELP = getConfig().getString("internal-messages.help");
@@ -58,7 +60,7 @@ public class Config {
 
             boolean permission;
             if (getConfig().isString("messages." + msg + ".permission")) {
-                System.out.println("[BetterMessages] The permission option in the config is now a boolean (true/false). Please update your config.");
+                BetterMessages.getInstance().getLogger().info("The permission option in the config is now a boolean (true/false). Please update your config.");
                 permission = false;
             } else {
                 permission = getConfig().getBoolean("messages." + msg + ".permission");
