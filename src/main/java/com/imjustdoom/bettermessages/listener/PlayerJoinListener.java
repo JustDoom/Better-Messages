@@ -49,23 +49,23 @@ public class PlayerJoinListener implements Listener {
 
             if ((!msg.getCount().contains(count) && !msg.getCount().contains(-1))) continue;
 
-//            if (msg.getPriority() != -1) {
-//                if (pMessage == null) {
-//                    pMessage = msg;
-//                    continue;
-//                }
-//                if (msg.getPriority() < pMessage.getPriority())
-//                    pMessage = msg;
-//                continue;
-//            }
+            if (msg.getPriority() != -1) {
+                if (pMessage == null) {
+                    pMessage = msg;
+                    continue;
+                }
+                if (msg.getPriority() < pMessage.getPriority())
+                    pMessage = msg;
+                continue;
+            }
 
             event.setJoinMessage(null);
             sendMessage(player, msg);
         }
-//        if (pMessage != null) {
-//            event.setJoinMessage(null);
-//            sendMessage(player, pMessage);
-//        }
+        if (pMessage != null) {
+            event.setJoinMessage(null);
+            sendMessage(player, pMessage);
+        }
     }
 
     private void sendMessage(Player player, Message msg) {
