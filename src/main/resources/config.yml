@@ -20,6 +20,8 @@ messages:
     # If there are multiple messages a priority system is used. The lower the number, the higher the priority.
     # 1 has a higher priority than 2, etc. This is good if you have different join roles for ranks that inherit from
     # each other. Set to -1 to disable which will make the message always show up. Not available for world changes yet.
+    # This feature is in Beta and may not work as intended. If you find any bugs, please report them on the GitHub page
+    # or my Discord server.
     priority: -1
 
     # List of counts when the message will work, if  you add 5 it will send
