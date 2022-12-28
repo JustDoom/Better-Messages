@@ -26,63 +26,11 @@ public class PlayerWorldChangeListener implements Listener {
 
         for (Message msg : Config.MESSAGES.get(EventType.WORLD_CHANGE)) {
 
-            if (!msg.isEnabled()) continue;
+            if (!msg.canRun(player, event)) continue;
 
-            Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
+            BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 
-                if (PlayerManager.waiting.containsKey(player.getUniqueId()) && msg.getDontRunIf().equalsIgnoreCase(PlayerManager.waiting.get(player.getUniqueId()).getName())) {
-                    PlayerManager.removeWaitingPlayer(player.getUniqueId());
-                    return;
-                }
-
-                if (msg.getExtraInfo() != null) {
-                    String from = msg.getExtraInfo().split("/")[0];
-                    String to = msg.getExtraInfo().split("/")[1];
-
-                    if (!from.equalsIgnoreCase(event.getFrom().getName()) || !player.getWorld().getName().equalsIgnoreCase(to))
-                        return;
-                }
-
-                BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
-
-                if (msg.isPermission() && !player.hasPermission(msg.getPermissionString())) return;
-                if (!msg.getCount().contains(BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), msg.getParent().replace("-", "_"))) && !msg.getCount().contains(-1))
-                    return;
-
-                String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()).equals("")
-                        ? msg.getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent());
-                String message = MessageUtil.translatePlaceholders(tempMsg, player);
-
-                for (String command : msg.getCommands())
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(BetterMessages.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player)));
-
-                boolean ignoreUser = msg.getAudience().contains("ignore-user");
-                String audience = ignoreUser ? msg.getAudience().split("\\|")[0] : msg.getAudience();
-
-                switch (audience) {
-                    case "server":
-                        for (Player p : Bukkit.getOnlinePlayers()) {
-                            if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
-                            p.sendMessage(message);
-                        }
-                        break;
-                    case "world":
-                        for (Player p : player.getWorld().getPlayers()) {
-                            if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
-                            p.sendMessage(message);
-                        }
-                        break;
-                    case "user":
-                        player.sendMessage(message);
-                        break;
-                    default:
-                        if (!msg.getAudience().startsWith("world/")) break;
-                        for (Player p : Bukkit.getWorld(audience.replace("world/", "")).getPlayers()) {
-                            if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
-                            p.sendMessage(message);
-                        }
-                }
-            }, msg.getDelay());
+            msg.sendMessage(player);
         }
     }
 }

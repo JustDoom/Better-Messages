@@ -1,8 +1,10 @@
 package com.imjustdoom.bettermessages.config;
 
 import com.imjustdoom.bettermessages.BetterMessages;
-import com.imjustdoom.bettermessages.message.EventType;
-import com.imjustdoom.bettermessages.message.Message;
+import com.imjustdoom.bettermessages.message.*;
+import com.imjustdoom.bettermessages.message.msg.JoinMessage;
+import com.imjustdoom.bettermessages.message.msg.QuitMessage;
+import com.imjustdoom.bettermessages.message.msg.WorldChangeMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.*;
@@ -53,7 +55,7 @@ public class Config {
 
             List<Integer> count;
             if (getConfig().isInt("messages." + msg + ".count")) {
-                count = getConfig().getInt("messages." + msg + ".count") == -1 ? Arrays.asList(-1) : Arrays.asList(getConfig().getInt("messages." + msg + ".count"));
+                count = getConfig().getInt("messages." + msg + ".count") == -1 ? Collections.singletonList(-1) : Collections.singletonList(getConfig().getInt("messages." + msg + ".count"));
             } else {
                 count = getConfig().getIntegerList("messages." + msg + ".count");
             }
@@ -72,7 +74,17 @@ public class Config {
                     extraInfo = type.split("/", 2)[1];
                     type = type.split("/")[0];
                 }
-                MESSAGES.get(EventType.valueOf(type.toUpperCase().replaceAll("-", "_"))).add(new Message(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo));
+
+                EventType eventType = EventType.valueOf(type.toUpperCase().replaceAll("-", "_"));
+
+                switch (eventType) {
+                    case JOIN:
+                        MESSAGES.get(eventType).add(new JoinMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo));
+                    case QUIT:
+                        MESSAGES.get(eventType).add(new QuitMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo));
+                    case WORLD_CHANGE:
+                        MESSAGES.get(eventType).add(new WorldChangeMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo));
+                }
             }
         }
     }

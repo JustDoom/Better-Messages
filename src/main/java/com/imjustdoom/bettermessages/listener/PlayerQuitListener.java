@@ -31,17 +31,9 @@ public class PlayerQuitListener implements Listener {
 
         for (Message msg : Config.MESSAGES.get(EventType.QUIT)) {
 
-            if (!msg.isEnabled()) continue;
+            if (!msg.canRun(player, event)) continue;
 
             BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
-
-            if (msg.isPermission() && !player.hasPermission(msg.getPermissionString())) continue;
-
-            int count = msg.getStorageType().equals("default")
-                    ? BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), msg.getParent())
-                    : player.getStatistic(Statistic.LEAVE_GAME);
-
-            if ((!msg.getCount().contains(count) && !msg.getCount().contains(-1))) continue;
 
             if (msg.getPriority() != -1) {
                 if (pMessage == null) {
@@ -54,50 +46,12 @@ public class PlayerQuitListener implements Listener {
             }
 
             event.setQuitMessage(null);
-            sendMessage(player, msg);
+            msg.sendMessage(player);
         }
         if (pMessage != null) {
             event.setQuitMessage(null);
-            sendMessage(player, pMessage);
+            pMessage.sendMessage(player);
         }
-    }
-
-    private void sendMessage(Player player, Message msg) {
-        Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
-
-            String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent()).equals("") ? msg.getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), msg.getParent());
-            String message = MessageUtil.translatePlaceholders(tempMsg, player);
-
-            for (String command : msg.getCommands())
-                Bukkit.getScheduler().scheduleSyncDelayedTask(BetterMessages.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player)));
-
-            boolean ignoreUser = msg.getAudience().contains("ignore-user");
-            String audience = ignoreUser ? msg.getAudience().split("\\|")[0] : msg.getAudience();
-
-            switch (audience) {
-                case "server":
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
-                        p.sendMessage(message);
-                    }
-                    break;
-                case "world":
-                    for (Player p : player.getWorld().getPlayers()) {
-                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
-                        p.sendMessage(message);
-                    }
-                    break;
-                case "user":
-                    player.sendMessage(message);
-                    break;
-                default:
-                    if (!msg.getAudience().startsWith("world/")) break;
-                    for (Player p : Bukkit.getWorld(audience.replace("world/", "")).getPlayers()) {
-                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
-                        p.sendMessage(message);
-                    }
-            }
-        }, msg.getDelay());
     }
 }
 
