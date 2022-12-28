@@ -23,7 +23,7 @@ import java.io.File;
 
 public class PlayerJoinListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void joinEvent(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
