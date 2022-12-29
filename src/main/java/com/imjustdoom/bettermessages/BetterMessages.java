@@ -30,6 +30,9 @@ import java.util.Scanner;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
@@ -37,36 +40,24 @@ public final class BetterMessages extends JavaPlugin {
 
     private static BetterMessages INSTANCE;
     private Storage storage;
-    int configVersion = 15;
 
     public BetterMessages() {
         INSTANCE = this;
     }
 
+    @Override
     public void onEnable() {
+
+        // Load and handle the config
         saveDefaultConfig();
         Config.init();
+        Config.isConfigUpToDate();
 
-        storage = new Storage();
-
-        // Check if config is up to date
-        if (Config.CONFIG_VERSION != this.configVersion && !Config.DISABLE_OUTDATED_CONFIG_WARNING)
-            getLogger().warning("The config file needs to be regenerated as it's not the latest version and could have unexpected results.");
-
-        // Setup bStats metrics
-        Metrics metrics = new Metrics(this, 8591);
-        metrics.addCustomChart(new Metrics.MultiLineChart("players_and_servers", () -> {
-            Map<String, Integer> valueMap = new HashMap<>();
-            valueMap.put("servers", 1);
-            valueMap.put("players", Bukkit.getOnlinePlayers().size());
-            return valueMap;
-        }));
+        // Load the storage
+        this.storage = new Storage();
 
         // Register commands
         CMDInstruction.registerCommands(this, new BetterMessagesCmd().setName("bettermessages").setPermission("bettermessages"));
-
-        //getServer().getMessenger().registerIncomingPluginChannel( this, "my:channel" );
-
 
         // Register events
         Bukkit.getPluginManager().registerEvents(new PlayerPreLoginListener(), this);
@@ -82,21 +73,39 @@ public final class BetterMessages extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Setup bStats metrics
+        Metrics metrics = new Metrics(this, 8591);
+        metrics.addCustomChart(new Metrics.MultiLineChart("players_and_servers", () -> {
+            Map<String, Integer> valueMap = new HashMap<>();
+            valueMap.put("servers", 1);
+            valueMap.put("players", Bukkit.getOnlinePlayers().size());
+            return valueMap;
+        }));
+    }
+
+    @Override
+    public void onDisable() {
+        HandlerList.unregisterAll(this);
     }
 
     private void checkUpdates() throws IOException {
         JsonElement jsonElement = getJsonFromUrl("https://api.imjustdoom.com/projects/better-messages");
 
+        // Check if it got the json
         if (jsonElement == null) {
             throw new IOException("Failed to check for updates");
         }
 
+        // Get the latest version (better way is coming soon)
         JsonElement latestVersion = getJsonFromUrl("https://api.imjustdoom.com/projects/" + jsonElement.getAsJsonObject().get("id").getAsString() + "/latest");
 
+        // Check if it got the json for latest version
         if (latestVersion == null) {
             throw new IOException("Failed to check for updates");
         }
 
+        // Get the latest version and check the current version
         if (latestVersion.getAsJsonObject().get("version").getAsString().equals(getDescription().getVersion())) {
             getLogger().info("You are running the latest version of BetterMessages!");
         } else {

@@ -11,6 +11,8 @@ import java.util.*;
 
 public class Config {
 
+    public static final int LATEST_CONFIG_VERSION = 15;
+
     public static boolean DISABLE_OUTDATED_CONFIG_WARNING;
 
     public static int CONFIG_VERSION;
@@ -34,10 +36,12 @@ public class Config {
             MESSAGES.put(eventType, new ArrayList<>());
         }
 
+        // General plugin settings
         DISABLE_OUTDATED_CONFIG_WARNING = getConfig().getBoolean("disable-outdated-config-warning");
         CONFIG_VERSION = getConfig().getInt("config-version");
         CHECK_FOR_UPDATES = getConfig().getBoolean("check-for-updates");
 
+        // Get plugin configurable messages
         InternalMessages.PREFIX = getConfig().getString("internal-messages.prefix");
         InternalMessages.HELP = getConfig().getString("internal-messages.help");
         InternalMessages.RELOADED = getConfig().getString("internal-messages.reloaded");
@@ -92,5 +96,11 @@ public class Config {
 
     private static FileConfiguration getConfig() {
         return BetterMessages.getInstance().getConfig();
+    }
+
+    public static void isConfigUpToDate() {
+        if (Config.CONFIG_VERSION != Config.LATEST_CONFIG_VERSION && !Config.DISABLE_OUTDATED_CONFIG_WARNING) {
+            BetterMessages.getInstance().getLogger().warning("The config file needs to be regenerated as it's not the latest version and could have unexpected results.");
+        }
     }
 }

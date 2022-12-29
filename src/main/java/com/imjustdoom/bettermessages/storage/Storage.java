@@ -15,24 +15,7 @@ import java.util.UUID;
 
 public class Storage {
 
-    // TODO: re-code this at some point too
-
-    private Connection connect() {
-        String url = "jdbc:sqlite:" + BetterMessages.getInstance().getDataFolder() + "/database.db";
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
-    }
-
-    public boolean getUuid(UUID uuid) {
-        File file = new File(Paths.get(BetterMessages.getInstance().getDataFolder() + "/data/" + uuid + ".yml").toString());
-
-        return file != null;
-    }
+    // TODO: Improve this system
 
     public int getCount(UUID uuid, String column) {
         File file = new File(Paths.get(BetterMessages.getInstance().getDataFolder() + "/data/" + uuid + ".yml").toString());
@@ -44,7 +27,9 @@ public class Storage {
     public void createPlayerData(UUID uuid) {
         try {
             File data = new File(BetterMessages.getInstance().getDataFolder() + "/data");
-            if(!data.exists()) data.mkdir();
+            if(!data.exists()) {
+                data.mkdir();
+            }
             File file = new File(BetterMessages.getInstance().getDataFolder() + "/data", uuid + ".yml");
             if (!file.exists()) {
                 file.createNewFile(); //This needs a try catch

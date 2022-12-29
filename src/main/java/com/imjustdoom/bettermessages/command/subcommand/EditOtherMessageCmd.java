@@ -50,14 +50,18 @@ public class EditOtherMessageCmd extends SubCommand {
 
         for (List<Message> msgList : Config.MESSAGES.values()) {
             for (Message msg : msgList) {
-                if (!msg.getParent().equalsIgnoreCase(args[2])) continue;
+                if (!msg.getParent().equalsIgnoreCase(args[2])) {
+                    continue;
+                }
                 if (player.hasPermission("bettermessages.editmsg." + msg.getParent())) {
                     player.sendMessage("§cYou do not have permission to edit this message.");
                     return;
                 }
 
                 StringBuilder message = new StringBuilder();
-                for (int i = 3; i < args.length; i++) message.append(args[i]).append(" ");
+                for (int i = 3; i < args.length; i++) {
+                    message.append(args[i]).append(" ");
+                }
 
                 BetterMessages.getInstance().getStorage().updateMessage(player.getUniqueId(), "messages." + msg.getParent(), message.toString());
                 player.sendMessage(MessageUtil.translate(Config.InternalMessages.CHANGED_MESSAGE).replace("{message}", args[2]));

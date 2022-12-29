@@ -9,12 +9,12 @@ import java.util.List;
 
 public class JoinMessage extends Message {
 
-    public JoinMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority) {
-        super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority);
+    public JoinMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType) {
+        super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType);
     }
 
-    public JoinMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String extraInfo) {
-        super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, extraInfo);
+    public JoinMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String extraInfo, String messageType) {
+        super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, extraInfo, messageType);
     }
 
     @Override

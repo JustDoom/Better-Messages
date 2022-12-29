@@ -22,11 +22,15 @@ public class PlayerWorldChangeListener implements Listener {
 
         PlayerManager.removePlayer(player.getUniqueId());
 
-        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-world-change")) return;
+        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-world-change")) {
+            return;
+        }
 
         for (Message msg : Config.MESSAGES.get(EventType.WORLD_CHANGE)) {
 
-            if (!msg.canRun(player, event)) continue;
+            if (!msg.canRun(player, event)) {
+                continue;
+            }
 
             BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 

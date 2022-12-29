@@ -1,7 +1,9 @@
 package com.imjustdoom.bettermessages.message;
 
 import com.imjustdoom.bettermessages.BetterMessages;
+import com.imjustdoom.bettermessages.message.type.ActionBarMessageType;
 import com.imjustdoom.bettermessages.message.type.ChatMessageType;
+import com.imjustdoom.bettermessages.message.type.TitleMessageType;
 import com.imjustdoom.bettermessages.util.MessageUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,11 +50,11 @@ public class Message {
         this.extraInfo = null;
 
         if (messageType.equalsIgnoreCase("title")) {
-            this.messageType = new ChatMessageType();
+            this.messageType = new TitleMessageType();
         } else if (messageType.equalsIgnoreCase("actionbar")) {
-            this.messageType = new ChatMessageType();
+            this.messageType = new ActionBarMessageType();
         } else if (messageType.equalsIgnoreCase("bossbar")) {
-            this.messageType = new ChatMessageType();
+            //this.messageType = new ChatMessageType();
         } else {
             this.messageType = new ChatMessageType();
         }
@@ -72,8 +74,17 @@ public class Message {
         this.delay = delay;
         this.priority = priority;
         this.extraInfo = extraInfo;
-    }
 
+        if (messageType.equalsIgnoreCase("title")) {
+            this.messageType = new TitleMessageType();
+        } else if (messageType.equalsIgnoreCase("actionbar")) {
+            this.messageType = new ActionBarMessageType();
+        } else if (messageType.equalsIgnoreCase("bossbar")) {
+            //this.messageType = new ChatMessageType();
+        } else {
+            this.messageType = new ChatMessageType();
+        }
+    }
 
     public String getMessage() {
         if (message.size() == 1) return message.get(0);
@@ -83,7 +94,7 @@ public class Message {
     public boolean canRun(Player player, Event event) {
         if (!isEnabled()) return false;
         if (isPermission() && !player.hasPermission(getPermissionString())) return false;
-        if (!count(getCount(player))) return false;
+        if (!hasValidCount(getCount(player))) return false;
         if (!otherChecks(player, event)) return false;
 
         return true;
@@ -97,32 +108,41 @@ public class Message {
         return -1;
     }
 
-    public boolean count(int count) {
+    public boolean hasValidCount(int count) {
         return getCount().contains(count) || getCount().contains(-1);
     }
 
     public void sendMessage(Player player) {
+        // Im not even sure why I had it async. Maybe for updating the data? idk. Might see if I can remove it later
         Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
 
             String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), getParent()).equals("") ? getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), getParent());
             String message = translatePlaceholders(tempMsg, player);
 
-            for (String command : getCommands())
-                Bukkit.getScheduler().scheduleSyncDelayedTask(BetterMessages.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), translatePlaceholders(command, player)));
+            for (String command : getCommands()) {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(BetterMessages.getInstance(), () -> {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), translatePlaceholders(command, player));
+                });
+            }
 
             boolean ignoreUser = getAudience().contains("ignore-user");
             String audience = ignoreUser ? getAudience().split("\\|")[0] : getAudience();
 
+            // TODO: Make a better way to get the users to send the message to
             switch (audience) {
                 case "server":
                     for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
+                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) {
+                            continue;
+                        }
                         messageType.send(p, message);
                     }
                     break;
                 case "world":
                     for (Player p : player.getWorld().getPlayers()) {
-                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
+                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) {
+                            continue;
+                        }
                         messageType.send(p, message);
                     }
                     break;
@@ -132,7 +152,9 @@ public class Message {
                 default:
                     if (!getAudience().startsWith("world/")) break;
                     for (Player p : Bukkit.getWorld(audience.replace("world/", "")).getPlayers()) {
-                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
+                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) {
+                            continue;
+                        }
                         messageType.send(p, message);
                     }
             }
@@ -140,13 +162,14 @@ public class Message {
     }
 
     private String translatePlaceholders(String message, Player player) {
-        message = message.replace("{player}", player.getName());
-        message = message.replace("{world}", player.getWorld().getName());
-        message = message.replace("{line}", "\n");
-        message = message.replace("{stat}", String.valueOf(getCount(player)));
+        message = message.replace("{player}", player.getName())
+                .replace("{world}", player.getWorld().getName())
+                .replace("{line}", "\n")
+                .replace("{stat}", String.valueOf(getCount(player)));
 
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             message = PlaceholderAPI.setPlaceholders(player, message);
+        }
 
         return MessageUtil.translate(message);
     }

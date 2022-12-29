@@ -22,13 +22,17 @@ public class PlayerQuitListener implements Listener {
 
         PlayerManager.removePlayer(player.getUniqueId());
 
-        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-quit")) return;
+        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-quit")) {
+            return; // TODO: try to add something so certain roles can still see a message even if the user is vanished
+        }
 
         Message pMessage = null;
 
         for (Message msg : Config.MESSAGES.get(EventType.QUIT)) {
 
-            if (!msg.canRun(player, event)) continue;
+            if (!msg.canRun(player, event)) {
+                continue;
+            }
 
             BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 
@@ -37,8 +41,9 @@ public class PlayerQuitListener implements Listener {
                     pMessage = msg;
                     continue;
                 }
-                if (msg.getPriority() < pMessage.getPriority())
+                if (msg.getPriority() < pMessage.getPriority()) {
                     pMessage = msg;
+                }
                 continue;
             }
 

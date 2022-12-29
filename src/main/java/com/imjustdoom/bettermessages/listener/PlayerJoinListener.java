@@ -31,13 +31,17 @@ public class PlayerJoinListener implements Listener {
         PlayerManager.addWaitingPlayer(player.getUniqueId(), event.getPlayer().getWorld());
         PlayerManager.removePlayer(player.getUniqueId());
 
-        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) return;
+        if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) {
+            return;
+        }
 
         Message pMessage = null;
 
         for (Message msg : Config.MESSAGES.get(EventType.JOIN)) {
 
-            if (!msg.canRun(player, event)) continue;
+            if (!msg.canRun(player, event)) {
+                continue;
+            }
 
             BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 
@@ -46,8 +50,9 @@ public class PlayerJoinListener implements Listener {
                     pMessage = msg;
                     continue;
                 }
-                if (msg.getPriority() < pMessage.getPriority())
+                if (msg.getPriority() < pMessage.getPriority()) {
                     pMessage = msg;
+                }
                 continue;
             }
 
