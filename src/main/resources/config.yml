@@ -42,6 +42,8 @@ messages:
 
     # The message to be sent, supports hex and bukkit colour codes
     # Making it a list will randomise messages all with an equal chance
+    # TODO: make the messages able to have a chance of being sent, like 1/3 chance of sending the message
+    # maybe use a system like [CHANCE-33%]. it will not support decimals. that or [CHANCE-1/3] somehow
     message:
       - '&eWelcome &f&l{player} &eto the server!'
       - '&f&l{player} &ejust joined the server!'
