@@ -73,6 +73,8 @@ public class Config {
                 permission = getConfig().getBoolean("messages." + msg + ".permission");
             }
 
+            String messageType = getConfig().getString("messages." + msg + ".message-type");
+
             for (String type : getConfig().getStringList("messages." + msg + ".activation")) {
                 String extraInfo = null;
                 if (type.contains("/")) {
@@ -84,11 +86,11 @@ public class Config {
 
                 switch (eventType) {
                     case JOIN:
-                        MESSAGES.get(eventType).add(new JoinMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo));
+                        MESSAGES.get(eventType).add(new JoinMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo, messageType));
                     case QUIT:
-                        MESSAGES.get(eventType).add(new QuitMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo));
+                        MESSAGES.get(eventType).add(new QuitMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo, messageType));
                     case WORLD_CHANGE:
-                        MESSAGES.get(eventType).add(new WorldChangeMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo));
+                        MESSAGES.get(eventType).add(new WorldChangeMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo, messageType));
                 }
             }
         }
