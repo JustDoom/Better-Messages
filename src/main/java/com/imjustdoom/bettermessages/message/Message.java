@@ -4,13 +4,17 @@ import com.imjustdoom.bettermessages.BetterMessages;
 import com.imjustdoom.bettermessages.util.MessageUtil;
 import lombok.Getter;
 import lombok.Setter;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Getter
 @Setter
@@ -65,7 +69,7 @@ public class Message {
     public boolean canRun(Player player, Event event) {
         if (!isEnabled()) return false;
         if (isPermission() && !player.hasPermission(getPermissionString())) return false;
-        if (!getCount(player)) return false;
+        if (!count(getCount(player))) return false;
         if (!otherChecks(player, event)) return false;
 
         return true;
@@ -75,18 +79,22 @@ public class Message {
         return true;
     }
 
-    public boolean getCount(Player player) {
-        return true;
+    public int getCount(Player player) {
+        return -1;
+    }
+
+    public boolean count(int count) {
+        return getCount().contains(count) || getCount().contains(-1);
     }
 
     public void sendMessage(Player player) {
         Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
 
             String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), getParent()).equals("") ? getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), getParent());
-            String message = MessageUtil.translatePlaceholders(tempMsg, player);
+            String message = translatePlaceholders(tempMsg, player);
 
             for (String command : getCommands())
-                Bukkit.getScheduler().scheduleSyncDelayedTask(BetterMessages.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), MessageUtil.translatePlaceholders(command, player)));
+                Bukkit.getScheduler().scheduleSyncDelayedTask(BetterMessages.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), translatePlaceholders(command, player)));
 
             boolean ignoreUser = getAudience().contains("ignore-user");
             String audience = ignoreUser ? getAudience().split("\\|")[0] : getAudience();
@@ -115,5 +123,17 @@ public class Message {
                     }
             }
         }, getDelay());
+    }
+
+    private String translatePlaceholders(String message, Player player) {
+        message = message.replace("{player}", player.getName());
+        message = message.replace("{world}", player.getWorld().getName());
+        message = message.replace("{line}", "\n");
+        message = message.replace("{stat}", String.valueOf(getCount(player)));
+
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
+            message = PlaceholderAPI.setPlaceholders(player, message);
+
+        return MessageUtil.translate(message);
     }
 }

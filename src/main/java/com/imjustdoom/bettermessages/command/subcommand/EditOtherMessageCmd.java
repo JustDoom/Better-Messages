@@ -60,7 +60,7 @@ public class EditOtherMessageCmd extends SubCommand {
                 for (int i = 3; i < args.length; i++) message.append(args[i]).append(" ");
 
                 BetterMessages.getInstance().getStorage().updateMessage(player.getUniqueId(), "messages." + msg.getParent(), message.toString());
-                player.sendMessage(MessageUtil.translatePlaceholders(Config.InternalMessages.CHANGED_MESSAGE, player).replace("{message}", args[2]));
+                player.sendMessage(MessageUtil.translate(Config.InternalMessages.CHANGED_MESSAGE).replace("{message}", args[2]));
             }
         }
     }

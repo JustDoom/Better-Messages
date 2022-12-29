@@ -18,8 +18,7 @@ public class JoinMessage extends Message {
     }
 
     @Override
-    public boolean getCount(Player player) {
-        int count = getStorageType().equals("default") ? BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), getParent()) : player.getStatistic(Statistic.RECORD_PLAYED) + 1; // TODO: make sure the statistics all work
-        return getCount().contains(count) || getCount().contains(-1);
+    public int getCount(Player player) {
+        return getStorageType().equals("default") ? BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), getParent()) : player.getStatistic(Statistic.RECORD_PLAYED) + 1; // TODO: make sure the statistics all work
     }
 }
