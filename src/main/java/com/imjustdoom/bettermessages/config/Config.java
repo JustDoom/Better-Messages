@@ -44,6 +44,7 @@ public class Config {
         InternalMessages.HELP_REDIRECT = getConfig().getString("internal-messages.help-redirect");
         InternalMessages.CHANGED_MESSAGE = getConfig().getString("internal-messages.changed-message");
 
+        // Get the messages from the config
         for (String msg : getConfig().getConfigurationSection("messages").getKeys(false)) {
 
             List<String> messages;

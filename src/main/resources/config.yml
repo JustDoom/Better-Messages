@@ -34,6 +34,12 @@ messages:
     # Set to "none" to disable
     permission: false
 
+    # The way to send the message, in a title, action bar, chat message etc
+    # Options: title, actionbar, chat, bossbar
+    # TODO: remove this option when I revamp the config, make it something like this in the message box instead
+    # "[CHAT] {player} just joined!" or "[TITLE] {player} just joined![SUBTITLE] Welcome them![FADEIN-10][STAY-20][FADEOUT-10]"
+    message-type: chat
+
     # The message to be sent, supports hex and bukkit colour codes
     # Making it a list will randomise messages all with an equal chance
     message:
@@ -81,6 +87,7 @@ messages:
     count:
       - 1
     permission: false
+    message-type: chat
     message: '&eWelcome &f&l{player} &eto the server for the first time!'
     audience: server
     activation:
@@ -92,6 +99,7 @@ messages:
     priority: -1
     count:
       - -1
+      - message-type: chat
     permission: false
     message: '&f&l{player} &equit :('
     audience: server
@@ -104,6 +112,7 @@ messages:
     count:
       - -1
     permission: false
+    message-type: chat
     message: '&f&l{player} &eentered the nether, be careful!'
     audience: server
     activation:

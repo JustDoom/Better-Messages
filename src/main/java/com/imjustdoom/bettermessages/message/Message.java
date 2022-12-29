@@ -1,6 +1,7 @@
 package com.imjustdoom.bettermessages.message;
 
 import com.imjustdoom.bettermessages.BetterMessages;
+import com.imjustdoom.bettermessages.message.type.ChatMessageType;
 import com.imjustdoom.bettermessages.util.MessageUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,8 +28,11 @@ public class Message {
     private String audience, storageType, dontRunIf, permissionString, extraInfo;
     private long delay;
     private int priority;
+    private MessageType messageType;
 
-    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority) {
+    // TODO: all actual message stuff will be handled in the MessageType and all checking if it can run etc will be in this class
+    // makes it easier and simpler to add new message types etc
+    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType) {
         this.parent = parent;
         this.message = message;
         this.commands = commands;
@@ -42,9 +46,19 @@ public class Message {
         this.delay = delay;
         this.priority = priority;
         this.extraInfo = null;
+
+        if (messageType.equalsIgnoreCase("title")) {
+            this.messageType = new ChatMessageType();
+        } else if (messageType.equalsIgnoreCase("actionbar")) {
+            this.messageType = new ChatMessageType();
+        } else if (messageType.equalsIgnoreCase("bossbar")) {
+            this.messageType = new ChatMessageType();
+        } else {
+            this.messageType = new ChatMessageType();
+        }
     }
 
-    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String extraInfo) {
+    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String extraInfo, String messageType) {
         this.parent = parent;
         this.message = message;
         this.commands = commands;
@@ -103,23 +117,23 @@ public class Message {
                 case "server":
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
-                        p.sendMessage(message);
+                        messageType.send(p, message);
                     }
                     break;
                 case "world":
                     for (Player p : player.getWorld().getPlayers()) {
                         if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
-                        p.sendMessage(message);
+                        messageType.send(p, message);
                     }
                     break;
                 case "user":
-                    player.sendMessage(message);
+                    messageType.send(player, message);
                     break;
                 default:
                     if (!getAudience().startsWith("world/")) break;
                     for (Player p : Bukkit.getWorld(audience.replace("world/", "")).getPlayers()) {
                         if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) continue;
-                        p.sendMessage(message);
+                        messageType.send(p, message);
                     }
             }
         }, getDelay());
