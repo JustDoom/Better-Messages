@@ -113,7 +113,7 @@ public class Message {
     }
 
     public void sendMessage(Player player) {
-        // Im not even sure why I had it async. Maybe for updating the data? idk. Might see if I can remove it later
+        // This is used to add a delay, maybe try figure a better way to add a delay
         Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
 
             String tempMsg = BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), getParent()).equals("") ? getMessage() : BetterMessages.getInstance().getStorage().getMessage(player.getUniqueId(), getParent());

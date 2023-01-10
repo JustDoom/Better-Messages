@@ -6,6 +6,9 @@ import java.util.*;
 
 public class PlayerManager {
 
+    // I think this was for making sure a player is loaded before sending a message. I think it's coded weirdly
+    // It's been so long since I wrote this
+
     public static List<UUID> cachedPlayers = new ArrayList<>();
 
     public static void addPlayer(UUID uuid){
