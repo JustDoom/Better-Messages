@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Config {
 
-    public static final int LATEST_CONFIG_VERSION = 15;
+    public static final int LATEST_CONFIG_VERSION = 16;
 
     public static boolean DISABLE_OUTDATED_CONFIG_WARNING;
 

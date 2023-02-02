@@ -125,14 +125,26 @@ public class Message {
                 });
             }
 
-            boolean ignoreUser = getAudience().contains("ignore-user");
+            String[] split = getAudience().split("\\|");
+            boolean ignoreUser = false;
+            String permission = null;
+            for (String s : split) {
+                if (s.equalsIgnoreCase("ignore-user")) ignoreUser = true;
+                if (s.contains("permission:")) {
+                    String perm = s.split(":")[1];
+                    if (player.hasPermission(perm)) {
+                        permission = perm;
+                    }
+                }
+            }
+
             String audience = ignoreUser ? getAudience().split("\\|")[0] : getAudience();
 
             // TODO: Make a better way to get the users to send the message to
             switch (audience) {
                 case "server":
                     for (Player p : Bukkit.getOnlinePlayers()) {
-                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) {
+                        if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
                             continue;
                         }
                         messageType.send(p, message);
@@ -140,19 +152,20 @@ public class Message {
                     break;
                 case "world":
                     for (Player p : player.getWorld().getPlayers()) {
-                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) {
+                        if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
                             continue;
                         }
                         messageType.send(p, message);
                     }
                     break;
                 case "user":
+                    if (permission != null && !player.hasPermission(permission)) break;
                     messageType.send(player, message);
                     break;
                 default:
                     if (!getAudience().startsWith("world/")) break;
                     for (Player p : Bukkit.getWorld(audience.replace("world/", "")).getPlayers()) {
-                        if (ignoreUser && p.getUniqueId().equals(player.getUniqueId())) {
+                        if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
                             continue;
                         }
                         messageType.send(p, message);

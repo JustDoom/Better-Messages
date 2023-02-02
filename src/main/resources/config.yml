@@ -1,5 +1,5 @@
 #DO NOT TOUCH THIS SETTING
-config-version: 15
+config-version: 16
 
 disable-outdated-config-warning: false
 
@@ -57,6 +57,10 @@ messages:
     # If you want to not send it to the activating player add "ignore-user" after the audience type. This is
     # useful for having a separate join message for the player and the server.
     # Example: "server|ignore-user"
+    # For only sending it to the people with a certain permission, add "permission:{permission}" after the audience type.
+    # For this to work do not include any spaces.
+    # Example: "server|permission:custom.join"
+    # You can also combined the two, "server|ignore-user|permission:custom.join"
     audience: server
 
     # The activation is when the message is run, just what event
