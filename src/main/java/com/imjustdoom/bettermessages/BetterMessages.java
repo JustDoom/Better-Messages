@@ -109,7 +109,7 @@ public final class BetterMessages extends JavaPlugin {
         if (latestVersion.getAsJsonObject().get("version").getAsString().equals(getDescription().getVersion())) {
             getLogger().info("You are running the latest version of BetterMessages!");
         } else {
-            getLogger().info("There is a new version of BetterMessages available!You are running version " + getDescription().getVersion() + " and the latest version is " + latestVersion.getAsJsonObject().get("version").getAsString() + ". Download it at https://imjustdoom.com/projects/better-messages");
+            getLogger().info("There is a new version of BetterMessages available! You are running version " + getDescription().getVersion() + " and the latest version is " + latestVersion.getAsJsonObject().get("version").getAsString() + ". Download it at https://imjustdoom.com/projects/better-messages");
         }
     }
 
