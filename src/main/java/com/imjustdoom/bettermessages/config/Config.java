@@ -67,7 +67,7 @@ public class Config {
 
             boolean permission;
             if (getConfig().isString("messages." + msg + ".permission")) {
-                BetterMessages.getInstance().getLogger().info("The permission option in the config is now a boolean (true/false). Please update your config.");
+                BetterMessages.getInstance().getLogger().warning("The permission option in the config is now a boolean (true/false). Please update your config.");
                 permission = false;
             } else {
                 permission = getConfig().getBoolean("messages." + msg + ".permission");
