@@ -1,0 +1,132 @@
+#DO NOT TOUCH THIS SETTING
+config-version: 16
+
+disable-outdated-config-warning: false
+
+check-for-updates: true
+
+# Messages for better messages commands
+internal-messages:
+  prefix: "[&bBetterMessages&r] "
+  help-redirect: "&bType \"/bm help\" for help"
+  reloaded: "&bConfig has been reloaded"
+  help: "&bCommands\n- /bettermessages help: Brings you here!\n- /bettermessages reload: Reloads the config!"
+  changed-message: "&bChanged message {message}"
+
+messages:
+  join:
+    enabled: true
+
+    # If there are multiple messages a priority system is used. The lower the number, the higher the priority.
+    # 1 has a higher priority than 2, etc. This is good if you have different join roles for ranks that inherit from
+    # each other. Set to -1 to disable which will make the message always show up. Not available for world changes yet.
+    # This feature is in Beta and may not work as intended. If you find any bugs, please report them on the GitHub page
+    # or my Discord server.
+    priority: -1
+
+    # List of counts when the message will work, if  you add 5 it will send
+    # it on the fifth join (or whatever the event is)
+    # Set to -1 to disable
+    count:
+      - -1
+
+    # The permission required for the message to be run
+    # Set to "none" to disable
+    permission: false
+
+    # The way to send the message, in a title, action bar, chat message etc
+    # Options: title, actionbar, chat, bossbar
+    # TODO: remove this option when I revamp the config, make it something like this in the message box instead (If I forget
+    # to remove this comment just know it isnt added yet if it still generates in the config)
+    # "[CHAT] {player} just joined!" or "[TITLE] {player} just joined![SUBTITLE] Welcome them![FADEIN-10][STAY-20][FADEOUT-10]"
+    message-type: chat
+
+    # The message to be sent, supports hex and bukkit colour codes
+    # Making it a list will randomise messages all with an equal chance
+    # TODO: make the messages able to have a chance of being sent, like 1/3 chance of sending the message (If I forget
+    # to remove this comment just know it isnt added yet if it still generates in the config)
+    # maybe use a system like [CHANCE-33%]. it will not support decimals. that or [CHANCE-1/3] somehow
+    message:
+      - '&eWelcome &f&l{player} &eto the server!'
+      - '&f&l{player} &ejust joined the server!'
+
+    # The audience is who the message is sent to
+    # Options
+    # server - everyone in the server
+    # world - everyone in the world the player is currently in. Doesn't work on the leave event
+    # world/{world} - specify a world to send the messages to
+    # user - the player that activated the event/message
+    # If you want to not send it to the activating player add "ignore-user" after the audience type. This is
+    # useful for having a separate join message for the player and the server.
+    # Example: "server|ignore-user"
+    # For only sending it to the people with a certain permission, add "permission:{permission}" after the audience type.
+    # For this to work do not include any spaces.
+    # Example: "server|permission:custom.join"
+    # You can also combined the two, "server|ignore-user|permission:custom.join"
+    audience: server
+
+    # The activation is when the message is run, just what event
+    # Options
+    # join
+    # quit
+    # world-change/{from}/{to} - replace {to} and {from} with the to and from world names
+    activation:
+      - join
+
+    # This sets where the plugin will get the join, quit etc count from
+    # This does not change where the world change count is gotten from
+    # Options
+    # default - this is the default option, it will use the count stored by the plugin
+    # server - the count will be used from server statistics (join/leave stats)
+    storage-type: default
+
+    # How long should the message be delayed in ticks
+    # 20 ticks = 1 second
+    # Default is 0
+    delay: 0
+
+      # Commands to run when the event runs. Run as the console
+      # Disabled by default
+    #commands:
+    #- give {player} diamond 1
+  first-join:
+    enabled: true
+    priority: -1
+    count:
+      - 1
+    permission: false
+    message-type: chat
+    message: '&eWelcome &f&l{player} &eto the server for the first time!'
+    audience: server
+    activation:
+      - join
+    storage-type: default
+    delay: 0
+  quit:
+    enabled: true
+    priority: -1
+    count:
+      - -1
+      - message-type: chat
+    permission: false
+    message: '&f&l{player} &equit :('
+    audience: server
+    activation:
+      - quit
+    storage-type: default
+    delay: 0
+  entered-nether:
+    enabled: true
+    count:
+      - -1
+    permission: false
+    message-type: chat
+    message: '&f&l{player} &eentered the nether, be careful!'
+    audience: server
+    activation:
+      - world-change/world/world_nether
+    storage-type: default
+    delay: 0
+
+    # If the world the player enters when they join is this one then the message will not be sent
+    world: world_nether

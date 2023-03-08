@@ -1,0 +1,6 @@
+name: ${project.name}
+version: ${project.version}
+main: com.imjustdoom.bettermessages.BetterMessages
+authors: [ JustDoom ]
+softdepend:
+  - PlaceholderAPI
