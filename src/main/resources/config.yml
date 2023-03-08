@@ -36,13 +36,15 @@ messages:
 
     # The way to send the message, in a title, action bar, chat message etc
     # Options: title, actionbar, chat, bossbar
-    # TODO: remove this option when I revamp the config, make it something like this in the message box instead
+    # TODO: remove this option when I revamp the config, make it something like this in the message box instead (If I forget
+    # to remove this comment just know it isnt added yet if it still generates in the config)
     # "[CHAT] {player} just joined!" or "[TITLE] {player} just joined![SUBTITLE] Welcome them![FADEIN-10][STAY-20][FADEOUT-10]"
     message-type: chat
 
     # The message to be sent, supports hex and bukkit colour codes
     # Making it a list will randomise messages all with an equal chance
-    # TODO: make the messages able to have a chance of being sent, like 1/3 chance of sending the message
+    # TODO: make the messages able to have a chance of being sent, like 1/3 chance of sending the message (If I forget
+    # to remove this comment just know it isnt added yet if it still generates in the config)
     # maybe use a system like [CHANCE-33%]. it will not support decimals. that or [CHANCE-1/3] somehow
     message:
       - '&eWelcome &f&l{player} &eto the server!'
