@@ -28,7 +28,7 @@ public class PlayerQuitListener implements Listener {
 
         Message pMessage = null;
 
-        for (Message msg : Config.MESSAGES.get(EventType.QUIT)) {
+        for (Message msg : Config.MESSAGES.get(EventType.QUIT.getClazz())) {
 
             if (!msg.canRun(player, event)) {
                 continue;

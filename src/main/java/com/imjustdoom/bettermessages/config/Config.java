@@ -18,7 +18,7 @@ public class Config {
     public static int CONFIG_VERSION;
     public static boolean CHECK_FOR_UPDATES;
 
-    public static final HashMap<EventType, List<Message>> MESSAGES = new HashMap<>();
+    public static final Map<Class<? extends Message>, List<Message>> MESSAGES = new HashMap<>();
 
     public static class InternalMessages {
         public static String PREFIX;
@@ -33,7 +33,7 @@ public class Config {
 
         MESSAGES.clear();
         for (EventType eventType : EventType.values()) {
-            MESSAGES.put(eventType, new ArrayList<>());
+            MESSAGES.put(eventType.getClazz(), new ArrayList<>());
         }
 
         // General plugin settings
@@ -84,14 +84,23 @@ public class Config {
 
                 EventType eventType = EventType.valueOf(type.toUpperCase().replaceAll("-", "_"));
 
-                switch (eventType) {
-                    case JOIN:
-                        MESSAGES.get(eventType).add(new JoinMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo, messageType));
-                    case QUIT:
-                        MESSAGES.get(eventType).add(new QuitMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo, messageType));
-                    case WORLD_CHANGE:
-                        MESSAGES.get(eventType).add(new WorldChangeMessage(msg, messages, getConfig().getStringList("messages." + msg + ".commands"), count, permission, getConfig().getBoolean("messages." + msg + ".enabled"), getConfig().getString("messages." + msg + ".audience"), getConfig().getString("messages." + msg + ".storage-type"), getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"), getConfig().getInt("messages." + msg + ".delay"), getConfig().getInt("messages." + msg + ".priority"), extraInfo, messageType));
-                }
+                Message message = new MessageBuilder()
+                        .setParent(msg)
+                        .setMessage(messages)
+                        .setCommands(getConfig().getStringList("messages." + msg + ".commands"))
+                        .setCount(count)
+                        .setPermission(permission)
+                        .setEnabled(getConfig().getBoolean("messages." + msg + ".enabled"))
+                        .setAudience(getConfig().getString("messages." + msg + ".audience"))
+                        .setStorageType(getConfig().getString("messages." + msg + ".storage-type"))
+                        .setDontRunIf(getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"))
+                        .setDelay(getConfig().getInt("messages." + msg + ".delay"))
+                        .setPriority(getConfig().getInt("messages." + msg + ".priority"))
+                        .setExtraInfo(extraInfo)
+                        .setMessageType(messageType)
+                        .build(eventType);
+
+                MESSAGES.get(message.getClass()).add(message);
             }
         }
     }

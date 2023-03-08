@@ -35,32 +35,10 @@ public class Message {
     // TODO: all actual message stuff will be handled in the MessageType and all checking if it can run etc will be in this class
     // makes it easier and simpler to add new message types etc
     public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType) {
-        this.parent = parent;
-        this.message = message;
-        this.commands = commands;
-        this.count = count;
-        this.permission = permission;
-        this.enabled = enabled;
-        this.audience = audience;
-        this.storageType = storageType;
-        this.dontRunIf = dontRunIf;
-        this.permissionString = "bettermessages." + this.parent;
-        this.delay = delay;
-        this.priority = priority;
-        this.extraInfo = null;
-
-        if (messageType.equalsIgnoreCase("title")) {
-            this.messageType = new TitleMessageType();
-        } else if (messageType.equalsIgnoreCase("actionbar")) {
-            this.messageType = new ActionBarMessageType();
-        } else if (messageType.equalsIgnoreCase("bossbar")) {
-            //this.messageType = new ChatMessageType();
-        } else {
-            this.messageType = new ChatMessageType();
-        }
+        this(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, null);
     }
 
-    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String extraInfo, String messageType) {
+    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType, String extraInfo) {
         this.parent = parent;
         this.message = message;
         this.commands = commands;

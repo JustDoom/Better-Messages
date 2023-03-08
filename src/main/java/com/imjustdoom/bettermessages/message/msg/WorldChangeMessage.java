@@ -3,7 +3,6 @@ package com.imjustdoom.bettermessages.message.msg;
 import com.imjustdoom.bettermessages.BetterMessages;
 import com.imjustdoom.bettermessages.manager.PlayerManager;
 import com.imjustdoom.bettermessages.message.Message;
-import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -17,7 +16,7 @@ public class WorldChangeMessage extends Message {
     }
 
     public WorldChangeMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String extraInfo, String messageType) {
-        super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, extraInfo, messageType);
+        super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, extraInfo);
     }
 
     @Override

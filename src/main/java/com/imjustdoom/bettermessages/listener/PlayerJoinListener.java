@@ -37,7 +37,7 @@ public class PlayerJoinListener implements Listener {
 
         Message pMessage = null;
 
-        for (Message msg : Config.MESSAGES.get(EventType.JOIN)) {
+        for (Message msg : Config.MESSAGES.get(EventType.JOIN.getClazz())) {
 
             if (!msg.canRun(player, event)) {
                 continue;
