@@ -17,6 +17,7 @@ public class Config {
 
     public static int CONFIG_VERSION;
     public static boolean CHECK_FOR_UPDATES;
+    public static boolean BUNGEECORD_MODE;
 
     public static final Map<Class<? extends Message>, List<Message>> MESSAGES = new HashMap<>();
 
@@ -40,6 +41,7 @@ public class Config {
         DISABLE_OUTDATED_CONFIG_WARNING = getConfig().getBoolean("disable-outdated-config-warning");
         CONFIG_VERSION = getConfig().getInt("config-version");
         CHECK_FOR_UPDATES = getConfig().getBoolean("check-for-updates");
+        BUNGEECORD_MODE = getConfig().getBoolean("bungeecord-mode");
 
         // Get plugin configurable messages
         InternalMessages.PREFIX = getConfig().getString("internal-messages.prefix");

@@ -5,15 +5,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import com.imjustdoom.bettermessages.listener.*;
 import com.imjustdoom.bettermessages.message.EventType;
 import com.imjustdoom.bettermessages.message.Message;
 import com.imjustdoom.cmdinstruction.CMDInstruction;
 import com.imjustdoom.bettermessages.command.BetterMessagesCmd;
 import com.imjustdoom.bettermessages.config.Config;
-import com.imjustdoom.bettermessages.listener.PlayerJoinListener;
-import com.imjustdoom.bettermessages.listener.PlayerPreLoginListener;
-import com.imjustdoom.bettermessages.listener.PlayerQuitListener;
-import com.imjustdoom.bettermessages.listener.PlayerWorldChangeListener;
 import com.imjustdoom.bettermessages.storage.Storage;
 import com.imjustdoom.bettermessages.metrics.Metrics;
 
@@ -59,11 +56,15 @@ public final class BetterMessages extends JavaPlugin {
         // Register commands
         CMDInstruction.registerCommands(this, new BetterMessagesCmd().setName("bettermessages").setPermission("bettermessages"));
 
+        // Register proxy listener if enabled
+        if (Config.BUNGEECORD_MODE) getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeCordListener());
+
         // Register events
         Bukkit.getPluginManager().registerEvents(new PlayerPreLoginListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerWorldChangeListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ServerSwitchListener(), this);
 
         // Update checker
         try {

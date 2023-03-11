@@ -73,7 +73,7 @@ public class Message {
         if (!isEnabled()) return false;
         if (isPermission() && !player.hasPermission(getPermissionString())) return false;
         if (!hasValidCount(getCount(player))) return false;
-        if (!otherChecks(player, event)) return false;
+        if (event != null && !otherChecks(player, event)) return false;
 
         return true;
     }
@@ -90,7 +90,12 @@ public class Message {
         return getCount().contains(count) || getCount().contains(-1);
     }
 
+    public String translateCustomPlaceholders(String message) {
+        return message;
+    }
+
     public void sendMessage(Player player) {
+
         // This is used to add a delay, maybe try figure a better way to add a delay
         Bukkit.getScheduler().scheduleAsyncDelayedTask(BetterMessages.getInstance(), () -> {
 
@@ -153,6 +158,7 @@ public class Message {
     }
 
     private String translatePlaceholders(String message, Player player) {
+        message = translateCustomPlaceholders(message);
         message = message.replace("{player}", player.getName())
                 .replace("{world}", player.getWorld().getName())
                 .replace("{line}", "\n")

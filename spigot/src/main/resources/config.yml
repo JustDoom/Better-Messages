@@ -5,6 +5,8 @@ disable-outdated-config-warning: false
 
 check-for-updates: true
 
+bungeecord-mode: false
+
 # Messages for better messages commands
 internal-messages:
   prefix: "[&bBetterMessages&r] "
@@ -70,6 +72,7 @@ messages:
     # join
     # quit
     # world-change/{from}/{to} - replace {to} and {from} with the to and from world names
+    # server-switch/{from}/{to} - replace {to} and {from} with the to and from server names. Only works with bungeecord enabled
     activation:
       - join
 
@@ -130,3 +133,15 @@ messages:
 
     # If the world the player enters when they join is this one then the message will not be sent
     world: world_nether
+  switch-to-survival:
+      enabled: false
+      count:
+        - -1
+      permission: false
+      message-type: chat
+      message: '&f&l{player} &ehas left {from} and joined {to}!'
+      audience: server
+      activation:
+        - server-switch/hub/survival
+      storage-type: default
+      delay: 0

@@ -3,6 +3,7 @@ package com.imjustdoom.bettermessages.message;
 import com.imjustdoom.bettermessages.BetterMessages;
 import com.imjustdoom.bettermessages.message.msg.JoinMessage;
 import com.imjustdoom.bettermessages.message.msg.QuitMessage;
+import com.imjustdoom.bettermessages.message.msg.SwitchServerMessage;
 import com.imjustdoom.bettermessages.message.msg.WorldChangeMessage;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class MessageBuilder {
                 return new QuitMessage(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, extraInfo);
             case WORLD_CHANGE:
                 return new WorldChangeMessage(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, extraInfo);
+            case SERVER_SWITCH:
+                return new SwitchServerMessage(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, extraInfo);
             default:
                 throw new IllegalStateException("Unexpected value: " + eventType);
         }

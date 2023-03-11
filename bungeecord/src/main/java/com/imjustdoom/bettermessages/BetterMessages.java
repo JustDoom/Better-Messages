@@ -1,5 +1,6 @@
 package com.imjustdoom.bettermessages;
 
+import com.imjustdoom.bettermessages.listener.ServerChangeListener;
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -8,8 +9,8 @@ public final class BetterMessages extends Plugin {
 
     @Override
     public void onEnable() {
-        // You should not put an enable message in your plugin.
-        // BungeeCord already does so
-        getLogger().info("Yay! It loads!");
+
+        // Register event listener
+        getProxy().getPluginManager().registerListener(this, new ServerChangeListener());
     }
 }
