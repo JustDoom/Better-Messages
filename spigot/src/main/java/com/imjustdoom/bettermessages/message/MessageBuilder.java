@@ -26,11 +26,11 @@ public class MessageBuilder {
     public Message build(EventType eventType) {
         switch (eventType) {
             case JOIN:
-                return new JoinMessage(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, extraInfo, messageType);
+                return new JoinMessage(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, extraInfo);
             case QUIT:
-                return new QuitMessage(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, extraInfo, messageType);
+                return new QuitMessage(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, extraInfo);
             case WORLD_CHANGE:
-                return new WorldChangeMessage(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, extraInfo, messageType);
+                return new WorldChangeMessage(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, extraInfo);
             default:
                 throw new IllegalStateException("Unexpected value: " + eventType);
         }
@@ -38,25 +38,16 @@ public class MessageBuilder {
 
     // TODO: do proper checking for all of these
     public MessageBuilder setParent(String parent) {
-        if (parent == null || parent.isEmpty()) {
-            BetterMessages.getInstance().getLogger().warning("The parent of the message is null or empty, this message will not be loaded!");
-        }
         this.parent = parent;
         return this;
     }
 
     public MessageBuilder setMessage(List<String> message) {
-        if (message == null || message.isEmpty()) {
-            BetterMessages.getInstance().getLogger().warning("The parent of the message is null or empty, this message will not be loaded!");
-        }
         this.message = message;
         return this;
     }
 
     public MessageBuilder setCommands(List<String> commands) {
-        if (commands == null || commands.isEmpty()) {
-            BetterMessages.getInstance().getLogger().warning("The parent of the message is null or empty, this message will not be loaded!");
-        }
         this.commands = commands;
         return this;
     }

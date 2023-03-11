@@ -15,7 +15,7 @@ public class WorldChangeMessage extends Message {
         super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType);
     }
 
-    public WorldChangeMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String extraInfo, String messageType) {
+    public WorldChangeMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType, String extraInfo) {
         super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, extraInfo);
     }
 

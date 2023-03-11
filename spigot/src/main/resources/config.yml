@@ -107,7 +107,7 @@ messages:
     priority: -1
     count:
       - -1
-      - message-type: chat
+    message-type: chat
     permission: false
     message: '&f&l{player} &equit :('
     audience: server
