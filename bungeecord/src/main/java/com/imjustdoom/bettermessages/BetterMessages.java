@@ -9,7 +9,6 @@ public final class BetterMessages extends Plugin {
 
     @Override
     public void onEnable() {
-
         // Register event listener
         getProxy().getPluginManager().registerListener(this, new ServerChangeListener());
     }

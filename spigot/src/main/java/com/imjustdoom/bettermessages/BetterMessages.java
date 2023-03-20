@@ -57,7 +57,9 @@ public final class BetterMessages extends JavaPlugin {
         CMDInstruction.registerCommands(this, new BetterMessagesCmd().setName("bettermessages").setPermission("bettermessages"));
 
         // Register proxy listener if enabled
-        if (Config.BUNGEECORD_MODE) getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeCordListener());
+        if (Config.BUNGEECORD_MODE) {
+            getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeCordListener());
+        }
 
         // Register events
         Bukkit.getPluginManager().registerEvents(new PlayerPreLoginListener(), this);
@@ -69,7 +71,7 @@ public final class BetterMessages extends JavaPlugin {
         // Update checker
         try {
             if (Config.CHECK_FOR_UPDATES) {
-                checkUpdates();
+                getLogger().warning(UpdateChecker.checkUpdates(getDescription().getVersion()));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,46 +90,6 @@ public final class BetterMessages extends JavaPlugin {
     @Override
     public void onDisable() {
         HandlerList.unregisterAll(this);
-    }
-
-    private void checkUpdates() throws IOException {
-        JsonElement jsonElement = getJsonFromUrl("https://api.imjustdoom.com/projects/better-messages");
-
-        // Check if it got the json
-        if (jsonElement == null) {
-            throw new IOException("Failed to check for updates");
-        }
-
-        // Get the latest version (better way is coming soon)
-        JsonElement latestVersion = getJsonFromUrl("https://api.imjustdoom.com/projects/" + jsonElement.getAsJsonObject().get("id").getAsString() + "/latest");
-
-        // Check if it got the json for latest version
-        if (latestVersion == null) {
-            throw new IOException("Failed to check for updates");
-        }
-
-        // Get the latest version and check the current version
-        if (latestVersion.getAsJsonObject().get("version").getAsString().equals(getDescription().getVersion())) {
-            getLogger().info("You are running the latest version of BetterMessages!");
-        } else {
-            getLogger().info("There is a new version of BetterMessages available! You are running version " + getDescription().getVersion() + " and the latest version is " + latestVersion.getAsJsonObject().get("version").getAsString() + ". Download it at https://imjustdoom.com/projects/better-messages");
-        }
-    }
-
-    public JsonElement getJsonFromUrl(String url) throws IOException {
-        URL uri = new URL(url);
-        URLConnection con = uri.openConnection();
-        con.setRequestProperty("User-Agent", "Mozilla");
-        con.setReadTimeout(5000);
-        con.setConnectTimeout(5000);
-        con.setUseCaches(false);
-
-        InputStream inputStream = con.getInputStream();
-
-        JsonReader reader = new JsonReader(new InputStreamReader(inputStream));
-        reader.setLenient(true);
-
-        return new JsonParser().parse(reader).getAsJsonObject();
     }
 
     public static BetterMessages getInstance() {
