@@ -49,6 +49,6 @@ public class UpdateChecker {
         JsonReader reader = new JsonReader(new InputStreamReader(inputStream));
         reader.setLenient(true);
 
-        return new JsonParser().parse(reader).getAsJsonObject();
+        return JsonParser.parseReader(reader).getAsJsonObject(); // TODO: make sure this runs on old versions
     }
 }
