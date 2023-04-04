@@ -15,20 +15,16 @@ public class UpdateChecker {
     public static String checkUpdates(String version) throws IOException {
         JsonElement jsonElement = getJsonFromUrl("https://api.imjustdoom.com/projects/better-messages");
 
-        // Check if it got the json
         if (jsonElement == null) {
             throw new IOException("Failed to check for updates");
         }
 
-        // Get the latest version (better way is coming soon)
         JsonElement latestVersion = getJsonFromUrl("https://api.imjustdoom.com/projects/" + jsonElement.getAsJsonObject().get("id").getAsString() + "/latest");
 
-        // Check if it got the json for latest version
         if (latestVersion == null) {
             throw new IOException("Failed to check for updates");
         }
 
-        // Get the latest version and check the current version
         if (latestVersion.getAsJsonObject().get("version").getAsString().equals(version)) {
             return "You are running the latest version of BetterMessages!";
         } else {
@@ -39,7 +35,7 @@ public class UpdateChecker {
     private static JsonElement getJsonFromUrl(String url) throws IOException {
         URL uri = new URL(url);
         URLConnection con = uri.openConnection();
-        con.setRequestProperty("User-Agent", "Mozilla");
+        con.setRequestProperty("User-Agent", "BetterMessages");
         con.setReadTimeout(5000);
         con.setConnectTimeout(5000);
         con.setUseCaches(false);
