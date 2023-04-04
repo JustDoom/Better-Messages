@@ -1,6 +1,5 @@
 package com.imjustdoom.bettermessages.message;
 
-import com.imjustdoom.bettermessages.BetterMessages;
 import com.imjustdoom.bettermessages.message.msg.JoinMessage;
 import com.imjustdoom.bettermessages.message.msg.QuitMessage;
 import com.imjustdoom.bettermessages.message.msg.SwitchServerMessage;

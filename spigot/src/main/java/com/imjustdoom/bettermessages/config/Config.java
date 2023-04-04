@@ -1,10 +1,9 @@
 package com.imjustdoom.bettermessages.config;
 
 import com.imjustdoom.bettermessages.BetterMessages;
-import com.imjustdoom.bettermessages.message.*;
-import com.imjustdoom.bettermessages.message.msg.JoinMessage;
-import com.imjustdoom.bettermessages.message.msg.QuitMessage;
-import com.imjustdoom.bettermessages.message.msg.WorldChangeMessage;
+import com.imjustdoom.bettermessages.message.EventType;
+import com.imjustdoom.bettermessages.message.Message;
+import com.imjustdoom.bettermessages.message.MessageBuilder;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.*;
