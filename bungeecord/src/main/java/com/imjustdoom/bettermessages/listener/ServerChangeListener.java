@@ -4,7 +4,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.event.EventHandler;
-import org.bukkit.entity.Player;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -27,6 +26,6 @@ public class ServerChangeListener implements Listener {
             e.printStackTrace();
         }
 
-        player.getServer().sendData("BungeeCord", b.toByteArray());
+        player.getServer().sendData("BetterMessages", b.toByteArray());
     }
 }

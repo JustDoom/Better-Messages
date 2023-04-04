@@ -18,7 +18,7 @@ public class BungeeCordListener implements PluginMessageListener {
 
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if (!channel.equals("BungeeCord")) {
+        if (!channel.equals("BetterMessages")) {
             return;
         }
 
@@ -26,7 +26,6 @@ public class BungeeCordListener implements PluginMessageListener {
         try {
             String subChannel = in.readUTF();
             if (subChannel.equals("ServerSwitchEvent")) {
-                String playerName = in.readUTF();
                 String fromServer = in.readUTF();
                 String toServer = in.readUTF();
 
