@@ -1,6 +1,6 @@
 package com.imjustdoom.bettermessages;
 
-import com.imjustdoom.bettermessages.listener.ServerChangeListener;
+import com.imjustdoom.bettermessages.old.listener.ServerChangeListener;
 import lombok.Getter;
 import net.md_5.bungee.api.plugin.Plugin;
 

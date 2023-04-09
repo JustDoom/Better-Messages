@@ -1,34 +1,18 @@
 package com.imjustdoom.bettermessages;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-import com.imjustdoom.bettermessages.listener.*;
-import com.imjustdoom.bettermessages.message.EventType;
-import com.imjustdoom.bettermessages.message.Message;
+import com.imjustdoom.bettermessages.old.listener.*;
 import com.imjustdoom.cmdinstruction.CMDInstruction;
-import com.imjustdoom.bettermessages.command.BetterMessagesCmd;
-import com.imjustdoom.bettermessages.config.Config;
-import com.imjustdoom.bettermessages.storage.Storage;
-import com.imjustdoom.bettermessages.metrics.Metrics;
+import com.imjustdoom.bettermessages.old.command.BetterMessagesCmd;
+import com.imjustdoom.bettermessages.old.config.Config;
+import com.imjustdoom.bettermessages.old.storage.Storage;
+import com.imjustdoom.bettermessages.old.metrics.Metrics;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandMap;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
