@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class BungeeCordListener implements PluginMessageListener {
 
+    // TODO: maybe add some sort of version checker to make sure it is compatible with the spigot/bungeecord versions
+
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
         if (!channel.equals("BetterMessages")) {
