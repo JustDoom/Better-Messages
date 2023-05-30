@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.imjustdoom.bettermessages</groupId>
-    <artifactId>BetterMessagesParent</artifactId>
-    <version>3.3.0</version>
+    <artifactId>BetterMessages</artifactId>
+    <version>4.0.0</version>
     <packaging>pom</packaging>
 
     <name>BetterMessages</name>
