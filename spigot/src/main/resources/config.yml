@@ -2,10 +2,8 @@
 config-version: 16
 
 disable-outdated-config-warning: false
-
 check-for-updates: true
-
-bungeecord-mode: false
+proxy-mode: false
 
 # Messages for better messages commands
 internal-messages:

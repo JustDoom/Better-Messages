@@ -9,6 +9,8 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void playerJoinListener(PlayerJoinEvent event) {
+        event.setJoinMessage(null);
+
 
     }
 }
