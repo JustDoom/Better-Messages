@@ -1,9 +1,16 @@
 package com.imjustdoom.bettermessages.player;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
-public interface BMPlayer {
+@Getter
+@Setter
+@AllArgsConstructor
+public class BMPlayer {
 
-    String getUsername();
-    UUID getUuid();
+    private String username;
+    private UUID uuid;
 }
