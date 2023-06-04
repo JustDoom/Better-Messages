@@ -32,8 +32,8 @@ public class Configuration {
 
     // TODO: Make this fire an event as people using the API might add custom messages
     public static void load() {
-        CONFIG_LOADER.load();
-
         MESSAGES = new ArrayList<>();
+
+        CONFIG_LOADER.load();
     }
 }
