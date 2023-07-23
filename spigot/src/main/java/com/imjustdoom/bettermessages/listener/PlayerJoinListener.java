@@ -37,6 +37,7 @@ public class PlayerJoinListener implements Listener {
         PlayerManager.removePlayer(player.getUniqueId());
 
         if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) {
+            event.setJoinMessage(null);
             return;
         }
 

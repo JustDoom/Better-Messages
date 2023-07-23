@@ -23,6 +23,7 @@ public class PlayerQuitListener implements Listener {
         PlayerManager.removePlayer(player.getUniqueId());
 
         if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-quit")) {
+            event.setQuitMessage(null);
             return; // TODO: try to add something so certain roles can still see a message even if the user is vanished
         }
 
