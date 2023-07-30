@@ -1,5 +1,6 @@
 package com.imjustdoom.bettermessages.listener;
 
+import com.imjustdoom.bettermessages.BetterMessages;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -25,6 +26,8 @@ public class ServerChangeListener implements Listener {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        BetterMessages
 
         player.getServer().sendData("BetterMessages", b.toByteArray());
     }
