@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class ServerChangeListener implements Listener {
 
+    private int test = 0;
+
     @EventHandler
     public void onServerChange(ServerSwitchEvent event) {
         ProxiedPlayer player = event.getPlayer();
@@ -27,8 +29,11 @@ public class ServerChangeListener implements Listener {
             e.printStackTrace();
         }
 
-        BetterMessages
-
-        player.getServer().sendData("BetterMessages", b.toByteArray());
+        System.out.println("fire - " + test++);
+        System.out.println("from - " + event.getFrom().getName());
+        System.out.println("to - " + event.getPlayer().getServer().getInfo().getName());
+        BetterMessages.getInstance().getProxy().getServers().get(event.getPlayer().getServer().getInfo().getName()).sendData("BungeeCord", b.toByteArray());
+        //player.getServer().sendData("BungeeCord", b.toByteArray());
+        BetterMessages.getInstance().getProxy().getServers().get(event.getFrom().getName()).sendData("BungeeCord", b.toByteArray());
     }
 }

@@ -84,7 +84,6 @@ public class Config {
                 }
 
                 EventType eventType = EventType.valueOf(type.toUpperCase().replaceAll("-", "_"));
-
                 Message message = new MessageBuilder()
                         .setParent(msg)
                         .setMessage(messages)

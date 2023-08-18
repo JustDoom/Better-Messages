@@ -1,6 +1,5 @@
 package com.imjustdoom.bettermessages.listener;
 
-
 import com.imjustdoom.bettermessages.BetterMessages;
 import com.imjustdoom.bettermessages.config.Config;
 import com.imjustdoom.bettermessages.listener.event.ServerSwitchEvent;
@@ -10,19 +9,20 @@ import com.imjustdoom.bettermessages.message.Message;
 import com.imjustdoom.bettermessages.util.VanishUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 
 public class ServerSwitchListener implements Listener {
 
     // TODO: make all listeners just call a method in a manager class or something to run this code
 
+    private int test = 0;
+
     @EventHandler
     public void serverSwitch(ServerSwitchEvent event) {
 
-        Player player = event.getPlayer();
+        System.out.println("i was fired - " + test++);
 
+        Player player = event.getPlayer();
         PlayerManager.addWaitingPlayer(player.getUniqueId(), player.getWorld());
         PlayerManager.removePlayer(player.getUniqueId());
 

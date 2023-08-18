@@ -7,7 +7,6 @@ import com.imjustdoom.bettermessages.message.Message;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
 
 import java.util.List;
 
@@ -36,12 +35,18 @@ public class SwitchServerMessage extends Message {
             String to = getExtraInfo().split("/")[1];
 
             if (!from.equalsIgnoreCase(switchEvent.getFrom()) || !switchEvent.getTo().equalsIgnoreCase(to)) {
+                System.out.println("thing?");
+                System.out.println("from - " + from + " - " + switchEvent.getFrom());
+                System.out.println("to - " + to + " - " + switchEvent.getTo());
                 return false;
             }
         }
 
         if (PlayerManager.waiting.containsKey(player.getUniqueId()) && getDontRunIf().equalsIgnoreCase(PlayerManager.waiting.get(player.getUniqueId()).getName())) {
             PlayerManager.removeWaitingPlayer(player.getUniqueId());
+            System.out.println("this one");
+            System.out.println(PlayerManager.waiting.containsKey(player.getUniqueId()));
+            System.out.println("dont run - " + getDontRunIf() + " - " + PlayerManager.waiting.get(player.getUniqueId()).getName());
             return false;
         }
 

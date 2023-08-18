@@ -1,18 +1,11 @@
 package com.imjustdoom.bettermessages.listener;
 
-import com.velocitypowered.api.event.PostOrder;
-import com.velocitypowered.api.event.Subscribe;
-
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-
 public class ServerChangeListener {
 
-    @Subscribe(order = PostOrder.FIRST)
-    public void onPlayerChat(ServerEvent event) {
-        // do stuff
-    }
+//    @Subscribe(order = PostOrder.FIRST)
+//    public void onPlayerChat(ServerEvent event) {
+//        // do stuff
+//    }
 //
 //    @EventHandler
 //    public void onServerChange(ServerSwitchEvent event) {

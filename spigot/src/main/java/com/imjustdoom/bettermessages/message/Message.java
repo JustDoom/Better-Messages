@@ -66,10 +66,18 @@ public class Message {
     }
 
     public boolean canRun(Player player, Event event) {
-        if (!isEnabled()) return false;
-        if (isPermission() && !player.hasPermission(getPermissionString())) return false;
-        if (!hasValidCount(getCount(player))) return false;
-        if (event != null && !otherChecks(player, event)) return false;
+        if (!isEnabled()) {
+            return false;
+        }
+        if (isPermission() && !player.hasPermission(getPermissionString())) {
+            return false;
+        }
+        if (!hasValidCount(getCount(player))) {
+            return false;
+        }
+        if (event != null && !otherChecks(player, event)) {
+            return false;
+        }
 
         return true;
     }

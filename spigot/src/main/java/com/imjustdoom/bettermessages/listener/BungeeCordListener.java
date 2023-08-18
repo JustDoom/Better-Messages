@@ -1,12 +1,8 @@
 package com.imjustdoom.bettermessages.listener;
 
 import com.imjustdoom.bettermessages.BetterMessages;
-import com.imjustdoom.bettermessages.config.Config;
 import com.imjustdoom.bettermessages.listener.event.ServerSwitchEvent;
-import com.imjustdoom.bettermessages.manager.PlayerManager;
-import com.imjustdoom.bettermessages.message.EventType;
-import com.imjustdoom.bettermessages.message.Message;
-import com.imjustdoom.bettermessages.util.VanishUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -16,9 +12,11 @@ import java.io.IOException;
 
 public class BungeeCordListener implements PluginMessageListener {
 
+    private int test = 0;
+
     @Override
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
-        if (!channel.equals("BetterMessages")) {
+        if (!channel.equals("BungeeCord")) {
             return;
         }
 
@@ -26,11 +24,13 @@ public class BungeeCordListener implements PluginMessageListener {
         try {
             String subChannel = in.readUTF();
             if (subChannel.equals("ServerSwitchEvent")) {
+                String playerString = in.readUTF();
                 String fromServer = in.readUTF();
                 String toServer = in.readUTF();
 
                 // fire event
-                ServerSwitchEvent event = new ServerSwitchEvent(player, fromServer, toServer);
+                System.out.println("fire switch event - " + test++);
+                ServerSwitchEvent event = new ServerSwitchEvent(Bukkit.getPlayer(playerString), fromServer, toServer);
                 BetterMessages.getInstance().getServer().getPluginManager().callEvent(event);
             }
         } catch (IOException e) {
