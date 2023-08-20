@@ -20,11 +20,7 @@ public class ServerSwitchListener implements Listener {
     @EventHandler
     public void serverSwitch(ServerSwitchEvent event) {
 
-        System.out.println("i was fired - " + test++);
-
         Player player = event.getPlayer();
-        PlayerManager.addWaitingPlayer(player.getUniqueId(), player.getWorld());
-        PlayerManager.removePlayer(player.getUniqueId());
 
         if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) {
             return;

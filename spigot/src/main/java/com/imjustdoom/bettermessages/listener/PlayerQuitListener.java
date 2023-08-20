@@ -18,6 +18,11 @@ public class PlayerQuitListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void quitEvent(PlayerQuitEvent event) {
 
+        if (Config.BUNGEECORD_MODE) {
+            event.setQuitMessage(null);
+            return;
+        }
+
         Player player = event.getPlayer();
 
         PlayerManager.removePlayer(player.getUniqueId());

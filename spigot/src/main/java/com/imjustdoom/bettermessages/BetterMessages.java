@@ -43,6 +43,7 @@ public final class BetterMessages extends JavaPlugin {
         // Register proxy listener if enabled
         if (Config.BUNGEECORD_MODE) {
             getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeCordListener());
+            getServer().getMessenger().registerIncomingPluginChannel(this, "bettermessages:main", new BungeeCordListener());
         }
 
         // Register events

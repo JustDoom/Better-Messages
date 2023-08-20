@@ -20,20 +20,34 @@ public class ServerChangeListener implements Listener {
 
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(b);
-        try {
-            out.writeUTF("ServerSwitchEvent");
-            out.writeUTF(player.getName());
-            out.writeUTF(event.getFrom() == null ? "" : event.getFrom().getName());
-            out.writeUTF(player.getServer().getInfo().getName());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        System.out.println("fire - " + test++);
-        System.out.println("from - " + event.getFrom().getName());
-        System.out.println("to - " + event.getPlayer().getServer().getInfo().getName());
-        BetterMessages.getInstance().getProxy().getServers().get(event.getPlayer().getServer().getInfo().getName()).sendData("BungeeCord", b.toByteArray());
-        //player.getServer().sendData("BungeeCord", b.toByteArray());
-        BetterMessages.getInstance().getProxy().getServers().get(event.getFrom().getName()).sendData("BungeeCord", b.toByteArray());
+        if (event.getFrom() == null) {
+            try {
+                out.writeUTF("Join");
+                out.writeUTF(player.getName());
+                out.writeUTF(player.getServer().getInfo().getName());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            BetterMessages.getInstance().getProxy().getServers().get(event.getPlayer().getServer().getInfo().getName()).sendData("BungeeCord", b.toByteArray());
+        } else {
+            try {
+                out.writeUTF("ServerSwitchEvent");
+                out.writeUTF(player.getName());
+                out.writeUTF(event.getFrom() == null ? "" : event.getFrom().getName());
+                out.writeUTF(player.getServer().getInfo().getName());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //System.out.println("fire - " + test++);
+            //System.out.println("from - " + event.getFrom().getName());
+            //System.out.println("to - " + event.getPlayer().getServer().getInfo().getName());
+            BetterMessages.getInstance().getProxy().getServers().get(event.getPlayer().getServer().getInfo().getName()).sendData("BungeeCord", b.toByteArray());
+            //player.getServer().sendData("BungeeCord", b.toByteArray());
+            BetterMessages.getInstance().getProxy().getServers().get(event.getFrom().getName()).sendData("BungeeCord", b.toByteArray());
+
+        }
     }
 }
