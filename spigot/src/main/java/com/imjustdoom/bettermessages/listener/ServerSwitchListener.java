@@ -3,7 +3,6 @@ package com.imjustdoom.bettermessages.listener;
 import com.imjustdoom.bettermessages.BetterMessages;
 import com.imjustdoom.bettermessages.config.Config;
 import com.imjustdoom.bettermessages.listener.event.ServerSwitchEvent;
-import com.imjustdoom.bettermessages.manager.PlayerManager;
 import com.imjustdoom.bettermessages.message.EventType;
 import com.imjustdoom.bettermessages.message.Message;
 import com.imjustdoom.bettermessages.util.VanishUtil;
@@ -19,7 +18,6 @@ public class ServerSwitchListener implements Listener {
 
     @EventHandler
     public void serverSwitch(ServerSwitchEvent event) {
-
         Player player = event.getPlayer();
 
         if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) {

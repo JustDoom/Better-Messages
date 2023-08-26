@@ -1,6 +1,7 @@
 package com.imjustdoom.bettermessages.listener;
 
 import com.imjustdoom.bettermessages.BetterMessages;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerSwitchEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -41,13 +42,11 @@ public class ServerChangeListener implements Listener {
                 e.printStackTrace();
             }
 
-            //System.out.println("fire - " + test++);
-            //System.out.println("from - " + event.getFrom().getName());
-            //System.out.println("to - " + event.getPlayer().getServer().getInfo().getName());
-            BetterMessages.getInstance().getProxy().getServers().get(event.getPlayer().getServer().getInfo().getName()).sendData("BungeeCord", b.toByteArray());
-            //player.getServer().sendData("BungeeCord", b.toByteArray());
-            BetterMessages.getInstance().getProxy().getServers().get(event.getFrom().getName()).sendData("BungeeCord", b.toByteArray());
-
+            player.getServer().sendData("BungeeCord", b.toByteArray());
+            ServerInfo fromServer = BetterMessages.getInstance().getProxy().getServers().get(event.getFrom().getName());
+            if (fromServer.getPlayers().size() - 1 > 0) {
+                event.getFrom().sendData("BungeeCord", b.toByteArray());
+            }
         }
     }
 }
