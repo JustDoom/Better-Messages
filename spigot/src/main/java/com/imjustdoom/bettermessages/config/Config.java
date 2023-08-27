@@ -76,6 +76,13 @@ public class Config {
 
             String messageType = getConfig().getString("messages." + msg + ".message-type");
 
+            List<String> audience;
+            if (getConfig().isString("messages." + msg + ".audience")) {
+                audience = Collections.singletonList(getConfig().getString("messages." + msg + ".audience"));
+            } else {
+                audience = getConfig().getStringList("messages." + msg + ".audience");
+            }
+
             for (String type : getConfig().getStringList("messages." + msg + ".activation")) {
                 String extraInfo = null;
                 if (type.contains("/")) {
@@ -91,7 +98,7 @@ public class Config {
                         .setCount(count)
                         .setPermission(permission)
                         .setEnabled(getConfig().getBoolean("messages." + msg + ".enabled"))
-                        .setAudience(getConfig().getString("messages." + msg + ".audience"))
+                        .setAudience(audience)
                         .setStorageType(getConfig().getString("messages." + msg + ".storage-type"))
                         .setDontRunIf(getConfig().getString("messages." + msg + ".world") == null ? "" : getConfig().getString("messages." + msg + ".world"))
                         .setDelay(getConfig().getInt("messages." + msg + ".delay"))

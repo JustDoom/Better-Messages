@@ -15,7 +15,7 @@ public class MessageBuilder {
     private List<Integer> count;
     private boolean permission;
     private boolean enabled;
-    private String audience;
+    private List<String> audience;
     private String storageType;
     private String dontRunIf;
     private String extraInfo;
@@ -69,7 +69,7 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder setAudience(String audience) {
+    public MessageBuilder setAudience(List<String> audience) {
         this.audience = audience;
         return this;
     }

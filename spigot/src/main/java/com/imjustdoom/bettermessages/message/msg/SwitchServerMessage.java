@@ -12,11 +12,11 @@ import java.util.List;
 
 public class SwitchServerMessage extends Message {
 
-    public SwitchServerMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType) {
+    public SwitchServerMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, List<String> audience, String storageType, String dontRunIf, long delay, int priority, String messageType) {
         super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType);
     }
 
-    public SwitchServerMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType, String extraInfo) {
+    public SwitchServerMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, List<String> audience, String storageType, String dontRunIf, long delay, int priority, String messageType, String extraInfo) {
         super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, extraInfo);
     }
 

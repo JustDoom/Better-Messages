@@ -11,11 +11,11 @@ import java.util.List;
 
 public class WorldChangeMessage extends Message {
 
-    public WorldChangeMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType) {
+    public WorldChangeMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, List<String> audience, String storageType, String dontRunIf, long delay, int priority, String messageType) {
         super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType);
     }
 
-    public WorldChangeMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType, String extraInfo) {
+    public WorldChangeMessage(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, List<String> audience, String storageType, String dontRunIf, long delay, int priority, String messageType, String extraInfo) {
         super(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, extraInfo);
     }
 

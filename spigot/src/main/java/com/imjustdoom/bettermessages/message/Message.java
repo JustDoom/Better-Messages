@@ -23,18 +23,19 @@ public class Message {
     private List<String> message, commands;
     private List<Integer> count;
     private boolean permission, enabled;
-    private String audience, storageType, dontRunIf, permissionString, extraInfo;
+    private String storageType, dontRunIf, permissionString, extraInfo;
+    private List<String> audience;
     private long delay;
     private int priority;
     private MessageType messageType;
 
     // TODO: all actual message stuff will be handled in the MessageType and all checking if it can run etc will be in this class
     // makes it easier and simpler to add new message types etc
-    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType) {
+    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, List<String> audience, String storageType, String dontRunIf, long delay, int priority, String messageType) {
         this(parent, message, commands, count, permission, enabled, audience, storageType, dontRunIf, delay, priority, messageType, null);
     }
 
-    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, String audience, String storageType, String dontRunIf, long delay, int priority, String messageType, String extraInfo) {
+    public Message(String parent, List<String> message, List<String> commands, List<Integer> count, boolean permission, boolean enabled, List<String> audience, String storageType, String dontRunIf, long delay, int priority, String messageType, String extraInfo) {
         this.parent = parent;
         this.message = message;
         this.commands = commands;
@@ -112,51 +113,53 @@ public class Message {
                 });
             }
 
-            String[] split = getAudience().split("\\|");
-            boolean ignoreUser = false;
-            String permission = null;
-            for (String s : split) {
-                if (s.equalsIgnoreCase("ignore-user")) ignoreUser = true;
-                if (s.contains("permission:")) {
-                    String perm = s.split(":")[1];
-                    if (player.hasPermission(perm)) {
-                        permission = perm;
+            for (String audience : getAudience()) {
+                String[] split = audience.split("\\|");
+                boolean ignoreUser = false;
+                String permission = null;
+                for (String s : split) {
+                    if (s.equalsIgnoreCase("ignore-user")) ignoreUser = true;
+                    if (s.contains("permission:")) {
+                        String perm = s.split(":")[1];
+                        if (player.hasPermission(perm)) {
+                            permission = perm;
+                        }
                     }
                 }
-            }
 
-            String audience = ignoreUser ? getAudience().split("\\|")[0] : getAudience();
+                String a = ignoreUser ? audience.split("\\|")[0] : audience;
 
-            // TODO: Make a better way to get the users to send the message to
-            switch (audience) {
-                case "server":
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
-                            continue;
+                // TODO: Make a better way to get the users to send the message to
+                switch (a) {
+                    case "server":
+                        for (Player p : Bukkit.getOnlinePlayers()) {
+                            if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
+                                continue;
+                            }
+                            messageType.send(p, message);
                         }
-                        messageType.send(p, message);
-                    }
-                    break;
-                case "world":
-                    for (Player p : player.getWorld().getPlayers()) {
-                        if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
-                            continue;
+                        break;
+                    case "world":
+                        for (Player p : player.getWorld().getPlayers()) {
+                            if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
+                                continue;
+                            }
+                            messageType.send(p, message);
                         }
-                        messageType.send(p, message);
-                    }
-                    break;
-                case "user":
-                    if (permission != null && !player.hasPermission(permission)) break;
-                    messageType.send(player, message);
-                    break;
-                default:
-                    if (!getAudience().startsWith("world/")) break;
-                    for (Player p : Bukkit.getWorld(audience.replace("world/", "")).getPlayers()) {
-                        if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
-                            continue;
+                        break;
+                    case "user":
+                        if (permission != null && !player.hasPermission(permission)) break;
+                        messageType.send(player, message);
+                        break;
+                    default:
+                        if (!audience.startsWith("world/")) break;
+                        for (Player p : Bukkit.getWorld(a.replace("world/", "")).getPlayers()) {
+                            if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
+                                continue;
+                            }
+                            messageType.send(p, message);
                         }
-                        messageType.send(p, message);
-                    }
+                }
             }
         }, getDelay());
     }
