@@ -43,6 +43,6 @@ public class WorldChangeMessage extends Message {
 
     @Override
     public int getCount(Player player) {
-        return BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), getParent().replace("-", "_"));
+        return BetterMessages.getInstance().getStorage().getCount(player.getUniqueId(), getParent());
     }
 }

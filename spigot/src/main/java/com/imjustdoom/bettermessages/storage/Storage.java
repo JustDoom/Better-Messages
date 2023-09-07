@@ -9,7 +9,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.sql.*;
 import java.util.List;
 import java.util.UUID;
 
