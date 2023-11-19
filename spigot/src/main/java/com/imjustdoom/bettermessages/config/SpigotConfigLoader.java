@@ -35,6 +35,7 @@ public class SpigotConfigLoader implements ConfigLoader {
         }
     }
 
+    // TODO: Store config since I think this gets it from the files every time
     private FileConfiguration getConfig() {
         return BetterMessages.getInstance().getConfig();
     }
