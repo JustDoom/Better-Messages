@@ -52,6 +52,9 @@ public final class BetterMessages extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerWorldChangeListener(), this);
         Bukkit.getPluginManager().registerEvents(new ServerSwitchListener(), this);
+        if (Bukkit.getPluginManager().getPlugin("BetterReload") != null) {
+            Bukkit.getPluginManager().registerEvents(new ReloadListener(), this);
+        }
 
         // Update checker
         try {
