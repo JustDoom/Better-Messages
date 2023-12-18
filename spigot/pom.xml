@@ -83,5 +83,11 @@
             <version>2.10.9</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.amnoah.betterreload</groupId>
+            <artifactId>api</artifactId>
+            <version>v1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>

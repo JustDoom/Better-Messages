@@ -5,6 +5,7 @@ api-version: 1.13
 authors: [ JustDoom ]
 softdepend:
   - PlaceholderAPI
+  - BetterReload
 
 permissions:
   bettermessages.silent-join:
