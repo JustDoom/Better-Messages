@@ -63,6 +63,7 @@ public final class BetterMessages extends JavaPlugin {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            getLogger().warning("The above error will not affect the plugins abilities. It just failed to check for an update. You can disable this in the config file");
         }
 
         // Setup bStats metrics
