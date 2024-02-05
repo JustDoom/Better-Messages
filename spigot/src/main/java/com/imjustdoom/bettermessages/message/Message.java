@@ -140,6 +140,14 @@ public class Message {
                         }
                         break;
                     case "world":
+                        if (audience.startsWith("world/")) {
+                            for (Player p : Bukkit.getWorld(a.replace("world/", "")).getPlayers()) {
+                                if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
+                                    continue;
+                                }
+                                messageType.send(p, message);
+                            }
+                        }
                         for (Player p : player.getWorld().getPlayers()) {
                             if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
                                 continue;
@@ -149,16 +157,10 @@ public class Message {
                         break;
                     case "user":
                         if (permission != null && !player.hasPermission(permission)) break;
-                        messageType.send(player, message);
+                        this.messageType.send(player, message);
                         break;
                     default:
-                        if (!audience.startsWith("world/")) break;
-                        for (Player p : Bukkit.getWorld(a.replace("world/", "")).getPlayers()) {
-                            if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
-                                continue;
-                            }
-                            messageType.send(p, message);
-                        }
+                        System.err.println("Unknown audience type");
                 }
             }
         }, getDelay());
