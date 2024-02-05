@@ -147,6 +147,7 @@ public class Message {
                                 }
                                 messageType.send(p, message);
                             }
+                            return;
                         }
                         for (Player p : player.getWorld().getPlayers()) {
                             if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
