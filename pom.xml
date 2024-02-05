@@ -6,7 +6,7 @@
 
     <groupId>com.imjustdoom.bettermessages</groupId>
     <artifactId>BetterMessagesParent</artifactId>
-    <version>3.3.0</version>
+    <version>3.3.1</version>
     <packaging>pom</packaging>
 
     <name>BetterMessages</name>
