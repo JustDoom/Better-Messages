@@ -45,11 +45,11 @@ public class PlayerJoinListener implements Listener {
 
         for (Message msg : Config.MESSAGES.get(EventType.JOIN.getClazz())) {
 
+            BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
+
             if (!msg.canRun(player, event)) {
                 continue;
             }
-
-            BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 
             if (msg.getPriority() != -1) {
                 if (pMessage == null) {

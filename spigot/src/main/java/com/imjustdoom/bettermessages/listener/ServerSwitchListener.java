@@ -29,12 +29,12 @@ public class ServerSwitchListener implements Listener {
         if (event.getFrom().equals("")) {
             for (Message msg : Config.MESSAGES.get(EventType.JOIN.getClazz())) {
 
+                BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
+
                 // TODO: readd this
                 if (!msg.canRun(player, null)) {
                     continue;
                 }
-
-                BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());
 
                 if (msg.getPriority() != -1) {
                     if (pMessage == null) {
