@@ -31,7 +31,10 @@ public class ServerChangeListener implements Listener {
                 e.printStackTrace();
             }
 
-            BetterMessages.getInstance().getProxy().getServers().get(event.getPlayer().getServer().getInfo().getName()).sendData("BungeeCord", b.toByteArray());
+            for (ServerInfo serverInfo : BetterMessages.getInstance().getProxy().getServers().values()) {
+                serverInfo.sendData("BungeeCord", b.toByteArray());
+            }
+//            BetterMessages.getInstance().getProxy().getServers().get(event.getPlayer().getServer().getInfo().getName()).sendData("BungeeCord", b.toByteArray());
         } else {
             try {
                 out.writeUTF("ServerSwitchEvent");
@@ -42,11 +45,15 @@ public class ServerChangeListener implements Listener {
                 e.printStackTrace();
             }
 
-            player.getServer().sendData("BungeeCord", b.toByteArray());
-            ServerInfo fromServer = BetterMessages.getInstance().getProxy().getServers().get(event.getFrom().getName());
-            if (fromServer.getPlayers().size() - 1 > 0) {
-                event.getFrom().sendData("BungeeCord", b.toByteArray());
+            for (ServerInfo serverInfo : BetterMessages.getInstance().getProxy().getServers().values()) {
+                serverInfo.sendData("BungeeCord", b.toByteArray());
             }
+
+//            player.getServer().sendData("BungeeCord", b.toByteArray());
+//            ServerInfo fromServer = BetterMessages.getInstance().getProxy().getServers().get(event.getFrom().getName());
+//            if (fromServer.getPlayers().size() - 1 > 0) {
+//                event.getFrom().sendData("BungeeCord", b.toByteArray());
+//            }
         }
     }
 }

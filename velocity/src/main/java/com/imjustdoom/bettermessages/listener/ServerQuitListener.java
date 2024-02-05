@@ -9,6 +9,7 @@ import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -27,6 +28,9 @@ public class ServerQuitListener {
         out.writeUTF(player.getUsername());
         out.writeUTF(event.getPlayer().getCurrentServer().get().getServerInfo().getName());
 
-        BetterMessages.getInstance().getServer().getServer(player.getCurrentServer().get().getServerInfo().getName()).get().sendPluginMessage(MinecraftChannelIdentifier.from("bettermessages:main"), b.toByteArray());
+        for (RegisteredServer server : BetterMessages.getInstance().getServer().getAllServers()) {
+            server.sendPluginMessage(MinecraftChannelIdentifier.from("bettermessages:main"), b.toByteArray());
+        }
+//        BetterMessages.getInstance().getServer().getServer(player.getCurrentServer().get().getServerInfo().getName()).get().sendPluginMessage(MinecraftChannelIdentifier.from("bettermessages:main"), b.toByteArray());
     }
 }
