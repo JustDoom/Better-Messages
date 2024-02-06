@@ -32,7 +32,9 @@ public class ServerChangeListener implements Listener {
             }
 
             for (ServerInfo serverInfo : BetterMessages.getInstance().getProxy().getServers().values()) {
-                serverInfo.sendData("BungeeCord", b.toByteArray());
+                if (!serverInfo.getPlayers().isEmpty()) {
+                    serverInfo.sendData("BungeeCord", b.toByteArray());
+                }
             }
 //            BetterMessages.getInstance().getProxy().getServers().get(event.getPlayer().getServer().getInfo().getName()).sendData("BungeeCord", b.toByteArray());
         } else {
@@ -46,7 +48,9 @@ public class ServerChangeListener implements Listener {
             }
 
             for (ServerInfo serverInfo : BetterMessages.getInstance().getProxy().getServers().values()) {
-                serverInfo.sendData("BungeeCord", b.toByteArray());
+                if (!serverInfo.getPlayers().isEmpty()) {
+                    serverInfo.sendData("BungeeCord", b.toByteArray());
+                }
             }
 
 //            player.getServer().sendData("BungeeCord", b.toByteArray());

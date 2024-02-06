@@ -31,7 +31,9 @@ public class ServerQuitListener implements Listener {
         }
 
         for (ServerInfo serverInfo : BetterMessages.getInstance().getProxy().getServers().values()) {
-            serverInfo.sendData("BungeeCord", b.toByteArray());
+            if (!serverInfo.getPlayers().isEmpty()) {
+                serverInfo.sendData("BungeeCord", b.toByteArray());
+            }
         }
 //        event.getPlayer().getServer().sendData("BungeeCord", b.toByteArray());
     }

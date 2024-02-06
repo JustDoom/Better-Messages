@@ -29,7 +29,9 @@ public class ServerQuitListener {
         out.writeUTF(event.getPlayer().getCurrentServer().get().getServerInfo().getName());
 
         for (RegisteredServer server : BetterMessages.getInstance().getServer().getAllServers()) {
-            server.sendPluginMessage(MinecraftChannelIdentifier.from("bettermessages:main"), b.toByteArray());
+            if (!server.getPlayersConnected().isEmpty()) {
+                server.sendPluginMessage(MinecraftChannelIdentifier.from("bettermessages:main"), b.toByteArray());
+            }
         }
 //        BetterMessages.getInstance().getServer().getServer(player.getCurrentServer().get().getServerInfo().getName()).get().sendPluginMessage(MinecraftChannelIdentifier.from("bettermessages:main"), b.toByteArray());
     }
