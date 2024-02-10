@@ -127,7 +127,8 @@ public class Message {
                     }
                 }
 
-                String a = ignoreUser ? audience.split("\\|")[0] : audience;
+                String withoutExtras = ignoreUser ? audience.split("\\|")[0] : audience;
+                String a = withoutExtras.split("/")[0];
 
                 // TODO: Make a better way to get the users to send the message to
                 switch (a) {
@@ -141,7 +142,7 @@ public class Message {
                         break;
                     case "world":
                         if (audience.startsWith("world/")) {
-                            for (Player p : Bukkit.getWorld(a.replace("world/", "")).getPlayers()) {
+                            for (Player p : Bukkit.getWorld(withoutExtras.replace("world/", "")).getPlayers()) {
                                 if ((ignoreUser && p.getUniqueId().equals(player.getUniqueId())) || (permission != null && !p.hasPermission(permission))) {
                                     continue;
                                 }
