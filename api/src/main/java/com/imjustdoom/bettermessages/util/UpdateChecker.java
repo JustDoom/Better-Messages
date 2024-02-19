@@ -15,13 +15,13 @@ public class UpdateChecker {
     public static String checkUpdates(String version) throws IOException {
         JsonElement jsonElement = getJsonFromUrl("https://api.imjustdoom.com/projects/better-messages");
 
-        if (jsonElement == null) {
+        if (jsonElement.isJsonNull() || !jsonElement.getAsJsonObject().get("error").isJsonNull()) {
             throw new IOException("Failed to check for updates");
         }
 
         JsonElement latestVersion = getJsonFromUrl("https://api.imjustdoom.com/projects/" + jsonElement.getAsJsonObject().get("id").getAsString() + "/latest");
 
-        if (latestVersion == null) {
+        if (latestVersion.isJsonNull() || !jsonElement.getAsJsonObject().get("error").isJsonNull()) {
             throw new IOException("Failed to check for updates");
         }
 

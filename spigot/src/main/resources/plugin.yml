@@ -34,3 +34,5 @@ commands:
     aliases:
       - bm
     permission: bettermessages
+  test:
+    permission: test

@@ -7,40 +7,62 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class SpigotConfigLoader implements ConfigLoader {
 
+    private FileConfiguration configuration;
+
     @Override
     public void load() {
-        // TODO: Use custom config creator when done instead
-        BetterMessages.getInstance().saveDefaultConfig();
 
         BetterMessages.getInstance().reloadConfig();
+        this.configuration = BetterMessages.getInstance().getConfig();
 
-        // General plugin settings
-        Configuration.PluginOptions.DISABLE_OUTDATED_CONFIG_WARNING = getConfig().getBoolean("disable-outdated-config-warning");
-        Configuration.PluginOptions.CONFIG_VERSION = getConfig().getInt("config-version");
-        Configuration.PluginOptions.CHECK_FOR_UPDATES = getConfig().getBoolean("check-for-updates");
-        Configuration.PluginOptions.PROXY_MODE = getConfig().getBoolean("bungeecord-mode");
-
-        // Get plugin configurable messages
-        Configuration.PluginMessages.PREFIX = getConfig().getString("internal-messages.prefix");
-        Configuration.PluginMessages.HELP = getConfig().getString("internal-messages.help");
-        Configuration.PluginMessages.RELOADED = getConfig().getString("internal-messages.reloaded");
-        Configuration.PluginMessages.HELP_REDIRECT = getConfig().getString("internal-messages.help-redirect");
-        Configuration.PluginMessages.CHANGED_MESSAGE = getConfig().getString("internal-messages.changed-message");
-
-        // Get messages
-        for (String parent : getConfig().getConfigurationSection("messages").getKeys(false)) {
-            boolean enabled = getMessageSection(parent).getBoolean("enabled");
-            String message = getMessageSection(parent).getString("message");
-            Configuration.MESSAGES.add(new Message(enabled, message));
-        }
+//        // Get messages
+//        for (String parent : getConfig().getConfigurationSection("messages").getKeys(false)) {
+//            boolean enabled = getMessageSection(parent).getBoolean("enabled");
+//            String message = getMessageSection(parent).getString("message");
+//            Configuration.MESSAGES.add(new Message(enabled, message));
+//        }
     }
 
-    // TODO: Store config since I think this gets it from the files every time
+    @Override
+    public void save() {
+        getConfig().options().copyDefaults(true);
+        BetterMessages.getInstance().saveConfig();
+    }
+
+    @Override
+    public void setHeader(String header) {
+        this.configuration.options().header(header);
+    }
+
+    @Override
+    public String getString(String path, String defaultString) {
+        getConfig().addDefault(path, defaultString);
+        return getConfig().getString(path, getConfig().getString(path));
+    }
+
+    @Override
+    public boolean getBoolean(String path, boolean defaultBoolean) {
+        getConfig().addDefault(path, defaultBoolean);
+        return getConfig().getBoolean(path, getConfig().getBoolean(path));
+    }
+
+    @Override
+    public int getInt(String path, int defaultInt) {
+        getConfig().addDefault(path, defaultInt);
+        return getConfig().getInt(path, getConfig().getInt(path));
+    }
+
+    @Override
+    public void generatePath(String path) {
+        getConfig().createSection(path);
+    }
+
+    @Override
+    public void generatePath(String... path) {
+
+    }
+
     private FileConfiguration getConfig() {
-        return BetterMessages.getInstance().getConfig();
-    }
-
-    private ConfigurationSection getMessageSection(String parent) {
-        return getConfig().getConfigurationSection("messages." + parent);
+        return this.configuration;
     }
 }

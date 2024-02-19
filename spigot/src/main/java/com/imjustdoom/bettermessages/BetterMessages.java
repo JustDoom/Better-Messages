@@ -3,6 +3,7 @@ package com.imjustdoom.bettermessages;
 import com.imjustdoom.bettermessages.config.SpigotConfigLoader;
 import com.imjustdoom.bettermessages.listener.PlayerJoinListener;
 
+import com.imjustdoom.cmdinstruction.CMDInstruction;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
@@ -25,6 +26,8 @@ public final class BetterMessages extends JavaPlugin {
         this.betterMessagesCore = new BetterMessagesCore(getDescription().getVersion(), new SpigotConfigLoader());
 
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
+
+        CMDInstruction.registerCommands(this, new Command().setName("test").setPermission("test"));
     }
 
     @Override
