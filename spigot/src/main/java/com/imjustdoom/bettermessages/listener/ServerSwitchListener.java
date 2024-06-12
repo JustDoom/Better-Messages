@@ -14,8 +14,6 @@ public class ServerSwitchListener implements Listener {
 
     // TODO: make all listeners just call a method in a manager class or something to run this code
 
-    private int test = 0;
-
     @EventHandler
     public void serverSwitch(ServerSwitchEvent event) {
         Player player = event.getPlayer();

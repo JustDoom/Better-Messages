@@ -12,7 +12,7 @@ import lombok.Getter;
 import org.slf4j.Logger;
 
 @Getter
-@Plugin(id = "bettermessages", name = "BetterMessages", version = "3.3.1", authors = {"JustDoom"})
+@Plugin(id = "bettermessages", name = "BetterMessages", version = "3.3.2", authors = {"JustDoom"})
 public final class BetterMessages {
 
     private final ProxyServer server;

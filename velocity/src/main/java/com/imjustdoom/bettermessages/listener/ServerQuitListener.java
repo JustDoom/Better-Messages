@@ -24,6 +24,10 @@ public class ServerQuitListener {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(b);
 
+        if (!event.getPlayer().getCurrentServer().isPresent()) {
+            return;
+        }
+
         out.writeUTF("Quit");
         out.writeUTF(player.getUsername());
         out.writeUTF(event.getPlayer().getCurrentServer().get().getServerInfo().getName());
