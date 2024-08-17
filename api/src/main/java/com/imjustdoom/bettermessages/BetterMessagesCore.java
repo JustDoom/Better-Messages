@@ -3,14 +3,10 @@ package com.imjustdoom.bettermessages;
 import com.imjustdoom.bettermessages.config.ConfigLoader;
 import com.imjustdoom.bettermessages.config.Configuration;
 import com.imjustdoom.bettermessages.message.Message;
-import com.imjustdoom.bettermessages.util.UpdateChecker;
-import lombok.Getter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 public class BetterMessagesCore {
 
     private final List<Message> messages;
@@ -22,12 +18,19 @@ public class BetterMessagesCore {
         Configuration.CONFIG_LOADER = configLoader;
         Configuration.load();
 
-        try {
-            UpdateChecker.checkUpdates(version);
-        } catch (IOException exception) {
+        // TODO: Get the api back up again
+//        try {
+//            UpdateChecker.checkUpdates(version);
+//        } catch (IOException exception) {
+//
+//            // TODO: Use a logger
+//            System.out.println(exception.getMessage());
+//        } catch (URISyntaxException e) {
+//            throw new RuntimeException(e);
+//        }
+    }
 
-            // TODO: Use a logger
-            System.out.println(exception.getMessage());
-        }
+    public List<Message> getMessages() {
+        return this.messages;
     }
 }

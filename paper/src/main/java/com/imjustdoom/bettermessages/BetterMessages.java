@@ -4,12 +4,10 @@ import com.imjustdoom.bettermessages.config.SpigotConfigLoader;
 import com.imjustdoom.bettermessages.listener.PlayerJoinListener;
 
 import com.imjustdoom.cmdinstruction.CMDInstruction;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
-@Getter
 public final class BetterMessages extends JavaPlugin {
 
     private static BetterMessages INSTANCE;

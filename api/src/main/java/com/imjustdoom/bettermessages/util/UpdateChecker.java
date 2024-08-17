@@ -2,17 +2,20 @@ package com.imjustdoom.bettermessages.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.Strictness;
 import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
 public class UpdateChecker {
 
-    public static String checkUpdates(String version) throws IOException {
+    public static String checkUpdates(String version) throws IOException, URISyntaxException {
         JsonElement jsonElement = getJsonFromUrl("https://api.imjustdoom.com/projects/better-messages");
 
         if (jsonElement.isJsonNull() || !jsonElement.getAsJsonObject().get("error").isJsonNull()) {
@@ -32,8 +35,8 @@ public class UpdateChecker {
         }
     }
 
-    private static JsonElement getJsonFromUrl(String url) throws IOException {
-        URL uri = new URL(url);
+    private static JsonElement getJsonFromUrl(String url) throws IOException, URISyntaxException {
+        URL uri = new URI(url).toURL();
         URLConnection con = uri.openConnection();
         con.setRequestProperty("User-Agent", "BetterMessages");
         con.setReadTimeout(5000);
@@ -43,8 +46,8 @@ public class UpdateChecker {
         InputStream inputStream = con.getInputStream();
 
         JsonReader reader = new JsonReader(new InputStreamReader(inputStream));
-        reader.setLenient(true);
+        reader.setStrictness(Strictness.LENIENT);
 
-        return JsonParser.parseReader(reader).getAsJsonObject(); // TODO: make sure this runs on old versions
+        return JsonParser.parseReader(reader).getAsJsonObject();
     }
 }
