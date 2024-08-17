@@ -86,7 +86,9 @@ public class BungeeCordListener implements PluginMessageListener {
 
                     Player p = Bukkit.getPlayer(playerString);
 
-                    PlayerManager.removePlayer(p.getUniqueId());
+                    if (p != null) {
+                        PlayerManager.removePlayer(p.getUniqueId());
+                    }
 
                     if (VanishUtil.isVanished(p) || p.hasPermission("bettermessages.silent-quit")) {
                         return;
