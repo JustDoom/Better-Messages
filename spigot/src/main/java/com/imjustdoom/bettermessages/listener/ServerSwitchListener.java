@@ -18,13 +18,15 @@ public class ServerSwitchListener implements Listener {
     public void serverSwitch(ServerSwitchEvent event) {
         Player player = event.getPlayer();
 
+        if (player == null) return;
+
         if (VanishUtil.isVanished(player) || player.hasPermission("bettermessages.silent-join")) {
             return;
         }
 
         Message pMessage = null;
 
-        if (event.getFrom().equals("")) {
+        if (event.getFrom().isEmpty()) {
             for (Message msg : Config.MESSAGES.get(EventType.JOIN.getClazz())) {
 
                 BetterMessages.getInstance().getStorage().update(player.getUniqueId(), msg.getParent());

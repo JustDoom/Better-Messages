@@ -45,6 +45,8 @@ public class BungeeCordListener implements PluginMessageListener {
 
                     Player p = Bukkit.getPlayer(playerString);
 
+                    if (p == null) return;
+
                     PlayerManager.addWaitingPlayer(p.getUniqueId(), p.getWorld());
                     PlayerManager.removePlayer(p.getUniqueId());
 
